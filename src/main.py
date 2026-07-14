@@ -13,12 +13,6 @@ def clear_screen():
     else:  # Mac和Linux系统
         os.system('clear')
 
-print("欢迎使用星铁排轴计算小助手")
-print("如果输错了直接关掉重开")
-print('输入数字即可使用指定工具')
-print('输入q即可退出')
-print("1 四角色排轴计算器   2 角色配装优化器")
-
 def choose(tool):
     if tool == "1":
         print('四角色排轴计算器')
@@ -36,6 +30,11 @@ def choose(tool):
 
 def main():
     #主函数
+    print("欢迎使用星铁排轴计算小助手")
+    print("如果输错了直接关掉重开")
+    print('输入数字即可使用指定工具')
+    print('输入q即可退出')
+    print("1 四角色排轴计算器   2 角色配装优化器")  
     tool = input("请输入您需要使用的工具：")
     choose(tool)
 main()
