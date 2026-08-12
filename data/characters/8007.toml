@@ -8,6 +8,8 @@ base_def = 334.62
 base_spd = 103
 team_effects = []
 has_memosprite = true
+memosprite_spd = 100.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "包在我身上！"

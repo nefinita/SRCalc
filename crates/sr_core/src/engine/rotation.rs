@@ -58,6 +58,15 @@ struct UnitState {
     max_energy: f64,
 }
 
+/// 忆灵：独立行动单位（自有速度/AV，回合到自动攻击）
+#[derive(Debug, Clone)]
+struct MemoState {
+    owner: String,
+    av: f64,
+    spd: f64,
+    multiplier: f64,
+}
+
 #[derive(Debug, Clone)]
 struct SpPool {
     current: i32,
@@ -108,6 +117,7 @@ struct Sim<'a> {
     on_sp_consume: Vec<(&'a str, &'a Effect)>,
     set_conditionals: HashMap<&'a str, Vec<(Trigger, Effect)>>,
     active_buffs: Vec<ActiveBuff>,
+    memos: HashMap<String, MemoState>,
     sp_pool: SpPool,
     enemy_av: f64,
     enemy_idx: usize,
@@ -173,7 +183,7 @@ impl<'a> Sim<'a> {
                     Trigger::OnUlt | Trigger::OnSkill | Trigger::OnBasic | Trigger::OnHit
                     | Trigger::TurnStart | Trigger::OnFollowUp | Trigger::OnAttack
                     | Trigger::OnApplyDebuff | Trigger::OnHeal | Trigger::OnKill
-                    | Trigger::OnTargeted => {}
+                    | Trigger::OnTargeted | Trigger::OnMemospriteAttack => {}
                 }
             }
             perm.add(&relic_set_permanent(&m.build, &sets));
@@ -199,6 +209,24 @@ impl<'a> Sim<'a> {
             base_stats.insert(id, stats);
         }
 
+        let mut memos: HashMap<String, MemoState> = HashMap::new();
+        for m in &req.team.members {
+            let mid = m.char_id.as_str();
+            if let Some(c) = by_id.get(mid)
+                && c.has_memosprite
+                && c.memosprite_spd > 0.0
+            {
+                memos.insert(
+                    mid.to_string(),
+                    MemoState {
+                        owner: mid.to_string(),
+                        av: action_value(c.memosprite_spd),
+                        spd: c.memosprite_spd,
+                        multiplier: c.memosprite_multiplier.max(0.0),
+                    },
+                );
+            }
+        }
         Ok(Sim {
             req,
             by_id,
@@ -209,6 +237,7 @@ impl<'a> Sim<'a> {
             on_sp_consume,
             set_conditionals,
             active_buffs: Vec::new(),
+            memos,
             sp_pool,
             enemy_av: action_value(req.enemy.spd.max(1.0)),
             enemy_idx: 0,
@@ -586,6 +615,7 @@ impl<'a> Sim<'a> {
             self.apply_set_conditional(t, Trigger::OnTargeted, None, true);
         }
 
+
         if damage > 0.0 {
             self.apply_enemy_damage(damage);
             if self.enemy_killed {
@@ -697,6 +727,74 @@ impl<'a> Sim<'a> {
         Ok(())
     }
 
+    /// 忆灵行动：触发 OnMemospriteAttack + 自动攻击伤害（继承忆主面板）
+    fn resolve_memo(&mut self, owner: &str, multiplier: f64) {
+        self.apply_set_conditional(owner, Trigger::OnMemospriteAttack, None, false);
+        let Some(stats) = self.base_stats.get(owner) else {
+            return;
+        };
+        let element = self.by_id.get(owner).map(|c| c.element).unwrap_or_default();
+        let attacker_level = self
+            .builds
+            .get(owner)
+            .map(|b| b.level.max(1))
+            .unwrap_or(80);
+        let mods = self.mods_for(owner);
+        let ability = sr_api::AbilityData {
+            name: "忆灵攻击".into(),
+            kind: sr_api::AbilityKind::Talent,
+            multiplier,
+            multipliers: vec![],
+            skill_level: 1,
+            scaling: sr_api::Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: sr_api::DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 0.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 0.0,
+            max_energy: 0.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: sr_api::Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: false,
+            heals: false,
+        };
+        let ctx = AbilityContext {
+            stats,
+            ability: &ability,
+            element,
+            attacker_level,
+            enemy: &self.req.enemy,
+            mods: &mods,
+            coeff: &self.req.coefficient,
+            broken: self.enemy_broken,
+        };
+        let dmg = compute_ability_damage_for(ctx).expected;
+        if dmg > 0.0 {
+            self.apply_enemy_damage(dmg);
+        }
+        let owner_name = self.by_id.get(owner).map(|c| c.name.clone()).unwrap_or_default();
+        self.steps_out.push(RotationStep {
+            char_id: owner.to_string(),
+            char_name: format!("{owner_name}·忆灵"),
+            action: sr_api::ActionKind::Wait,
+            is_enemy: false,
+            enemy_ability: None,
+            av: self.total_av,
+            damage: dmg,
+            energy: self.unit.get(owner).map(|s| s.energy).unwrap_or(0.0),
+            skill_point: self.sp_pool.current,
+            buffs: vec!["忆灵攻击".to_string()],
+        });
+        self.total_damage += dmg;
+    }
+
     fn resolve_enemy(&mut self) {
         let act = self.req.enemy.actions.get(self.enemy_idx);
         let (name, gain, sp_delta, drain) = match act {
@@ -758,19 +856,39 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
             return Err(format!("角色 {} 不在队伍中", step.char_id));
         }
 
-        // 敌方在施放者行动前交错插入
+        // 敌方/忆灵在施放者行动前交错插入（取最早事件）
         loop {
             let actor_av = sim.unit.get(id).map(|s| s.av).unwrap_or_default();
-            if sim.enemy_av >= actor_av {
+            let mut min_av = sim.enemy_av;
+            let mut kind = 0usize;
+            let mut memo_id: Option<String> = None;
+            for (mid, memo) in &sim.memos {
+                if memo.av < min_av {
+                    min_av = memo.av;
+                    kind = 1;
+                    memo_id = Some(mid.clone());
+                }
+            }
+            if min_av >= actor_av {
                 break;
             }
-            let eav = sim.enemy_av;
-            sim.total_av += eav;
+            sim.total_av += min_av;
             for u in sim.unit.values_mut() {
-                u.av = (u.av - eav).max(0.0);
+                u.av = (u.av - min_av).max(0.0);
             }
-            sim.resolve_enemy();
-            sim.enemy_av = action_value(sim.req.enemy.spd.max(1.0));
+            if kind == 0 {
+                sim.resolve_enemy();
+                sim.enemy_av = action_value(sim.req.enemy.spd.max(1.0));
+            } else if let Some(mid) = memo_id {
+                let (owner, mult) = {
+                    let m = sim.memos.get(&mid).expect("memo");
+                    (m.owner.clone(), m.multiplier)
+                };
+                sim.resolve_memo(&owner, mult);
+                if let Some(m) = sim.memos.get_mut(&mid) {
+                    m.av = action_value(m.spd.max(1.0));
+                }
+            }
         }
 
         // 推进到该行动回合点
@@ -780,6 +898,9 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
             u.av = (u.av - dt).max(0.0);
         }
         sim.enemy_av = (sim.enemy_av - dt).max(0.0);
+        for m in sim.memos.values_mut() {
+            m.av = (m.av - dt).max(0.0);
+        }
 
         // 待放终结技在"下一行动前"结算
         for u in pending_ults.drain(..) {

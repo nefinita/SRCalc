@@ -67,6 +67,8 @@ fn character(id: &str, name: &str, spd: f64, abilities: Vec<AbilityData>) -> Cha
         abilities,
         team_effects: vec![],
         has_memosprite: false,
+        memosprite_spd: 0.0,
+        memosprite_multiplier: 0.0,
     }
 }
 
@@ -1284,4 +1286,146 @@ fn captain_charge_ult_buff() {
         ],
     );
     assert!(full_charge > no_charge * 1.4, "助力满终结技后普攻应+48% full={:.2} none={:.2}", full_charge, no_charge);
+}
+
+#[test]
+fn death_water_amplify_on_debuff() {
+    // 死水深潜 4件：对负面敌人暴伤+8%（常驻）；施加负面后翻倍(+8%·1回合)
+    let set = sr_api::RelicSet {
+        id: "117".into(),
+        name: "死水深潜".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![
+            Effect {
+                trigger: Trigger::BattleStart,
+                stat: BuffStat::CritDmg,
+                value: 0.08,
+                turns: 0,
+                target: BuffTarget::Self_,
+                cap_bonus: 0,
+                sp_on_basic: 0,
+                max_stacks: 0,
+            },
+            Effect {
+                trigger: Trigger::OnApplyDebuff,
+                stat: BuffStat::CritDmg,
+                value: 0.08,
+                turns: 1,
+                target: BuffTarget::Self_,
+                cap_bonus: 0,
+                sp_on_basic: 0,
+                max_stacks: 0,
+            },
+        ],
+    };
+    let a = character("a", "A", 200.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+            name: "战技·施放负面".into(),
+            kind: AbilityKind::Skill,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 10.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 30.0,
+            max_energy: 100.0,
+            skill_point: -1,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: true,
+            heals: false,
+        },
+    ]);
+    let run = |steps: Vec<RotationStepReq>| {
+        let mut b = Build::default();
+        b.level = 80;
+        b.relic_sets = vec![sr_api::RelicSetPiece { set_id: "117".into(), count: 4 }];
+        let cfg = ConfigData {
+            characters: vec![a.clone()],
+            light_cones: vec![],
+            relic_sets: vec![set.clone()],
+            enemies: vec![enemy()],
+        };
+        let tm = TeamMember { char_id: "a".into(), build: b };
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg,
+            team: Team { members: vec![tm] },
+            enemy: enemy(),
+            coefficient: Default::default(),
+            battle: BattleConfig::default(),
+            steps,
+            cycles: 1,
+        })
+        .expect("rotation");
+        out.steps[out.steps.len() - 1].damage
+    };
+    // 无施加负面：仅常驻 +8% 暴伤
+    let no_debuff = run(vec![basic("a"), basic("a")]);
+    // 施加负面后翻倍：常驻 +8% + 1回合额外 +8% = 16%
+    let with_debuff = run(vec![skill("a"), basic("a")]);
+    assert!(with_debuff > no_debuff, "施加负面后暴伤翻倍应更高 amp={:.2} base={:.2}", with_debuff, no_debuff);
+}
+
+#[test]
+fn memosprite_attack_crit_buff() {
+    // 凯歌英豪 4件：忆灵攻击（忆灵独立行动）→ 暴伤+30%·2回合
+    let set = sr_api::RelicSet {
+        id: "123".into(),
+        name: "凯歌英豪".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::OnMemospriteAttack,
+            stat: BuffStat::CritDmg,
+            value: 0.30,
+            turns: 2,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+    };
+    let mut a = character("a", "A", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    a.has_memosprite = true;
+    a.memosprite_spd = 50.0;   // AV 200 → 主角动 4 次后忆灵行动一次
+    a.memosprite_multiplier = 1.0;
+    let mut build = Build::default();
+    build.level = 80;
+    build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "123".into(), count: 4 }];
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![set],
+        enemies: vec![enemy()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 8],
+        cycles: 1,
+    })
+    .expect("rotation");
+    // 忆灵独立行动出现在时间轴
+    assert!(out.steps.iter().any(|s| s.buffs.contains(&"忆灵攻击".to_string())), "应有忆灵攻击步骤");
+    let dmg: Vec<f64> = out.steps.iter().filter(|s| !s.is_enemy && !s.buffs.contains(&"忆灵攻击".to_string())).map(|s| s.damage).collect();
+    // 忆灵行动后两下普攻提升，之后过期回落
+    assert!(dmg[dmg.len() - 3] > dmg[0], "忆灵攻击后普攻应提升 d={:.3} base={:.3}", dmg[dmg.len()-3], dmg[0]);
+    assert!(dmg[dmg.len() - 1] < dmg[dmg.len() - 3], "buff 过期应回落 d_last={:.3}", dmg[dmg.len()-1]);
 }

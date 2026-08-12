@@ -168,6 +168,8 @@ export default function DataEditorPage({ addToast }: Props) {
                   <span>拥有忆灵</span>
                   <input type="checkbox" checked={editingChar.has_memosprite} onChange={(e) => patchChar({ has_memosprite: e.target.checked })} />
                 </label>
+                <Num label="忆灵速度" value={editingChar.memosprite_spd} onChange={(v) => patchChar({ memosprite_spd: v })} />
+                <Num label="忆灵倍率" value={editingChar.memosprite_multiplier} onChange={(v) => patchChar({ memosprite_multiplier: v })} />
               </div>
 
               <h3 className={styles.subTitle}>技能</h3>
@@ -373,6 +375,7 @@ function EffectFields({
           <option value="on_heal">治疗</option>
           <option value="on_kill">消灭敌人</option>
           <option value="on_targeted">成为技能目标</option>
+          <option value="on_memosprite_attack">忆灵攻击</option>
         </select>
       </label>
       <label className={styles.field}>

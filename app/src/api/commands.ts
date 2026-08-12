@@ -96,6 +96,8 @@ export function mockConfig(): ConfigDataDTO {
         base_spd: 115,
         team_effects: [],
         has_memosprite: false,
+        memosprite_spd: 0,
+        memosprite_multiplier: 0,
         abilities: [
           {
             name: "强袭",
@@ -196,6 +198,8 @@ export function mockConfig(): ConfigDataDTO {
           },
         ],
         has_memosprite: false,
+        memosprite_spd: 0,
+        memosprite_multiplier: 0,
         abilities: [
           {
             name: "独角戏",
@@ -294,6 +298,8 @@ export function mockConfig(): ConfigDataDTO {
         base_spd: 99,
         team_effects: [],
         has_memosprite: false,
+        memosprite_spd: 0,
+        memosprite_multiplier: 0,
         abilities: [
           {
             name: "普攻",
@@ -367,6 +373,8 @@ export function mockConfig(): ConfigDataDTO {
         base_spd: 110,
         team_effects: [],
         has_memosprite: false,
+        memosprite_spd: 0,
+        memosprite_multiplier: 0,
         abilities: [
           {
             name: "普攻",

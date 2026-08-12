@@ -248,6 +248,9 @@ ELEMENT_CN = {
 }
 
 
+MEMOSPRITE_SPD = {"1402": 90.0, "1407": 165.0}  # 阿格莱雅·衣匠90 / 遐蝶·死龙165，其余默认100
+
+
 def clean_name(name: str, path: str = "", element: str = "") -> str:
     """主角名字为 {NICKNAME} 占位符 → 按 命途·属性 区分。"""
     if "{NICKNAME}" in name:
@@ -273,6 +276,8 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             continue
         if s["type"].startswith("Memosprite"):
             c["_has_memosprite"] = True
+            if c.get("_memo_mult") is None and params:
+                c["_memo_mult"] = params[0][0]
         kind = TYPE_KIND.get(s["type"])
         if kind is None:
             continue  # 跳过秘技/位面等
@@ -336,6 +341,8 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         "abilities": abilities,
         "team_effects": dedup,
         "has_memosprite": bool(c.get("_has_memosprite", False)),
+        "memosprite_spd": MEMOSPRITE_SPD.get(cid, 100.0) if c.get("_has_memosprite") else 0.0,
+        "memosprite_multiplier": c.get("_memo_mult", 0.0) or 0.0,
     }
     return [character]
 
@@ -408,7 +415,14 @@ SET_CONDITIONALS = {
         {"trigger": "on_skill", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
         {"trigger": "on_ult", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
     ]},
-    "123": {"4pc": [{"trigger": "battle_start", "stat": "speed_pct", "value": 0.06, "turns": 0}]},
+    "117": {"4pc": [
+        {"trigger": "battle_start", "stat": "crit_dmg", "value": 0.08, "turns": 0},
+        {"trigger": "on_apply_debuff", "stat": "crit_dmg", "value": 0.08, "turns": 1},
+    ]},
+    "123": {"4pc": [
+        {"trigger": "battle_start", "stat": "speed_pct", "value": 0.06, "turns": 0},
+        {"trigger": "on_memosprite_attack", "stat": "crit_dmg", "value": 0.30, "turns": 2},
+    ]},
     "125": {"4pc": [
         {"trigger": "on_heal", "stat": "speed_pct", "value": 0.06, "turns": 2, "target": "team"},
         {"trigger": "on_heal", "stat": "crit_dmg", "value": 0.15, "turns": 2, "target": "team"},

@@ -8,6 +8,8 @@ base_def = 193.05
 base_spd = 101
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "黑渊的棘刺"

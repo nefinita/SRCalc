@@ -8,6 +8,8 @@ base_def = 270.27
 base_spd = 97
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "漫不经心"

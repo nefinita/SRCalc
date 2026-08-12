@@ -8,6 +8,8 @@ base_def = 292.5
 base_spd = 100
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "冰攀前齿技术"

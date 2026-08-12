@@ -106,6 +106,8 @@ fn default_seele() -> Character {
         ],
         team_effects: vec![],
         has_memosprite: false,
+        memosprite_spd: 0.0,
+        memosprite_multiplier: 0.0,
     }
 }
 

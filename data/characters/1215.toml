@@ -8,6 +8,8 @@ base_def = 187.2
 base_spd = 110
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "冥谶天笔"

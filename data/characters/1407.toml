@@ -8,6 +8,8 @@ base_def = 257.4
 base_spd = 95
 team_effects = []
 has_memosprite = true
+memosprite_spd = 165.0
+memosprite_multiplier = 0.4
 
 [[abilities]]
 name = "哀悼，死海之涟漪"

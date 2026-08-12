@@ -44,7 +44,8 @@ export type Trigger =
   | "on_apply_debuff"
   | "on_heal"
   | "on_kill"
-  | "on_targeted";
+  | "on_targeted"
+  | "on_memosprite_attack";
 
 export interface Effect {
   trigger: Trigger;
@@ -95,6 +96,8 @@ export interface CharacterDTO {
   abilities: AbilityData[];
   team_effects: Effect[];
   has_memosprite: boolean;
+  memosprite_spd: number;
+  memosprite_multiplier: number;
 }
 
 export interface LightConeDTO {

@@ -8,6 +8,8 @@ base_def = 257.4
 base_spd = 102
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "小调，止水中回响"

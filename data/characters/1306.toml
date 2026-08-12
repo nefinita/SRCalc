@@ -8,6 +8,8 @@ base_def = 257.4
 base_spd = 101
 team_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.0, turns = 0, target = "team", cap_bonus = 2, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_sp_consume", stat = "dmg_pct", value = 0.045, turns = 2, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 3 }, { trigger = "on_sp_consume", stat = "dmg_pct", value = 0.03, turns = 2, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 3 }]
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "独角戏"

@@ -165,6 +165,8 @@ pub enum Trigger {
     OnKill,
     /// 成为其他我方目标技能目标时触发（船长）
     OnTargeted,
+    /// 忆灵攻击时触发（凯歌英豪；角色行动时近似触发）
+    OnMemospriteAttack,
 }
 
 /// 通用效果：buff / 光锥被动 / 角色在场被动
@@ -240,6 +242,10 @@ pub struct Character {
     pub team_effects: Vec<Effect>,
     /// 拥有忆灵/召唤物（凯歌英豪 忆灵在场条件）
     pub has_memosprite: bool,
+    /// 忆灵速度（独立行动单位，AV=10000/速度；0=不调度）
+    pub memosprite_spd: f64,
+    /// 忆灵自动攻击倍率（忆灵技能）
+    pub memosprite_multiplier: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

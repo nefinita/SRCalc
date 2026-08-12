@@ -8,6 +8,8 @@ base_def = 308.88
 base_spd = 101
 team_effects = []
 has_memosprite = true
+memosprite_spd = 100.0
+memosprite_multiplier = 12
 
 [[abilities]]
 name = "看，希望的起始！"

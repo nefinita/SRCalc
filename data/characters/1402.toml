@@ -8,6 +8,8 @@ base_def = 257.4
 base_spd = 102
 team_effects = []
 has_memosprite = true
+memosprite_spd = 90.0
+memosprite_multiplier = 0.25
 
 [[abilities]]
 name = "刺纹之蜜"

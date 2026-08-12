@@ -8,6 +8,8 @@ base_def = 198.9
 base_spd = 107
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "流镝"

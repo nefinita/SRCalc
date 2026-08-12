@@ -8,6 +8,8 @@ base_def = 231.66
 base_spd = 98
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "肃香"

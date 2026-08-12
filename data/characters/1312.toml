@@ -8,6 +8,8 @@ base_def = 210.6
 base_spd = 96
 team_effects = []
 has_memosprite = false
+memosprite_spd = 0.0
+memosprite_multiplier = 0.0
 
 [[abilities]]
 name = "请…请让一下！"
