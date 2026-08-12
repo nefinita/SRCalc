@@ -79,6 +79,8 @@ export interface AbilityData {
   immediate_action: boolean;
   action_advance_pct: number;
   self_advance_pct: number;
+  applies_debuff: boolean;
+  heals: boolean;
 }
 
 export interface CharacterDTO {
@@ -92,6 +94,7 @@ export interface CharacterDTO {
   base_spd: number;
   abilities: AbilityData[];
   team_effects: Effect[];
+  has_memosprite: boolean;
 }
 
 export interface LightConeDTO {

@@ -7,6 +7,7 @@ base_atk = 329.472
 base_def = 257.4
 base_spd = 99
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "易位，兵贵神速"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "升变，士皆可帅"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.54, turns = 1, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "世事如棋，四步堪杀"
@@ -74,6 +79,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "荣光属于凯撒"
@@ -97,3 +104,5 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.21, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false

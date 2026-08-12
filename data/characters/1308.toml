@@ -7,6 +7,7 @@ base_atk = 370.656
 base_def = 231.66
 base_spd = 101
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "三途枯榷"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "八雷飞渡"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "残梦尽染，一刀缭断"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "红叶时雨，万倾一空"
@@ -95,6 +102,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -117,6 +126,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -139,6 +150,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -161,6 +174,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "黄泉返渡"
@@ -183,3 +198,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

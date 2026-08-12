@@ -7,6 +7,7 @@ base_atk = 277.992
 base_def = 411.84
 base_spd = 104
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "指令-闪燃推进"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "指令-天火轰击"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0025
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "火萤Ⅳ型-完全燃烧"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 45, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "茧式源火中枢"
@@ -96,6 +103,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "火萤Ⅳ型-底火斩击"
@@ -118,6 +127,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "火萤Ⅳ型-死星过载"
@@ -140,6 +151,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "指令-闪燃推进"
@@ -162,6 +175,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "指令-天火轰击"
@@ -184,6 +199,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0025
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "火萤Ⅳ型-完全燃烧"
@@ -207,6 +224,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 45, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "茧式源火中枢"
@@ -229,6 +248,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "火萤Ⅳ型-底火斩击"
@@ -251,6 +272,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "火萤Ⅳ型-死星过载"
@@ -273,3 +296,5 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

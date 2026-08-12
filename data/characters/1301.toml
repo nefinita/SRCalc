@@ -7,6 +7,7 @@ base_atk = 280.8
 base_def = 234
 base_spd = 98
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "开瓶费"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "罐装特调"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "香槟仪礼"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "鏖战正酣"
@@ -95,6 +102,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "酒花奔涌"
@@ -117,3 +126,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false

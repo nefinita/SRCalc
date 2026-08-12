@@ -7,6 +7,7 @@ base_atk = 339.768
 base_def = 193.05
 base_spd = 115
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "强袭"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "归刃"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 0.25, turns = 2, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "乱蝶"
@@ -74,6 +79,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "再现"
@@ -97,6 +104,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.6, turns = 1, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "强袭"
@@ -119,6 +128,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "归刃"
@@ -142,6 +153,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 0.25, turns = 3, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "乱蝶"
@@ -164,6 +177,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "再现"
@@ -187,3 +202,5 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.6, turns = 3, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

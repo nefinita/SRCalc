@@ -7,6 +7,7 @@ base_atk = 247.104
 base_def = 347.49
 base_spd = 101
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "雀翎鸣镝，过招有喜"
@@ -29,6 +30,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "十方光映，万法皆明"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "霓裳铁羽，六爻皆吉"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "屏开千光，遍观自在"
@@ -95,3 +102,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

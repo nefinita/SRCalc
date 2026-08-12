@@ -7,6 +7,7 @@ base_atk = 236.808
 base_def = 308.88
 base_spd = 101
 team_effects = []
+has_memosprite = true
 
 [[abilities]]
 name = "看，希望的起始！"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "盛放吧，来世的乐土"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "诗的「◦」誓约的「∞」"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "crit_rate", value = 0.375, turns = 1, targe
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "众愿啊，汇流如歌"
@@ -97,6 +104,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.15, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "向着爱与明天♪"
@@ -119,6 +128,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "一如初见的重逢"
@@ -141,3 +152,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

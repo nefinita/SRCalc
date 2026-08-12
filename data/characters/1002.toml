@@ -7,6 +7,7 @@ base_atk = 290.16
 base_def = 210.6
 base_spd = 110
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "云骑枪术•朔风"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "云骑枪术•疾雨"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "洞天幻化，长梦一觉"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "寸长寸强"
@@ -95,3 +102,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

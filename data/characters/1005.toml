@@ -7,6 +7,7 @@ base_atk = 360.36
 base_def = 257.4
 base_spd = 100
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "夜间喧嚣不止"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "月光摩挲连绵"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "悲剧尽头的颤音"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "温柔亦同残酷"
@@ -95,6 +102,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "夜间喧嚣不止"
@@ -117,6 +126,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "月光摩挲连绵"
@@ -139,6 +150,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "悲剧尽头的颤音"
@@ -161,6 +174,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "温柔亦同残酷"
@@ -183,3 +198,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false

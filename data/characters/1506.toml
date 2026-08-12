@@ -7,6 +7,7 @@ base_atk = 205.92
 base_def = 347.49
 base_spd = 110
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "拳头硬了！"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "Shoot属性大爆发"
@@ -51,6 +54,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "无敌玩家，启动！"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "有我在，把把都是顺风局"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.006, turns = 1, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "奖励关：「狼尊时刻」"
@@ -119,6 +128,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.15, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "超超超大剑"
@@ -141,6 +152,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "爆爆爆炸蛋"
@@ -163,6 +176,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "怪怪怪味豆"
@@ -185,3 +200,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

@@ -7,6 +7,7 @@ base_atk = 277.992
 base_def = 257.4
 base_spd = 101
 team_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.0, turns = 0, target = "team", cap_bonus = 2, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_sp_consume", stat = "dmg_pct", value = 0.045, turns = 2, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 3 }, { trigger = "on_sp_consume", stat = "dmg_pct", value = 0.03, turns = 2, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 3 }]
+has_memosprite = false
 
 [[abilities]]
 name = "独角戏"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "梦游鱼"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.18, turns = 1, target 
 immediate_action = false
 action_advance_pct = 0.005
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "一人千役"
@@ -75,6 +80,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.08, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "叙述性诡计"
@@ -98,6 +105,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.045, turns = 2, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "独角戏"
@@ -120,6 +129,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "梦游鱼"
@@ -143,6 +154,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.18, turns = 2, target 
 immediate_action = false
 action_advance_pct = 0.005
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "一人千役"
@@ -165,6 +178,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "叙述性诡计"
@@ -187,3 +202,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

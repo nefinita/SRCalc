@@ -7,6 +7,7 @@ base_atk = 308.88
 base_def = 210.6
 base_spd = 100
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "看什么看"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "一锤子买卖"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.2, turns = 1, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "是魔法，我加了魔法"
@@ -74,6 +79,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "还是我来吧"
@@ -96,3 +103,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

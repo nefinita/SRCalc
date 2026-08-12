@@ -7,6 +7,7 @@ base_atk = 298.584
 base_def = 257.4
 base_spd = 98
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "望 、闻、问…蹴！"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "云吟乍涌坠珠露"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true
 
 [[abilities]]
 name = "匏蛟跃渊先雷音"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "奔走悬壶济世长"
@@ -95,3 +102,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true

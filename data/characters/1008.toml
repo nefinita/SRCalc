@@ -7,6 +7,7 @@ base_atk = 318.24
 base_def = 175.5
 base_spd = 102
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "如雷疾行"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "禁锢解除"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "狂者制裁"
@@ -73,6 +78,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "至痛至怒"
@@ -96,3 +103,5 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.54, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

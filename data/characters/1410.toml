@@ -7,6 +7,7 @@ base_atk = 319.176
 base_def = 257.4
 base_spd = 102
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "小调，止水中回响"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "泛音，暗流后齐鸣"
@@ -51,6 +54,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "绝海回涛，噬魂舞曲"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "海妖在欢唱"
@@ -95,3 +102,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false

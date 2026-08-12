@@ -7,6 +7,7 @@ base_atk = 370.656
 base_def = 193.05
 base_spd = 102
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "泽芝"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "龙力自在"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.09, turns = 1, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "苍龙傲睨，劫水濯世"
@@ -74,6 +79,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "亢心"
@@ -97,6 +104,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.075, turns = 1, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "瞬华"
@@ -119,6 +128,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "取消"
@@ -141,6 +152,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "天矢阴"
@@ -163,6 +176,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "盘拏耀跃"
@@ -185,3 +200,5 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

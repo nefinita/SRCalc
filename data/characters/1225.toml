@@ -7,6 +7,7 @@ base_atk = 308.88
 base_def = 296.01
 base_spd = 102
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "焕焕辰尾"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "有道祥见，衔书摇风"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "阳极照世，离火满缀"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "善盈后福，德气流布"
@@ -95,6 +102,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "冉冉方炽"
@@ -117,3 +126,5 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

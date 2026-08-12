@@ -7,6 +7,7 @@ base_atk = 370.656
 base_def = 257.4
 base_spd = 102
 team_effects = []
+has_memosprite = true
 
 [[abilities]]
 name = "刺纹之蜜"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "高举吧，升华的名讳"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = true
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "共舞吧，命定的衣匠"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 0.125, turns = 1, targe
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "金玫之指"
@@ -96,6 +103,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "孤锋千吻"
@@ -118,6 +127,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "高举吧，升华的名讳"
@@ -140,3 +151,5 @@ target = "single"
 immediate_action = true
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true

@@ -7,6 +7,7 @@ base_atk = 401.544
 base_def = 296.01
 base_spd = 97
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "楚痛，酿造实识"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "分形，驱逐虚知"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.2, turns = 1, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "生息破土，世界塑造"
@@ -74,6 +79,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "四分明哲，三重至高"
@@ -97,3 +104,5 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.24, turns = 3, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

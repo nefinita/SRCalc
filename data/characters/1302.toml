@@ -7,6 +7,7 @@ base_atk = 391.248
 base_def = 193.05
 base_spd = 103
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "芬芳一现"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "公正，此处盛放"
@@ -51,6 +54,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "驻于花庭，赐与尽美"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "崇高的客体"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "crit_rate", value = 0.0175, turns = 1, targ
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "驻「我」华庭，授予至勋"
@@ -118,3 +127,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

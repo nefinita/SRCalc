@@ -7,6 +7,7 @@ base_atk = 299.52
 base_def = 222.3
 base_spd = 107
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "云骑剑经 • 素霓"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "云骑剑经 • 山倾"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "太虚形蕴 • 烛夜"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.24, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "游刃若水"
@@ -97,3 +104,5 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 0.175, turns = 2, targe
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

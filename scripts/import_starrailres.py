@@ -271,6 +271,8 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         s = skills.get(sid)
         if not s:
             continue
+        if s["type"].startswith("Memosprite"):
+            c["_has_memosprite"] = True
         kind = TYPE_KIND.get(s["type"])
         if kind is None:
             continue  # 跳过秘技/位面等
@@ -281,6 +283,10 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         desc = s.get("desc", "")
         sp, bonus_sp = parse_sp(desc, kind, params)
         imm, adv = parse_advance(desc, params, kind)
+        debuff_words = ["灼烧", "触电", "冻结", "裂伤", "风化", "缠绕", "禁锢", "减速", "易伤",
+                        "防御力降低", "攻击力降低", "速度降低", "抗性降低", "禁疗"]
+        applies_debuff = ("施加" in desc) or any(w in desc for w in debuff_words)
+        heals = ("治疗" in desc) or ("回复生命" in desc) or ("回复其生命" in desc)
         ability = {
             "name": clean_name(s.get("name") or kind),
             "kind": kind,
@@ -303,6 +309,8 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             "immediate_action": imm,
             "action_advance_pct": adv,
             "self_advance_pct": 0.0,
+            "applies_debuff": applies_debuff,
+            "heals": heals,
         }
         abilities.append(ability)
         team_effects.extend(parse_team_effects(desc, params, kind))
@@ -327,6 +335,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         "base_spd": stats["spd"],
         "abilities": abilities,
         "team_effects": dedup,
+        "has_memosprite": bool(c.get("_has_memosprite", False)),
     }
     return [character]
 
@@ -399,7 +408,15 @@ SET_CONDITIONALS = {
         {"trigger": "on_skill", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
         {"trigger": "on_ult", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
     ]},
-    "125": {"4pc": [{"trigger": "on_heal", "stat": "crit_dmg", "value": 0.15, "turns": 2, "target": "team"}]},
+    "123": {"4pc": [{"trigger": "battle_start", "stat": "speed_pct", "value": 0.06, "turns": 0}]},
+    "125": {"4pc": [
+        {"trigger": "on_heal", "stat": "speed_pct", "value": 0.06, "turns": 2, "target": "team"},
+        {"trigger": "on_heal", "stat": "crit_dmg", "value": 0.15, "turns": 2, "target": "team"},
+    ]},
+    "126": {"4pc": [
+        {"trigger": "on_targeted", "stat": "atk_pct", "value": 0.0, "turns": 0, "target": "self", "max_stacks": 2},
+        {"trigger": "on_ult", "stat": "atk_pct", "value": 0.48, "turns": 1, "target": "self"},
+    ]},
     "132": {"4pc": [{"trigger": "on_apply_debuff", "stat": "dmg_pct", "value": 0.15, "turns": 2, "target": "team"}]},
     "316": {"2pc": [{"trigger": "on_attack", "stat": "break_effect", "value": 0.40, "turns": 1}]},
     "324": {"2pc": [{"trigger": "on_sp_consume", "stat": "crit_dmg", "value": 0.32, "turns": 3}]},

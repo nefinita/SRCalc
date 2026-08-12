@@ -7,6 +7,7 @@ base_atk = 360.36
 base_def = 321.75
 base_spd = 96
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "拨弄…记忆绽开裂隙"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "舔舐…背叛伸出火舌"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "沉溺…飞灰邀入墓床"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "谁在害怕康士坦丝？"
@@ -95,3 +102,5 @@ target = "random"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

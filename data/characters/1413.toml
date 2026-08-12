@@ -7,6 +7,7 @@ base_atk = 288.288
 base_def = 308.88
 base_spd = 99
 team_effects = []
+has_memosprite = true
 
 [[abilities]]
 name = "从此岁月朦胧"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "白昼悄然离去"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.18, turns = 2, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "晚安，全世界无眠"
@@ -75,6 +80,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.45, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "今夜与我同行"
@@ -98,6 +105,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.45, turns = 2, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "白昼悄然离去"
@@ -121,3 +130,5 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 2, turns = 1, target = "
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true

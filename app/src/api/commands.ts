@@ -95,6 +95,7 @@ export function mockConfig(): ConfigDataDTO {
         base_def: 193,
         base_spd: 115,
         team_effects: [],
+        has_memosprite: false,
         abilities: [
           {
             name: "强袭",
@@ -118,6 +119,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
           {
             name: "归刃",
@@ -141,6 +144,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
           {
             name: "乱蝶",
@@ -164,6 +169,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
         ],
       },
@@ -188,6 +195,7 @@ export function mockConfig(): ConfigDataDTO {
             max_stacks: 0,
           },
         ],
+        has_memosprite: false,
         abilities: [
           {
             name: "独角戏",
@@ -211,6 +219,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
           {
             name: "梦游鱼",
@@ -243,6 +253,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0.5,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
           {
             name: "一人千役",
@@ -266,6 +278,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
         ],
       },
@@ -279,6 +293,7 @@ export function mockConfig(): ConfigDataDTO {
         base_def: 300,
         base_spd: 99,
         team_effects: [],
+        has_memosprite: false,
         abilities: [
           {
             name: "普攻",
@@ -302,6 +317,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
           {
             name: "战技·归途",
@@ -334,6 +351,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: true,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
         ],
       },
@@ -347,6 +366,7 @@ export function mockConfig(): ConfigDataDTO {
         base_def: 260,
         base_spd: 110,
         team_effects: [],
+        has_memosprite: false,
         abilities: [
           {
             name: "普攻",
@@ -370,6 +390,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
           {
             name: "战技·罚恶",
@@ -402,6 +424,8 @@ export function mockConfig(): ConfigDataDTO {
             immediate_action: false,
             action_advance_pct: 0,
             self_advance_pct: 0,
+            applies_debuff: false,
+            heals: false,
           },
         ],
       },
@@ -449,7 +473,7 @@ export function mockConfig(): ConfigDataDTO {
       },
     ],
   };
-  return cachedConfig;
+  return cachedConfig as ConfigDataDTO;
 }
 
 function mockCalculate(args?: Record<string, unknown>): SkillResultDTO[] {

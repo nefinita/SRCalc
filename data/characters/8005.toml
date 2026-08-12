@@ -7,6 +7,7 @@ base_atk = 236.808
 base_def = 360.36
 base_spd = 105
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "摇摆的礼仪"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "中场馈赠的雨"
@@ -51,6 +54,8 @@ target = "random"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "喧嚣的舞灯巡游"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "全屏段的高空踏歌"
@@ -95,3 +102,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

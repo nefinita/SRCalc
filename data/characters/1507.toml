@@ -7,6 +7,7 @@ base_atk = 288.288
 base_def = 257.4
 base_spd = 107
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "残锋，掠尽"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "刃下，归葬"
@@ -51,6 +54,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "骸骨当炉，血肉即薪"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.45, turns = 2, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "因果尽偿"
@@ -96,6 +103,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "淬锋，断魄"
@@ -118,6 +127,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "刃下，归葬"
@@ -140,6 +151,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "千冶铸一，万劫烬灭"
@@ -162,3 +175,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

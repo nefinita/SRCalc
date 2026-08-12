@@ -7,6 +7,7 @@ base_atk = 380.952
 base_def = 270.27
 base_spd = 97
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "漫不经心"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "王之财宝"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "天地乖离•开辟之星"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "「尽情取悦本王吧」"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 0.1, turns = 3, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "「本王允许你进攻」"
@@ -118,6 +127,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "漫不经心"
@@ -140,3 +151,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

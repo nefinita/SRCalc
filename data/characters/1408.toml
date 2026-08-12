@@ -7,6 +7,7 @@ base_atk = 308.88
 base_def = 373.23
 base_spd = 94
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "逐火救世，行则将至"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "黎明创世，地辟天开"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "永劫燔世，其将背负"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "此身为炬"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.225, turns = 3, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "命运•此躯即神"
@@ -119,6 +128,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.6, turns = 1, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "创生•血棘渡亡"
@@ -141,6 +152,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "灾厄•弑魂焚诏"
@@ -163,6 +176,8 @@ target = "single"
 immediate_action = true
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "支柱•死星天裁"
@@ -185,3 +200,5 @@ target = "random"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

@@ -7,6 +7,7 @@ base_atk = 339.768
 base_def = 283.14
 base_spd = 96
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "闪烁的劝诫"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "纸与仪典的恩赐"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.225, turns = 2, target 
 immediate_action = true
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "轻与伤痕的赞颂"
@@ -75,6 +80,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.21, turns = 3, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "倾诉之肉身"
@@ -98,3 +105,5 @@ buff = { trigger = "on_use", stat = "crit_rate", value = 0.15, turns = 3, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

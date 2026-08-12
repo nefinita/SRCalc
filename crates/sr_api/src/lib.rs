@@ -218,6 +218,10 @@ pub struct AbilityData {
     pub action_advance_pct: f64,
     /// 施放者自身行动提前比例
     pub self_advance_pct: f64,
+    /// 对敌方施加负面（触发 OnApplyDebuff 套装）
+    pub applies_debuff: bool,
+    /// 治疗（触发 OnHeal 套装）
+    pub heals: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -234,6 +238,8 @@ pub struct Character {
     pub abilities: Vec<AbilityData>,
     /// 在场被动（进队/在场即生效，如花火天赋 +战技点上限）
     pub team_effects: Vec<Effect>,
+    /// 拥有忆灵/召唤物（凯歌英豪 忆灵在场条件）
+    pub has_memosprite: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

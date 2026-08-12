@@ -50,6 +50,8 @@ fn default_seele() -> Character {
                 immediate_action: false,
                 action_advance_pct: 0.0,
                 self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
             },
             AbilityData {
                 name: "归刃".into(),
@@ -73,6 +75,8 @@ fn default_seele() -> Character {
                 immediate_action: false,
                 action_advance_pct: 0.0,
                 self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
             },
             AbilityData {
                 name: "乱蝶".into(),
@@ -96,9 +100,12 @@ fn default_seele() -> Character {
                 immediate_action: false,
                 action_advance_pct: 0.0,
                 self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
             },
         ],
         team_effects: vec![],
+        has_memosprite: false,
     }
 }
 

@@ -7,6 +7,7 @@ base_atk = 346.32
 base_def = 234
 base_spd = 98
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "门前清"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "海底捞月"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.21, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "四幺暗刻？和！"
@@ -74,6 +79,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "帝垣琼玉"
@@ -97,6 +104,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.54, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "杠上开花！"
@@ -119,3 +128,5 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

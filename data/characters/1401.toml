@@ -7,6 +7,7 @@ base_atk = 360.36
 base_def = 257.4
 base_spd = 99
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "开窍了吗"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "格局打开"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "早说了是魔法吧"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.6, turns = 3, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "拿来吧你"
@@ -96,6 +103,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "我有一个大胆的想法"
@@ -118,3 +127,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false

@@ -7,6 +7,7 @@ base_atk = 205.92
 base_def = 334.62
 base_spd = 110
 team_effects = []
+has_memosprite = true
 
 [[abilities]]
 name = "当微风轻吻云沫"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "爱在虹光洒落时"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "飞入晨昏的我们"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "疗愈世间的晨曦"
@@ -96,3 +103,5 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.6, turns = 2, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true

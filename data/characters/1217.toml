@@ -7,6 +7,7 @@ base_atk = 319.176
 base_def = 270.27
 base_spd = 98
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "令旗•征风召雨"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "灵符•保命护身"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "尾巴•遣神役鬼"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.32, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "凭附•气通天真"
@@ -96,6 +103,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true
 
 [[abilities]]
 name = "令旗•征风召雨"
@@ -118,6 +127,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "灵符•保命护身"
@@ -140,6 +151,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "尾巴•遣神役鬼"
@@ -163,6 +176,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.32, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "凭附•气通天真"
@@ -185,3 +200,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = true

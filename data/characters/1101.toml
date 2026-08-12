@@ -7,6 +7,7 @@ base_atk = 308.88
 base_def = 283.14
 base_spd = 99
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "驭风的子弹"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "作战再部署"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.495, turns = 1, target 
 immediate_action = true
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "贝洛伯格进行曲"
@@ -75,6 +80,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.44, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "先人一步"
@@ -97,3 +104,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0023
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

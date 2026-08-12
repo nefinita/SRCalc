@@ -7,6 +7,7 @@ base_atk = 277.992
 base_def = 257.4
 base_spd = 95
 team_effects = []
+has_memosprite = true
 
 [[abilities]]
 name = "哀悼，死海之涟漪"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "缄默，幽蝶之轻抚"
@@ -51,6 +54,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "亡喉怒哮，苏生之颂铃"
@@ -73,6 +78,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "掌心淌过的荒芜"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.15, turns = 3, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "骸爪，冥龙之环拥"
@@ -118,3 +127,5 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

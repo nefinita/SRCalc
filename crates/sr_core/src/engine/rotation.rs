@@ -333,6 +333,8 @@ impl<'a> Sim<'a> {
             };
             let marker = if is_ally {
                 format!("set:{id}:{:?}:{owner}", eff.stat)
+            } else if eff.trigger == Trigger::OnTargeted && eff.value == 0.0 {
+                format!("set:{id}:charge")
             } else {
                 format!("set:{id}:{:?}", eff.stat)
             };
@@ -552,6 +554,13 @@ impl<'a> Sim<'a> {
                 let err = self.base_stats[id].energy_regen;
                 s.energy = (s.energy + ability.energy_gain * (1.0 + err)).min(s.max_energy);
             }
+            // 施加负面 / 治疗 → 触发套装被动
+            if ability.applies_debuff {
+                self.apply_set_conditional(id, Trigger::OnApplyDebuff, None, true);
+            }
+            if ability.heals {
+                self.apply_set_conditional(id, Trigger::OnHeal, None, true);
+            }
         }
 
         // 套装触发式被动（按动作类型；定向型传目标）
@@ -646,7 +655,26 @@ impl<'a> Sim<'a> {
                 self.apply_buff(id, eff, step.target.as_deref(), true);
             }
         }
-        self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref(), false);
+        // 船长"助力"门控：仅当该角色装备了 OnTargeted 助力机制时才消耗触发；
+        // 否则按普通 OnUlt 套装触发（密林卧雪等）
+        let has_charge_mech = self
+            .set_conditionals
+            .get(id)
+            .map(|c| c.iter().any(|(t, _)| *t == Trigger::OnTargeted))
+            .unwrap_or(false);
+        if has_charge_mech {
+            let charge_marker = format!("set:{id}:charge");
+            let charge_ready = self
+                .active_buffs
+                .iter()
+                .any(|b| b.source == charge_marker && b.stacks >= b.max_stacks.max(1));
+            if charge_ready {
+                self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref(), false);
+                self.active_buffs.retain(|b| b.source != charge_marker);
+            }
+        } else {
+            self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref(), false);
+        }
         if let Some(s) = self.unit.get_mut(id) {
             s.energy = 0.0;
         }

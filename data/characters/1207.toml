@@ -7,6 +7,7 @@ base_atk = 318.24
 base_def = 198.9
 base_spd = 107
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "流镝"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "天阙鸣弦"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.6, turns = 1, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "贯云饮羽"
@@ -75,6 +80,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.52, turns = 1, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "箭彻七札"
@@ -97,3 +104,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

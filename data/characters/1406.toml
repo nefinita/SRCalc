@@ -7,6 +7,7 @@ base_atk = 339.768
 base_def = 270.27
 base_spd = 106
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "呀，漏网之鱼"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "嘿，空手套白银"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.3, turns = 2, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "猫咪怪盗，敬上！"
@@ -74,6 +79,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "热情好客的多洛斯人"
@@ -96,3 +103,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false

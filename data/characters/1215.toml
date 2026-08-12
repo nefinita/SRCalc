@@ -7,6 +7,7 @@ base_atk = 299.52
 base_def = 187.2
 base_spd = 110
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "冥谶天笔"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "生灭系缚"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = true
+heals = false
 
 [[abilities]]
 name = "十王敕令，遍土遵行"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.48, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "罚恶"
@@ -97,3 +104,5 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.225, turns = 2, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

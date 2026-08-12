@@ -7,6 +7,7 @@ base_atk = 370.656
 base_def = 244.53
 base_spd = 102
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "八极拳"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "宝石剑•泽尔里奇"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "山脉震撼•明星之薪"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "宝石魔术"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.525, turns = 2, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "自在远坂流"
@@ -118,6 +127,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "第二魔法实验"
@@ -140,3 +151,5 @@ target = "random"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

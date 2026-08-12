@@ -7,6 +7,7 @@ base_atk = 236.808
 base_def = 347.49
 base_spd = 106
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "直观投注"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "繁荣基石"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "轮盘勋爵"
@@ -74,6 +79,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.12, turns = 3, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "枪口以右"
@@ -96,3 +103,5 @@ target = "random"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

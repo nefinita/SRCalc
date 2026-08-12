@@ -7,6 +7,7 @@ base_atk = 370.656
 base_def = 257.4
 base_spd = 99
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "石火流光"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "紫霄震曜"
@@ -51,6 +54,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "吾身光明"
@@ -73,6 +78,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "斩勘神形"
@@ -96,3 +103,5 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 10, turns = 1, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

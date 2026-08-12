@@ -528,8 +528,11 @@ mod tests {
                 immediate_action: false,
                 action_advance_pct: 0.0,
                 self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
             }],
             team_effects: vec![],
+            has_memosprite: false,
         }
     }
 

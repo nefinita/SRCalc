@@ -7,6 +7,7 @@ base_atk = 360.36
 base_def = 257.4
 base_spd = 96
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "流影方晖"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "无罅飞光"
@@ -51,6 +54,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "昙华生灭，天河泻梦"
@@ -73,6 +78,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "澹月转魄"
@@ -96,6 +103,8 @@ buff = { trigger = "on_use", stat = "crit_rate", value = 0.45, turns = 1, target
 immediate_action = false
 action_advance_pct = 0.01
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "寒川映月"
@@ -118,6 +127,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "流影方晖"
@@ -140,6 +151,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "无罅飞光"
@@ -162,6 +175,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "昙华生灭，天河泻梦"
@@ -184,6 +199,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "澹月转魄"
@@ -207,6 +224,8 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.33, turns = 1, target 
 immediate_action = false
 action_advance_pct = 0.01
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "寒川映月"
@@ -229,3 +248,5 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

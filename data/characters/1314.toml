@@ -7,6 +7,7 @@ base_atk = 350.064
 base_def = 270.27
 base_spd = 103
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "挞楚抽薪"
@@ -29,6 +30,8 @@ target = "adjacent"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "恣肆吞併的担保"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 30, turns = 3, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "堕此欲渊，立此狱契"
@@ -74,6 +79,8 @@ target = "all"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "剔烁之牙"
@@ -97,3 +104,5 @@ buff = { trigger = "on_use", stat = "crit_dmg", value = 0.018, turns = 1, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

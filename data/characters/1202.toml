@@ -7,6 +7,7 @@ base_atk = 280.8
 base_def = 210.6
 base_spd = 112
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "逐客令"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "祥音和韵"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "atk_pct", value = 0.375, turns = 3, target 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "庆云光覆仪祷"
@@ -75,6 +80,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.35, turns = 2, target =
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "紫电扶摇"
@@ -97,3 +104,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

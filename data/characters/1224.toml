@@ -7,6 +7,7 @@ base_atk = 299.52
 base_def = 234
 base_spd = 102
 team_effects = []
+has_memosprite = false
 
 [[abilities]]
 name = "荡涤妖邪琉璃剑"
@@ -29,6 +30,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "师父，请喝茶！"
@@ -52,6 +55,8 @@ buff = { trigger = "on_use", stat = "speed_pct", value = 0.08, turns = 1, target
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "盖世女侠三月七"
@@ -74,6 +79,8 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "师父，我悟了！"
@@ -97,6 +104,8 @@ buff = { trigger = "on_use", stat = "dmg_pct", value = 0.6, turns = 1, target = 
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false
 
 [[abilities]]
 name = "一扎眉攒，二扎心"
@@ -119,3 +128,5 @@ target = "single"
 immediate_action = false
 action_advance_pct = 0.0
 self_advance_pct = 0.0
+applies_debuff = false
+heals = false

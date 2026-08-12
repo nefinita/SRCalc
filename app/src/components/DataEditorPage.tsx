@@ -164,6 +164,10 @@ export default function DataEditorPage({ addToast }: Props) {
                 <Num label="攻击" value={editingChar.base_atk} onChange={(v) => patchChar({ base_atk: v })} />
                 <Num label="防御" value={editingChar.base_def} onChange={(v) => patchChar({ base_def: v })} />
                 <Num label="速度" value={editingChar.base_spd} onChange={(v) => patchChar({ base_spd: v })} />
+                <label className={styles.field}>
+                  <span>拥有忆灵</span>
+                  <input type="checkbox" checked={editingChar.has_memosprite} onChange={(e) => patchChar({ has_memosprite: e.target.checked })} />
+                </label>
               </div>
 
               <h3 className={styles.subTitle}>技能</h3>
@@ -193,6 +197,14 @@ export default function DataEditorPage({ addToast }: Props) {
                     <label className={styles.field}>
                       <span>立即行动</span>
                       <input type="checkbox" checked={a.immediate_action} onChange={(e) => patchAbility(i, { immediate_action: e.target.checked })} />
+                    </label>
+                    <label className={styles.field}>
+                      <span>施加负面</span>
+                      <input type="checkbox" checked={a.applies_debuff} onChange={(e) => patchAbility(i, { applies_debuff: e.target.checked })} />
+                    </label>
+                    <label className={styles.field}>
+                      <span>治疗</span>
+                      <input type="checkbox" checked={a.heals} onChange={(e) => patchAbility(i, { heals: e.target.checked })} />
                     </label>
                   </div>
                   {a.buff && (

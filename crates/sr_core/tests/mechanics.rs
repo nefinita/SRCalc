@@ -49,6 +49,8 @@ fn ability(name: &str, kind: AbilityKind, mult: f64, sp: i32, energy: f64) -> Ab
         immediate_action: false,
         action_advance_pct: 0.0,
         self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
     }
 }
 
@@ -64,6 +66,7 @@ fn character(id: &str, name: &str, spd: f64, abilities: Vec<AbilityData>) -> Cha
         base_spd: spd,
         abilities,
         team_effects: vec![],
+        has_memosprite: false,
     }
 }
 
@@ -196,6 +199,8 @@ fn ult_bonus_sp_and_insertion_av() {
             immediate_action: false,
             action_advance_pct: 0.0,
             self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -239,6 +244,8 @@ fn ally_buff_targets_and_immediate_action() {
         immediate_action: true,
         action_advance_pct: 0.0,
         self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
     }]);
     let a = character("a", "A", 115.0, vec![
         ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
@@ -326,6 +333,8 @@ fn sp_on_basic_brand() {
         immediate_action: false,
         action_advance_pct: 0.0,
         self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
     }]);
     let a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     // 寒鸦战技(-1)→3-1=2；A 普攻 +1(普攻)+1(罚恶)=4
@@ -360,6 +369,8 @@ fn per_skill_sp_cost() {
         immediate_action: false,
         action_advance_pct: 0.0,
         self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
     }]);
     let out = rotate(vec![a], &["a"], vec![basic("a")], BattleConfig::default());
     assert_eq!(out.steps[0].skill_point, 1); // 3 - 2
@@ -485,6 +496,8 @@ fn sp_overflow_recording() {
             immediate_action: false,
             action_advance_pct: 0.0,
             self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -593,6 +606,8 @@ fn conditional_set_effect_on_ult_expires() {
             immediate_action: false,
             action_advance_pct: 0.0,
             self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
         },
     ]);
     let mut build = Build::default();
@@ -711,6 +726,8 @@ fn ally_target_set_buff_applies_and_expires() {
         immediate_action: false,
         action_advance_pct: 0.0,
         self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
     }]);
     let b = character("b", "B", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     let mut build = Build::default();
@@ -794,6 +811,8 @@ fn sp_consume_threshold_set() {
             immediate_action: false,
             action_advance_pct: 0.0,
             self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -925,6 +944,8 @@ fn ult_dmg_type_stat() {
             immediate_action: false,
             action_advance_pct: 0.0,
             self_advance_pct: 0.0,
+                applies_debuff: false,
+                heals: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -1004,4 +1025,263 @@ fn enemy_kill_detection_and_on_kill() {
     assert!(out.steps[2].buffs.contains(&"击杀".to_string()), "第3下应击杀: {:?}", out.steps[2].buffs);
     // 击杀后全队暴伤+12% 永久生效 → 后续普攻提升
     assert!(out.steps[3].damage > out.steps[0].damage, "击杀后伤害应提升 d3={:.3} d0={:.3}", out.steps[3].damage, out.steps[0].damage);
+}
+
+#[test]
+fn on_apply_debuff_set() {
+    // 名冶 4件：施加负面 → 全队伤害+15%·2回合
+    let set = sr_api::RelicSet {
+        id: "132".into(),
+        name: "名冶".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::OnApplyDebuff,
+            stat: BuffStat::DmgPct,
+            value: 0.15,
+            turns: 2,
+            target: BuffTarget::Team,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+    };
+    let a = character("a", "A", 200.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+            name: "战技·施放负面".into(),
+            kind: AbilityKind::Skill,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 10.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 30.0,
+            max_energy: 100.0,
+            skill_point: -1,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: true,
+            heals: false,
+        },
+    ]);
+    let run = |with_set: bool| {
+        let mut b = Build::default();
+        b.level = 80;
+        if with_set {
+            b.relic_sets = vec![sr_api::RelicSetPiece { set_id: "132".into(), count: 4 }];
+        }
+        let cfg = ConfigData {
+            characters: vec![a.clone()],
+            light_cones: vec![],
+            relic_sets: vec![set.clone()],
+            enemies: vec![enemy()],
+        };
+        let tm = TeamMember { char_id: "a".into(), build: b };
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg,
+            team: Team { members: vec![tm] },
+            enemy: enemy(),
+            coefficient: Default::default(),
+            battle: BattleConfig::default(),
+            steps: vec![skill("a"), basic("a")],
+            cycles: 1,
+        })
+        .expect("rotation");
+        out.steps[1].damage
+    };
+    assert!(run(true) > run(false), "施加负面后全队增伤应提升");
+}
+
+#[test]
+fn on_heal_set() {
+    // 烈阳女武神 4件：治疗 → 全队暴伤+15%
+    let set = sr_api::RelicSet {
+        id: "125".into(),
+        name: "女武神".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::OnHeal,
+            stat: BuffStat::CritDmg,
+            value: 0.15,
+            turns: 2,
+            target: BuffTarget::Team,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+    };
+    let a = character("a", "A", 200.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+            name: "战技·治疗".into(),
+            kind: AbilityKind::Skill,
+            multiplier: 0.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: false,
+            toughness_reduction: 0.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 30.0,
+            max_energy: 100.0,
+            skill_point: -1,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: false,
+            heals: true,
+        },
+    ]);
+    let run = |with_set: bool| {
+        let mut b = Build::default();
+        b.level = 80;
+        if with_set {
+            b.relic_sets = vec![sr_api::RelicSetPiece { set_id: "125".into(), count: 4 }];
+        }
+        let cfg = ConfigData {
+            characters: vec![a.clone()],
+            light_cones: vec![],
+            relic_sets: vec![set.clone()],
+            enemies: vec![enemy()],
+        };
+        let tm = TeamMember { char_id: "a".into(), build: b };
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg,
+            team: Team { members: vec![tm] },
+            enemy: enemy(),
+            coefficient: Default::default(),
+            battle: BattleConfig::default(),
+            steps: vec![skill("a"), basic("a")],
+            cycles: 1,
+        })
+        .expect("rotation");
+        out.steps[1].damage
+    };
+    assert!(run(true) > run(false), "治疗后全队暴伤应提升");
+}
+
+#[test]
+#[test]
+fn captain_charge_ult_buff() {
+    // 船长 4件：成为目标 2 次(助力2) → 终结技消耗 → 攻+48%·1回合
+    let set = sr_api::RelicSet {
+        id: "126".into(),
+        name: "船长".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![
+            Effect {
+                trigger: Trigger::OnTargeted,
+                stat: BuffStat::AtkPct,
+                value: 0.0,
+                turns: 0,
+                target: BuffTarget::Self_,
+                cap_bonus: 0,
+                sp_on_basic: 0,
+                max_stacks: 2,
+            },
+            Effect {
+                trigger: Trigger::OnUlt,
+                stat: BuffStat::AtkPct,
+                value: 0.48,
+                turns: 1,
+                target: BuffTarget::Self_,
+                cap_bonus: 0,
+                sp_on_basic: 0,
+                max_stacks: 0,
+            },
+        ],
+    };
+    let a = character("a", "A", 200.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+        name: "终结技".into(),
+        kind: AbilityKind::Ult,
+        multiplier: 2.0,
+        multipliers: vec![],
+        skill_level: 6,
+        scaling: Scaling::Atk,
+        flat_damage: 0.0,
+        dmg_type: DmgType::Normal,
+        can_crit: true,
+        toughness_reduction: 10.0,
+        hits: 1,
+        hit_split: vec![1.0],
+        energy_gain: 5.0,
+        max_energy: 100.0,
+        skill_point: 0,
+        bonus_sp: 0,
+        target: Target::Single,
+        buff: None,
+        immediate_action: false,
+        action_advance_pct: 0.0,
+        self_advance_pct: 0.0,
+        applies_debuff: false,
+        heals: false,
+    },
+    ]);
+    let b = character("b", "B", 200.0, vec![ability("战技", AbilityKind::Skill, 0.0, -1, 30.0)]);
+    let run = |team: Team, steps: Vec<RotationStepReq>| {
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: ConfigData {
+                characters: vec![a.clone(), b.clone()],
+                light_cones: vec![],
+                relic_sets: vec![set.clone()],
+                enemies: vec![enemy()],
+            },
+            team,
+            enemy: enemy(),
+            coefficient: Default::default(),
+            battle: BattleConfig { start_energy: 100.0, ..Default::default() },
+            steps,
+            cycles: 1,
+        })
+        .expect("rotation");
+        out.steps[out.steps.len() - 1].damage
+    };
+    let team_a = Team {
+        members: vec![TeamMember {
+            char_id: "a".into(),
+            build: Build { level: 80, relic_sets: vec![sr_api::RelicSetPiece { set_id: "126".into(), count: 4 }], ..Default::default() },
+        }],
+    };
+    let team_ab = Team {
+        members: vec![
+            TeamMember { char_id: "a".into(), build: Build { level: 80, relic_sets: vec![sr_api::RelicSetPiece { set_id: "126".into(), count: 4 }], ..Default::default() } },
+            TeamMember { char_id: "b".into(), build: Build { level: 80, ..Default::default() } },
+        ],
+    };
+    // 助力未满：终结技后普攻无加成
+    let no_charge = run(team_a, vec![ult("a"), basic("a")]);
+    // 助力满（B 战技指向 A 两次）：终结技消耗助力 → 攻+48% → 后续普攻提升
+    let full_charge = run(
+        team_ab,
+        vec![
+            RotationStepReq { char_id: "b".into(), action: ActionKind::Skill, target: Some("a".into()) },
+            RotationStepReq { char_id: "b".into(), action: ActionKind::Skill, target: Some("a".into()) },
+            ult("a"),
+            basic("a"),
+        ],
+    );
+    assert!(full_charge > no_charge * 1.4, "助力满终结技后普攻应+48% full={:.2} none={:.2}", full_charge, no_charge);
 }
