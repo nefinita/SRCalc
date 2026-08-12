@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = true
 memosprite_spd = 90.0
 memosprite_multiplier = 0.25
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "刺纹之蜜"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "高举吧，升华的名讳"
@@ -60,6 +64,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "共舞吧，命定的衣匠"
@@ -86,6 +93,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "金玫之指"
@@ -111,6 +121,9 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "孤锋千吻"
@@ -136,6 +149,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "高举吧，升华的名讳"
@@ -161,6 +177,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = true
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "刺纹之陷"
@@ -186,3 +205,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

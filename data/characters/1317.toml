@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "忍术•七转八起"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍切•初志贯彻"
@@ -60,6 +64,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍道•极•爱死天流"
@@ -85,6 +92,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍•科学•堪忍袋"
@@ -110,6 +120,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍具•降魔花弁"
@@ -135,6 +148,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍具•降魔花弁"
@@ -160,6 +176,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍具•降魔花弁"
@@ -185,6 +204,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "ult"
@@ -210,6 +232,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "ult"
@@ -235,6 +260,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "ult"
@@ -260,6 +288,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "ult"
@@ -285,6 +316,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "忍具•降魔花弁"
@@ -310,3 +344,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

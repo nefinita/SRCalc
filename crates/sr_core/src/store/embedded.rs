@@ -53,6 +53,9 @@ fn default_seele() -> Character {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+                hp_cost_pct: 0.0,
+                on_deplete: false,
             },
             AbilityData {
                 name: "归刃".into(),
@@ -79,6 +82,9 @@ fn default_seele() -> Character {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+                hp_cost_pct: 0.0,
+                on_deplete: false,
             },
             AbilityData {
                 name: "乱蝶".into(),
@@ -105,12 +111,16 @@ fn default_seele() -> Character {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+                hp_cost_pct: 0.0,
+                on_deplete: false,
             },
         ],
         team_effects: vec![],
         has_memosprite: false,
         memosprite_spd: 0.0,
         memosprite_multiplier: 0.0,
+            memosprite_explode_pct: 0.0,
     }
 }
 

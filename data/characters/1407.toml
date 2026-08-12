@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = true
 memosprite_spd = 165.0
 memosprite_multiplier = 0.4
+memosprite_explode_pct = 0.05
 
 [[abilities]]
 name = "哀悼，死海之涟漪"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "缄默，幽蝶之轻抚"
@@ -60,6 +64,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "亡喉怒哮，苏生之颂铃"
@@ -85,6 +92,9 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "掌心淌过的荒芜"
@@ -111,6 +121,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "骸爪，冥龙之环拥"
@@ -136,6 +149,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "擘裂冥茫的爪痕"
@@ -161,6 +177,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "燎尽黯泽的焰息"
@@ -186,6 +205,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 3
+hp_cost_pct = 0.25
+on_deplete = false
 
 [[abilities]]
 name = "燎尽黯泽的焰息"
@@ -211,6 +233,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = true
+repeat = 4
+hp_cost_pct = 0.25
+on_deplete = false
 
 [[abilities]]
 name = "燎尽黯泽的焰息"
@@ -236,6 +261,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = true
+repeat = 4
+hp_cost_pct = 0.25
+on_deplete = false
 
 [[abilities]]
 name = "灼掠幽墟的晦翼"
@@ -261,3 +289,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 6
+hp_cost_pct = 0.0
+on_deplete = true

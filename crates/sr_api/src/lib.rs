@@ -228,6 +228,12 @@ pub struct AbilityData {
     pub heals: bool,
     /// 忆灵技能强制触发（死龙/长夜月：回合到必放该技能）
     pub forced: bool,
+    /// 一次行动重复施放次数（死龙"本回合不会结束"，1=单次）
+    pub repeat: u32,
+    /// 施放消耗自身生命上限%（死龙燎尽；忆灵 HP）
+    pub hp_cost_pct: f64,
+    /// 忆灵生命耗尽时触发（爆炸技能，如死龙灼掠幽墟的晦翼）
+    pub on_deplete: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -250,6 +256,8 @@ pub struct Character {
     pub memosprite_spd: f64,
     /// 忆灵自动攻击倍率（忆灵技能）
     pub memosprite_multiplier: f64,
+    /// 忆灵生命≤此比例时施放技能触发爆炸（死龙 5%）
+    pub memosprite_explode_pct: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

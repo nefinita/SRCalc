@@ -61,6 +61,12 @@ TYPE_KIND = {
 
 # 强制触发忆灵技能（死龙/长夜月：回合到必放，不可选）
 MEMOSPRITE_FORCED = {"1141301", "1140710", "1140711"}
+# 死龙燎尽：施放消耗自身生命上限%
+MEMOSPRITE_HP_COST = {"1140702": 0.25, "1140710": 0.25, "1140711": 0.25}
+# 死龙爆炸技能（生命耗尽触发）
+MEMOSPRITE_DEPLETE = {"1140712"}
+# 忆灵低血触发爆炸阈值（死龙 5%）
+MEMOSPRITE_EXPLODE_PCT = {"1407": 0.05}
 
 ATTACK_EFFECTS = {"SingleAttack", "AoEAttack", "Blast", "Bounce"}
 
@@ -299,6 +305,17 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         imm, adv = parse_advance(desc, params, kind)
         debuff_words = ["灼烧", "触电", "冻结", "裂伤", "风化", "缠绕", "禁锢", "减速", "易伤",
                         "防御力降低", "攻击力降低", "速度降低", "抗性降低", "禁疗"]
+        repeat = 1
+        rm = re.search(r"最多获得(\d+)次强化", desc)
+        if rm:
+            repeat = int(rm.group(1)) + 1
+        elif "本回合不会结束" in desc or "可重复发动" in desc or "重复施放" in desc:
+            repeat = 3
+        dm = re.search(r"造成#(\d+)\[i\]次伤害", desc)
+        if dm:
+            v = resolve_param(desc, params, 5, int(dm.group(1)))
+            if v:
+                repeat = int(v)
         applies_debuff = ("施加" in desc) or any(w in desc for w in debuff_words)
         heals = ("治疗" in desc) or ("回复生命" in desc) or ("回复其生命" in desc)
         ability = {
@@ -326,6 +343,9 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             "applies_debuff": applies_debuff,
             "heals": heals,
             "forced": sid in MEMOSPRITE_FORCED,
+            "repeat": repeat,
+            "hp_cost_pct": MEMOSPRITE_HP_COST.get(sid, 0.0),
+            "on_deplete": sid in MEMOSPRITE_DEPLETE,
         }
         abilities.append(ability)
         team_effects.extend(parse_team_effects(desc, params, kind))
@@ -353,6 +373,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         "has_memosprite": bool(c.get("_has_memosprite", False)),
         "memosprite_spd": MEMOSPRITE_SPD.get(cid, 100.0) if c.get("_has_memosprite") else 0.0,
         "memosprite_multiplier": c.get("_memo_mult", 0.0) or 0.0,
+        "memosprite_explode_pct": MEMOSPRITE_EXPLODE_PCT.get(cid, 0.0),
     }
     return [character]
 

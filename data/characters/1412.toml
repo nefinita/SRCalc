@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "易位，兵贵神速"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "升变，士皆可帅"
@@ -61,6 +65,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "世事如棋，四步堪杀"
@@ -86,6 +93,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "荣光属于凯撒"
@@ -112,3 +122,6 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

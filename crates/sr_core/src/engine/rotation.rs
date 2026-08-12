@@ -66,6 +66,9 @@ struct MemoState {
     spd: f64,
     /// 忆灵行动队列（ability_index, target）；空 = 默认第 0 个忆灵技能
     queue: VecDeque<(u32, Option<String>)>,
+    /// 忆灵生命（继承忆主面板）
+    hp: f64,
+    max_hp: f64,
 }
 
 #[derive(Debug, Clone)]
@@ -224,6 +227,7 @@ impl<'a> Sim<'a> {
                 && c.has_memosprite
                 && c.memosprite_spd > 0.0
             {
+                let max_hp = base_stats.get(mid).map(|s| s.hp).unwrap_or(1.0);
                 memos.insert(
                     mid.to_string(),
                     MemoState {
@@ -231,6 +235,8 @@ impl<'a> Sim<'a> {
                         av: action_value(c.memosprite_spd),
                         spd: c.memosprite_spd,
                         queue: memo_queues.remove(mid).unwrap_or_default(),
+                        hp: max_hp,
+                        max_hp,
                     },
                 );
             }
@@ -735,11 +741,18 @@ impl<'a> Sim<'a> {
         Ok(())
     }
 
-    /// 忆灵行动：触发 OnMemospriteAttack + 使用选中的忆灵技能攻击（继承忆主面板）
-    fn resolve_memo(&mut self, owner: &str, ability_index: u32, target: Option<&str>) {
+    /// 忆灵行动：触发 OnMemospriteAttack + 使用选中的忆灵技能攻击（继承忆主面板）；
+    /// 施放消耗自身生命，低血/耗尽触发爆炸（on_deplete）。返回是否仍存活。
+    fn resolve_memo(
+        &mut self,
+        owner: &str,
+        memo_id: &str,
+        ability_index: u32,
+        target: Option<&str>,
+    ) -> bool {
         self.apply_set_conditional(owner, Trigger::OnMemospriteAttack, None, false);
         let Some(stats) = self.base_stats.get(owner).cloned() else {
-            return;
+            return false;
         };
         let element = self.by_id.get(owner).map(|c| c.element).unwrap_or_default();
         let attacker_level = self
@@ -748,7 +761,6 @@ impl<'a> Sim<'a> {
             .map(|b| b.level.max(1))
             .unwrap_or(80);
         let mods = self.mods_for(owner);
-        // 选中的忆灵技能（kind=memosprite 下标）；缺省用 memosprite_multiplier 合成
         let memo_abilities: Vec<sr_api::AbilityData> = self
             .by_id
             .get(owner)
@@ -760,7 +772,6 @@ impl<'a> Sim<'a> {
                     .collect()
             })
             .unwrap_or_default();
-        // 强制触发技能（死龙/长夜月）：回合到必放，忽略选择；否则用序列/默认
         let forced = memo_abilities.iter().find(|a| a.forced).cloned();
         let ability = forced
             .or_else(|| memo_abilities.get(ability_index as usize).cloned())
@@ -774,17 +785,63 @@ impl<'a> Sim<'a> {
         if let Some(eff) = &ability.buff {
             self.apply_buff(owner, eff, target, false);
         }
-        let ctx = AbilityContext {
-            stats: &stats,
-            ability: &ability,
-            element,
-            attacker_level,
-            enemy: &self.req.enemy,
-            mods: &mods,
-            coeff: &self.req.coefficient,
-            broken: self.enemy_broken,
+        let mut dmg = {
+            let ctx = AbilityContext {
+                stats: &stats,
+                ability: &ability,
+                element,
+                attacker_level,
+                enemy: &self.req.enemy,
+                mods: &mods,
+                coeff: &self.req.coefficient,
+                broken: self.enemy_broken,
+            };
+            compute_ability_damage_for(ctx).expected * ability.repeat.max(1) as f64
         };
-        let dmg = compute_ability_damage_for(ctx).expected;
+
+        // 施放消耗自身生命（死龙燎尽）；低血/耗尽触发爆炸（灼掠幽墟的晦翼）
+        let mut alive = true;
+        let hp_cost = ability.hp_cost_pct;
+        let explode_pct = self
+            .by_id
+            .get(owner)
+            .map(|c| c.memosprite_explode_pct)
+            .unwrap_or(0.0);
+        if (hp_cost > 0.0 || explode_pct > 0.0)
+            && let Some(m) = self.memos.get_mut(memo_id)
+        {
+                m.hp -= m.max_hp * hp_cost;
+                let low = m.hp <= m.max_hp * explode_pct;
+                if low || m.hp <= 0.0 {
+                    // 触发爆炸
+                    let boom = self
+                        .by_id
+                        .get(owner)
+                        .and_then(|c| {
+                            c.abilities
+                                .iter()
+                                .find(|a| a.kind == sr_api::AbilityKind::Memosprite && a.on_deplete)
+                                .cloned()
+                        });
+                    if let Some(b) = boom {
+                        let bmods = self.mods_for(owner);
+                        let bctx = AbilityContext {
+                            stats: &stats,
+                            ability: &b,
+                            element,
+                            attacker_level,
+                            enemy: &self.req.enemy,
+                            mods: &bmods,
+                            coeff: &self.req.coefficient,
+                            broken: self.enemy_broken,
+                        };
+                        dmg += compute_ability_damage_for(bctx).expected * b.repeat.max(1) as f64;
+                    }
+                    self.memos.remove(memo_id);
+                    alive = false;
+                }
+        }
+
         if dmg > 0.0 {
             self.apply_enemy_damage(dmg);
         }
@@ -802,6 +859,7 @@ impl<'a> Sim<'a> {
             buffs: vec!["忆灵攻击".to_string()],
         });
         self.total_damage += dmg;
+        alive
     }
 
     fn resolve_enemy(&mut self) {
@@ -894,8 +952,10 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
                     (m.owner.clone(), m.queue.pop_front())
                 };
                 let (idx, tgt) = next_action.unwrap_or((0, None));
-                sim.resolve_memo(&owner, idx, tgt.as_deref());
-                if let Some(m) = sim.memos.get_mut(&mid) {
+                let alive = sim.resolve_memo(&owner, &mid, idx, tgt.as_deref());
+                if alive
+                    && let Some(m) = sim.memos.get_mut(&mid)
+                {
                     m.av = action_value(m.spd.max(1.0));
                 }
             }

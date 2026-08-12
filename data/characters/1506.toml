@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "拳头硬了！"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "Shoot属性大爆发"
@@ -60,6 +64,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "无敌玩家，启动！"
@@ -85,6 +92,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "有我在，把把都是顺风局"
@@ -111,6 +121,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "奖励关：「狼尊时刻」"
@@ -137,6 +150,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "超超超大剑"
@@ -162,6 +178,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "爆爆爆炸蛋"
@@ -187,6 +206,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "怪怪怪味豆"
@@ -212,3 +234,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

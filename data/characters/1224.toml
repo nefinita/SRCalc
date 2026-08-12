@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "荡涤妖邪琉璃剑"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "师父，请喝茶！"
@@ -61,6 +65,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "盖世女侠三月七"
@@ -86,6 +93,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "师父，我悟了！"
@@ -112,6 +122,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "一扎眉攒，二扎心"
@@ -137,3 +150,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

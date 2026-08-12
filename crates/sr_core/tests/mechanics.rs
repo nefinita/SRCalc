@@ -52,6 +52,9 @@ fn ability(name: &str, kind: AbilityKind, mult: f64, sp: i32, energy: f64) -> Ab
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
     }
 }
 
@@ -70,6 +73,7 @@ fn character(id: &str, name: &str, spd: f64, abilities: Vec<AbilityData>) -> Cha
         has_memosprite: false,
         memosprite_spd: 0.0,
         memosprite_multiplier: 0.0,
+            memosprite_explode_pct: 0.0,
     }
 }
 
@@ -206,6 +210,9 @@ fn ult_bonus_sp_and_insertion_av() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -252,6 +259,9 @@ fn ally_buff_targets_and_immediate_action() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
     }]);
     let a = character("a", "A", 115.0, vec![
         ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
@@ -343,6 +353,9 @@ fn sp_on_basic_brand() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
     }]);
     let a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     // 寒鸦战技(-1)→3-1=2；A 普攻 +1(普攻)+1(罚恶)=4
@@ -380,6 +393,9 @@ fn per_skill_sp_cost() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
     }]);
     let out = rotate(vec![a], &["a"], vec![basic("a")], BattleConfig::default());
     assert_eq!(out.steps[0].skill_point, 1); // 3 - 2
@@ -510,6 +526,9 @@ fn sp_overflow_recording() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -621,6 +640,9 @@ fn conditional_set_effect_on_ult_expires() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     let mut build = Build::default();
@@ -744,6 +766,9 @@ fn ally_target_set_buff_applies_and_expires() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
     }]);
     let b = character("b", "B", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     let mut build = Build::default();
@@ -831,6 +856,9 @@ fn sp_consume_threshold_set() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -967,6 +995,9 @@ fn ult_dmg_type_stat() {
                 applies_debuff: false,
                 heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -1097,6 +1128,9 @@ fn on_apply_debuff_set() {
             applies_debuff: true,
             heals: false,
             forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -1175,6 +1209,9 @@ fn on_heal_set() {
             applies_debuff: false,
             heals: true,
             forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -1266,6 +1303,9 @@ fn captain_charge_ult_buff() {
         applies_debuff: false,
         heals: false,
                 forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
     },
     ]);
     let b = character("b", "B", 200.0, vec![ability("战技", AbilityKind::Skill, 0.0, -1, 30.0)]);
@@ -1374,6 +1414,9 @@ fn death_water_amplify_on_debuff() {
             applies_debuff: true,
             heals: false,
             forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     let run = |steps: Vec<RotationStepReq>| {
@@ -1489,6 +1532,9 @@ fn forced_memosprite_skill_overrides_queue() {
             applies_debuff: false,
             heals: false,
             forced: false,
+                repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
         sr_api::AbilityData {
             name: "忆灵·强制".into(),
@@ -1515,6 +1561,9 @@ fn forced_memosprite_skill_overrides_queue() {
             applies_debuff: false,
             heals: false,
             forced: true,
+            repeat: 1,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
         },
     ]);
     a.has_memosprite = true;
@@ -1547,4 +1596,161 @@ fn forced_memosprite_skill_overrides_queue() {
     let memo = out.steps.iter().find(|s| s.buffs.contains(&"忆灵攻击".to_string())).expect("忆灵行动");
     // 倍率 3.0 的伤害应显著高于倍率 1.0（~3倍）
     assert!(memo.damage > 400.0, "强制技能应使用倍率3.0 dmg={:.1}", memo.damage);
+}
+
+#[test]
+fn memosprite_repeat_multicast() {
+    // 死龙：一次行动重复施放（repeat=4）→ 伤害 ×4
+    let mut a = character("a", "A", 200.0, vec![sr_api::AbilityData {
+        name: "燎尽黯泽的焰息".into(),
+        kind: sr_api::AbilityKind::Memosprite,
+        multiplier: 1.0,
+        multipliers: vec![],
+        skill_level: 1,
+        scaling: Scaling::Atk,
+        flat_damage: 0.0,
+        dmg_type: DmgType::Normal,
+        can_crit: true,
+        toughness_reduction: 0.0,
+        hits: 1,
+        hit_split: vec![1.0],
+        energy_gain: 0.0,
+        max_energy: 0.0,
+        skill_point: 0,
+        bonus_sp: 0,
+        target: Target::Single,
+        buff: None,
+        immediate_action: false,
+        action_advance_pct: 0.0,
+        self_advance_pct: 0.0,
+        applies_debuff: false,
+        heals: false,
+        forced: true,
+        repeat: 4,
+            hp_cost_pct: 0.0,
+            on_deplete: false,
+    }]);
+    a.has_memosprite = true;
+    a.memosprite_spd = 100.0;
+    let mut build = Build::default();
+    build.level = 80;
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![enemy()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 4],
+        memosprite_steps: vec![],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let memo = out.steps.iter().find(|s| s.buffs.contains(&"忆灵攻击".to_string())).expect("忆灵行动");
+    // 单发 ~230，repeat4 → ~920
+    assert!(memo.damage > 800.0, "repeat4 应约4倍单发 dmg={:.1}", memo.damage);
+}
+
+#[test]
+fn netherwing_hp_cost_and_explosion() {
+    // 死龙：施放燎尽扣血(25%)，低血触发灼掠爆炸(×6)，随后消失
+    let mut a = character("a", "A", 50.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        sr_api::AbilityData {
+            name: "燎尽黯泽的焰息".into(),
+            kind: sr_api::AbilityKind::Memosprite,
+            multiplier: 1.0,
+            multipliers: vec![],
+            skill_level: 1,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 0.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 0.0,
+            max_energy: 0.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: false,
+            heals: false,
+            forced: true,
+            repeat: 3,
+            hp_cost_pct: 0.25,
+            on_deplete: false,
+        },
+        sr_api::AbilityData {
+            name: "灼掠幽墟的晦翼".into(),
+            kind: sr_api::AbilityKind::Memosprite,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 1,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 0.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 0.0,
+            max_energy: 0.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: false,
+            heals: false,
+            forced: false,
+            repeat: 6,
+            hp_cost_pct: 0.0,
+            on_deplete: true,
+        },
+    ]);
+    a.base_hp = 1000.0;
+    a.has_memosprite = true;
+    a.memosprite_spd = 200.0;   // 忆主行动前连动 4 次
+    a.memosprite_explode_pct = 0.05;
+    let mut build = Build::default();
+    build.level = 80;
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![enemy()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"), basic("a")],
+        memosprite_steps: vec![],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let memo_steps: Vec<_> = out.steps.iter().filter(|s| s.buffs.contains(&"忆灵攻击".to_string())).collect();
+    // 3 次燎尽 + 1 次爆炸 = 4 次忆灵行动，随后消失（无第 5 次）
+    assert_eq!(memo_steps.len(), 4, "应 3 次燎尽 + 1 次爆炸 = 4，实际 {}", memo_steps.len());
+    // 爆炸那次伤害显著更高（灼掠 2.0×6 ＞ 燎尽 1.0×3）
+    assert!(memo_steps[3].damage > memo_steps[0].damage * 3.0,
+        "爆炸伤害应高 boom={:.1} liao={:.1}", memo_steps[3].damage, memo_steps[0].damage);
+    // 前 3 次为燎尽（伤害一致）
+    assert!((memo_steps[0].damage - memo_steps[1].damage).abs() < 1e-6);
 }

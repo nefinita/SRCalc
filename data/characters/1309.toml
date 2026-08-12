@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "扑翼白声"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "翎之咏叹调"
@@ -61,6 +65,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "千音迭奏，群星赋格"
@@ -87,6 +94,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "调性合颂"
@@ -113,3 +123,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

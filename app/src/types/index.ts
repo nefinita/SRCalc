@@ -83,6 +83,9 @@ export interface AbilityData {
   applies_debuff: boolean;
   heals: boolean;
   forced: boolean;
+  repeat: number;
+  hp_cost_pct: number;
+  on_deplete: boolean;
 }
 
 export interface CharacterDTO {
@@ -99,6 +102,7 @@ export interface CharacterDTO {
   has_memosprite: boolean;
   memosprite_spd: number;
   memosprite_multiplier: number;
+  memosprite_explode_pct: number;
 }
 
 export interface LightConeDTO {

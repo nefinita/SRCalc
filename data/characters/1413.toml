@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = true
 memosprite_spd = 100.0
 memosprite_multiplier = 0.2
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "从此岁月朦胧"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "白昼悄然离去"
@@ -61,6 +65,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "晚安，全世界无眠"
@@ -87,6 +94,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "今夜与我同行"
@@ -113,6 +123,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "白昼悄然离去"
@@ -139,6 +152,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = true
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "追忆，蹁跹，如雨"
@@ -164,6 +180,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = true
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "迷梦，流失，如露"
@@ -189,3 +208,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

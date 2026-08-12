@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "洞见，缄默的黎明"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "失坠，伪神的黄昏"
@@ -60,6 +64,9 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "沉醉于彼界的臂湾"
@@ -85,6 +92,9 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "无端命运的机杼"
@@ -110,6 +120,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "洞见，缄默的黎明"
@@ -135,6 +148,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "失坠，伪神的黄昏"
@@ -160,6 +176,9 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "沉醉于彼界的臂湾"
@@ -185,6 +204,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "无端命运的机杼"
@@ -210,3 +232,6 @@ self_advance_pct = 0.0
 applies_debuff = true
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

@@ -10,6 +10,7 @@ team_effects = []
 has_memosprite = true
 memosprite_spd = 100.0
 memosprite_multiplier = 0.5
+memosprite_explode_pct = 0.0
 
 [[abilities]]
 name = "当微风轻吻云沫"
@@ -35,6 +36,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "爱在虹光洒落时"
@@ -60,6 +64,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "飞入晨昏的我们"
@@ -85,6 +92,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = false
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "疗愈世间的晨曦"
@@ -111,6 +121,9 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = true
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false
 
 [[abilities]]
 name = "乌云乌云快走开！"
@@ -136,3 +149,6 @@ self_advance_pct = 0.0
 applies_debuff = false
 heals = true
 forced = false
+repeat = 1
+hp_cost_pct = 0.0
+on_deplete = false

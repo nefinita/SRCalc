@@ -170,6 +170,7 @@ export default function DataEditorPage({ addToast }: Props) {
                 </label>
                 <Num label="忆灵速度" value={editingChar.memosprite_spd} onChange={(v) => patchChar({ memosprite_spd: v })} />
                 <Num label="忆灵倍率" value={editingChar.memosprite_multiplier} onChange={(v) => patchChar({ memosprite_multiplier: v })} />
+                <Num label="低血爆炸%" value={editingChar.memosprite_explode_pct * 100} onChange={(v) => patchChar({ memosprite_explode_pct: v / 100 })} />
               </div>
 
               <h3 className={styles.subTitle}>技能</h3>
@@ -211,6 +212,12 @@ export default function DataEditorPage({ addToast }: Props) {
                     <label className={styles.field}>
                       <span>忆灵强制</span>
                       <input type="checkbox" checked={a.forced} onChange={(e) => patchAbility(i, { forced: e.target.checked })} />
+                    </label>
+                    <Num label="重复施放" value={a.repeat} onChange={(v) => patchAbility(i, { repeat: v })} />
+                    <Num label="耗血%" value={a.hp_cost_pct * 100} onChange={(v) => patchAbility(i, { hp_cost_pct: v / 100 })} />
+                    <label className={styles.field}>
+                      <span>耗尽爆炸</span>
+                      <input type="checkbox" checked={a.on_deplete} onChange={(e) => patchAbility(i, { on_deplete: e.target.checked })} />
                     </label>
                   </div>
                   {a.buff && (
