@@ -1,0 +1,80 @@
+id = "1504"
+name = "不死途"
+path = "the_hunt"
+element = "lightning"
+base_hp = 453.024
+base_atk = 411.84
+base_def = 205.92
+base_spd = 106
+
+[[abilities]]
+name = "利爪，授以礼仪"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 150.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "鞭哨，逐尽恶兽"
+kind = "skill"
+multiplier = 1
+multipliers = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.625, 1.75, 1.875, 2, 2.1, 2.2, 2.3, 2.4, 2.5]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 150.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "飨宴，自始无终"
+kind = "ult"
+multiplier = 2
+multipliers = [2, 2.2, 2.4, 2.6, 2.8, 3, 3.25, 3.5, 3.75, 4, 4.2, 4.4, 4.6, 4.8, 5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 150.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "宿怨，切齿奉还"
+kind = "talent"
+multiplier = 2
+multipliers = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 150.0
+skill_point = 0
+target = "single"

@@ -1,0 +1,9 @@
+id = "21005"
+name = "鼹鼠党欢迎你"
+path = "destruction"
+rarity = 4
+base_hp = 561.6
+base_atk = 252.72
+base_def = 140.4
+superimposition = 1
+passive = "装备者施放普攻、战技或终结技攻击敌方目标后，分别获取一层【淘气值】。每层使装备者的攻击力提高#1[i]%。 | 叠影1: [0.12]"

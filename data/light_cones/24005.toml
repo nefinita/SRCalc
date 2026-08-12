@@ -1,0 +1,9 @@
+id = "24005"
+name = "记忆永不落幕"
+path = "remembrance"
+rarity = 5
+base_hp = 561.6
+base_atk = 280.8
+base_def = 210.6
+superimposition = 1
+passive = "使装备者的速度提高#1[f1]%。装备者施放战技后，使我方全体造成的伤害提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.06, 0.08, 3]"

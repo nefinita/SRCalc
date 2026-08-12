@@ -1,0 +1,80 @@
+id = "1218"
+name = "椒丘"
+path = "nihility"
+element = "fire"
+base_hp = 720.72
+base_atk = 319.176
+base_def = 270.27
+base_spd = 98
+
+[[abilities]]
+name = "仁火攻心"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 100.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "燔燎急袭"
+kind = "skill"
+multiplier = 0.75
+multipliers = [0.75, 0.825, 0.9, 0.975, 1.05, 1.125, 1.2188, 1.3125, 1.4062, 1.5, 1.575, 1.65, 1.725, 1.8, 1.875]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 100.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "鼎阵妙法，奇正相生"
+kind = "ult"
+multiplier = 0.6
+multipliers = [0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.85, 0.9, 0.95, 1, 1.04, 1.08, 1.12, 1.16, 1.2]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 100.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "四示八权，纤滋精味"
+kind = "talent"
+multiplier = 1
+multipliers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 100.0
+skill_point = 0
+target = "single"

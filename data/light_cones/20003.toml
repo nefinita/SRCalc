@@ -1,0 +1,9 @@
+id = "20003"
+name = "琥珀"
+path = "preservation"
+rarity = 3
+base_hp = 449.28
+base_atk = 140.4
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的防御力提高#1[i]%。当装备者当前生命值百分比小于#2[i]%时，其防御力额外提高#3[i]%。 | 叠影1: [0.16, 0.5, 0.16]"

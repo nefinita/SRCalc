@@ -1,0 +1,80 @@
+id = "1101"
+name = "布洛妮娅"
+path = "harmony"
+element = "wind"
+base_hp = 658.944
+base_atk = 308.88
+base_def = 283.14
+base_spd = 99
+
+[[abilities]]
+name = "驭风的子弹"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "作战再部署"
+kind = "skill"
+multiplier = 0.33
+multipliers = [0.33, 0.363, 0.396, 0.429, 0.462, 0.495, 0.5363, 0.5775, 0.6188, 0.66, 0.693, 0.726, 0.759, 0.792, 0.825]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "贝洛伯格进行曲"
+kind = "ult"
+multiplier = 0.33
+multipliers = [0.33, 0.352, 0.374, 0.396, 0.418, 0.44, 0.4675, 0.495, 0.5225, 0.55, 0.572, 0.594, 0.616, 0.638, 0.66]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "先人一步"
+kind = "talent"
+multiplier = 0.15
+multipliers = [0.15, 0.165, 0.18, 0.195, 0.21, 0.225, 0.2437, 0.2625, 0.2812, 0.3, 0.315, 0.33, 0.345, 0.36, 0.375]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "single"

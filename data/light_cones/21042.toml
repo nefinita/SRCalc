@@ -1,0 +1,9 @@
+id = "21042"
+name = "铭记于心的约定"
+path = "destruction"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的击破特攻提高#1[i]%。当装备者施放终结技时，暴击率提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.28, 0.15, 2]"

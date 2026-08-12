@@ -1,0 +1,9 @@
+id = "21033"
+name = "无处可逃"
+path = "destruction"
+rarity = 4
+base_hp = 505.44
+base_atk = 280.8
+base_def = 140.4
+superimposition = 1
+passive = "使装备者的攻击力提高#1[i]%。当装备者消灭敌方目标时，回复等同于自身#2[i]%攻击力的生命值。 | 叠影1: [0.24, 0.12]"

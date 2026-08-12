@@ -1,0 +1,80 @@
+id = "1008"
+name = "阿兰"
+path = "destruction"
+element = "lightning"
+base_hp = 636.48
+base_atk = 318.24
+base_def = 175.5
+base_spd = 102
+
+[[abilities]]
+name = "如雷疾行"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 110.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "禁锢解除"
+kind = "skill"
+multiplier = 0.15
+multipliers = [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 110.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "狂者制裁"
+kind = "ult"
+multiplier = 1.92
+multipliers = [1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88, 3.04, 3.2, 3.328, 3.456, 3.584, 3.712, 3.84]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 110.0
+skill_point = 0
+target = "adjacent"
+
+[[abilities]]
+name = "至痛至怒"
+kind = "talent"
+multiplier = 0.36
+multipliers = [0.36, 0.396, 0.432, 0.468, 0.504, 0.54, 0.585, 0.63, 0.675, 0.72, 0.756, 0.792, 0.828, 0.864, 0.9]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 110.0
+skill_point = 0
+target = "single"

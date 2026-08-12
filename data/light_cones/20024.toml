@@ -1,0 +1,9 @@
+id = "20024"
+name = "残泪"
+path = "elation"
+rarity = 3
+base_hp = 449.28
+base_atk = 168.48
+base_def = 140.4
+superimposition = 1
+passive = "当拥有的笑点大于等于#1[i]时，装备者的暴击伤害提高#2[i]%。 | 叠影1: [10, 0.2]"

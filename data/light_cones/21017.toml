@@ -1,0 +1,9 @@
+id = "21017"
+name = "点个关注吧！"
+path = "the_hunt"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "使装备者普攻和战技造成的伤害提高#1[i]%，当装备者的当前能量值等于其能量上限时，该效果额外提高#2[i]%。 | 叠影1: [0.24, 0.24]"

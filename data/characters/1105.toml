@@ -1,0 +1,80 @@
+id = "1105"
+name = "娜塔莎"
+path = "abundance"
+element = "physical"
+base_hp = 617.76
+base_atk = 252.72
+base_def = 269.1
+base_spd = 98
+
+[[abilities]]
+name = "仁慈的背面"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 90.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "爱，救护与抉择"
+kind = "skill"
+multiplier = 0.07
+multipliers = [0.07, 0.0744, 0.0788, 0.0831, 0.0875, 0.091, 0.0945, 0.098, 0.1015, 0.105, 0.1085, 0.112, 0.1155, 0.119, 0.1225]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 90.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "新生之礼"
+kind = "ult"
+multiplier = 0.092
+multipliers = [0.092, 0.0978, 0.1035, 0.1092, 0.115, 0.1196, 0.1242, 0.1288, 0.1334, 0.138, 0.1426, 0.1472, 0.1518, 0.1564, 0.161]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 90.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "生机焕发"
+kind = "talent"
+multiplier = 0.3
+multipliers = [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 90.0
+skill_point = 0
+target = "single"

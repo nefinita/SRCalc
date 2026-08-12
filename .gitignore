@@ -1,0 +1,13 @@
+.DS_Store
+
+*.dSYM
+.vscode
+*.xlsx
+
+# Rust
+/target
+
+# 前端
+app/node_modules
+app/dist
+app/tsconfig.tsbuildinfo

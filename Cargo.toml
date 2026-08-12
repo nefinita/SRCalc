@@ -1,6 +1,30 @@
-[package]
-name = "SCcalculator"
+[workspace]
+resolver = "2"
+members = [
+    "crates/sr_api",
+    "crates/sr_core",
+    "crates/sr_const",
+    "app/src-tauri"
+]
+
+[workspace.package]
+license = "AGPL-3.0"
+readme = "README.md"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+colorized = "1.0.0"
+libc = "0.2"
+sr_api = { path = "crates/sr_api" }
+sr_core = { path = "crates/sr_core" }
+sr_const = { path = "crates/sr_const" }
+
+[workspace.lints.clippy]
+
+[workspace.lints.rustdoc]
+broken_intra_doc_links = "deny"
+invalid_html_tags = "deny"

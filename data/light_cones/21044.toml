@@ -1,0 +1,9 @@
+id = "21044"
+name = "无边曼舞"
+path = "nihility"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的暴击率提高#1[i]%。装备者对处于防御降低或减速状态下的敌人造成的暴击伤害提高#2[i]%。 | 叠影1: [0.08, 0.24]"

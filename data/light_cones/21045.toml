@@ -1,0 +1,9 @@
+id = "21045"
+name = "谐乐静默之后"
+path = "erudition"
+rarity = 4
+base_hp = 449.28
+base_atk = 252.72
+base_def = 210.6
+superimposition = 1
+passive = "使装备者的击破特攻提高#1[i]%。装备者施放终结技后，速度提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.28, 0.08, 2]"

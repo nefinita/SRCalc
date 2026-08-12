@@ -1,0 +1,80 @@
+id = "1103"
+name = "希露瓦"
+path = "erudition"
+element = "lightning"
+base_hp = 486.72
+base_atk = 346.32
+base_def = 198.9
+base_spd = 104
+
+[[abilities]]
+name = "雷鸣音阶"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 100.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "电光石火间"
+kind = "skill"
+multiplier = 0.7
+multipliers = [0.7, 0.77, 0.84, 0.91, 0.98, 1.05, 1.1375, 1.225, 1.3125, 1.4, 1.47, 1.54, 1.61, 1.68, 1.75]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 100.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "机械热潮登场！"
+kind = "ult"
+multiplier = 1.08
+multipliers = [1.08, 1.152, 1.224, 1.296, 1.368, 1.44, 1.53, 1.62, 1.71, 1.8, 1.872, 1.944, 2.016, 2.088, 2.16]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 100.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "燃情和弦"
+kind = "talent"
+multiplier = 0.36
+multipliers = [0.36, 0.396, 0.432, 0.468, 0.504, 0.54, 0.585, 0.63, 0.675, 0.72, 0.756, 0.792, 0.828, 0.864, 0.9]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 100.0
+skill_point = 0
+target = "single"

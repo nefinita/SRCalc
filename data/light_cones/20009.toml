@@ -1,0 +1,9 @@
+id = "20009"
+name = "乐圮"
+path = "destruction"
+rarity = 3
+base_hp = 449.28
+base_atk = 196.56
+base_def = 105.3
+superimposition = 1
+passive = "使装备者对当前生命值百分比大于#1[i]%的敌方目标造成的伤害提高#2[i]%。 | 叠影1: [0.5, 0.2]"

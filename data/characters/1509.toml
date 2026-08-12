@@ -1,0 +1,116 @@
+id = "1509"
+name = "吉尔伽美什"
+path = "destruction"
+element = "lightning"
+base_hp = 597.168
+base_atk = 380.952
+base_def = 270.27
+base_spd = 97
+
+[[abilities]]
+name = "漫不经心"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 360.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "王之财宝"
+kind = "skill"
+multiplier = 1.4
+multipliers = [1.4, 1.54, 1.68, 1.82, 1.96, 2.1, 2.275, 2.45, 2.625, 2.8, 2.94, 3.08, 3.22, 3.36, 3.5]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 360.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "天地乖离•开辟之星"
+kind = "ult"
+multiplier = 2
+multipliers = [2, 2.2, 2.4, 2.6, 2.8, 3, 3.25, 3.5, 3.75, 4, 4.2, 4.4, 4.6, 4.8, 5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 360.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "「尽情取悦本王吧」"
+kind = "talent"
+multiplier = 3
+multipliers = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 360.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "「本王允许你进攻」"
+kind = "talent"
+multiplier = 2
+multipliers = [2, 2.2, 2.4, 2.6, 2.8, 3, 3.25, 3.5, 3.75, 4, 4.2, 4.4, 4.6, 4.8, 5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 360.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "漫不经心"
+kind = "skill"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 360.0
+skill_point = -1
+target = "single"

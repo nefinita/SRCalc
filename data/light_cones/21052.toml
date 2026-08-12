@@ -1,0 +1,9 @@
+id = "21052"
+name = "多流汗，少流泪"
+path = "remembrance"
+rarity = 4
+base_hp = 561.6
+base_atk = 280.8
+base_def = 105.3
+superimposition = 1
+passive = "使装备者的暴击率提高#1[i]%，装备者的忆灵在场上时，装备者与忆灵造成的伤害提高#2[i]%。 | 叠影1: [0.12, 0.24]"

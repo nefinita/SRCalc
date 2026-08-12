@@ -1,0 +1,9 @@
+id = "21000"
+name = "一场术后对话"
+path = "abundance"
+rarity = 4
+base_hp = 561.6
+base_atk = 224.64
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的能量恢复效率提高#1[i]%，并在施放终结技时治疗量提高#2[i]%。 | 叠影1: [0.08, 0.12]"

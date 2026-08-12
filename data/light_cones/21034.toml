@@ -1,0 +1,9 @@
+id = "21034"
+name = "今日亦是和平的一日"
+path = "erudition"
+rarity = 4
+base_hp = 449.28
+base_atk = 280.8
+base_def = 175.5
+superimposition = 1
+passive = "进入战斗后，根据装备者的能量上限，提高装备者造成的伤害：每点能量提高#1[f2]%，最多计入#2[i]点。 | 叠影1: [0.002, 160]"

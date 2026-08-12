@@ -1,0 +1,80 @@
+id = "1110"
+name = "玲可"
+path = "abundance"
+element = "quantum"
+base_hp = 561.6
+base_atk = 262.08
+base_def = 292.5
+base_spd = 100
+
+[[abilities]]
+name = "冰攀前齿技术"
+kind = "basic"
+multiplier = 0.25
+multipliers = [0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 100.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "盐渍野营罐头"
+kind = "skill"
+multiplier = 0.05
+multipliers = [0.05, 0.0525, 0.055, 0.0575, 0.06, 0.0625, 0.0656, 0.0688, 0.0719, 0.075, 0.0775, 0.08, 0.0825, 0.085, 0.0875]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 100.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "雪原急救方案"
+kind = "ult"
+multiplier = 1
+multipliers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 100.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "户外生存经验"
+kind = "talent"
+multiplier = 2
+multipliers = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 100.0
+skill_point = 0
+target = "single"

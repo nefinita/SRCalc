@@ -1,0 +1,9 @@
+id = "22005"
+name = "永远的迷境饭"
+path = "harmony"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的攻击力提高#1[i]%。装备者施放战技后，攻击力提高#2[i]%，该效果最多叠加#3[i]层。 | 叠影1: [0.16, 0.08, 3]"

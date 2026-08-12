@@ -1,0 +1,21 @@
+[package]
+name = "sr_app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "SRCalc - 星铁排轴计算器"
+
+[lib]
+name = "sr_app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sr_api = { workspace = true }
+sr_core = { workspace = true }
+sr_const = { workspace = true }

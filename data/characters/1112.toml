@@ -1,0 +1,80 @@
+id = "1112"
+name = "托帕&账账"
+path = "the_hunt"
+element = "fire"
+base_hp = 494.208
+base_atk = 329.472
+base_def = 218.79
+base_spd = 110
+
+[[abilities]]
+name = "赤字…"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 130.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "支付困难？"
+kind = "skill"
+multiplier = 0.75
+multipliers = [0.75, 0.825, 0.9, 0.975, 1.05, 1.125, 1.2188, 1.3125, 1.4062, 1.5, 1.575, 1.65, 1.725, 1.8, 1.875]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 130.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "扭亏为盈！"
+kind = "ult"
+multiplier = 0.75
+multipliers = [0.75, 0.825, 0.9, 0.975, 1.05, 1.125, 1.2188, 1.3125, 1.4062, 1.5, 1.575, 1.65, 1.725, 1.8, 1.875]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 130.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "猪市？！"
+kind = "talent"
+multiplier = 80
+multipliers = [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 130.0
+skill_point = 0
+target = "single"

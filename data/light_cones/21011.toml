@@ -1,0 +1,9 @@
+id = "21011"
+name = "与行星相会"
+path = "harmony"
+rarity = 4
+base_hp = 561.6
+base_atk = 224.64
+base_def = 175.5
+superimposition = 1
+passive = "进入战斗后，当我方目标造成与装备者相同属性的伤害时，造成的伤害提高#1[i]%。 | 叠影1: [0.12]"

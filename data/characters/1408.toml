@@ -1,0 +1,152 @@
+id = "1408"
+name = "白厄"
+path = "destruction"
+element = "physical"
+base_hp = 761.904
+base_atk = 308.88
+base_def = 373.23
+base_spd = 94
+
+[[abilities]]
+name = "逐火救世，行则将至"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 12.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "黎明创世，地辟天开"
+kind = "skill"
+multiplier = 1.5
+multipliers = [1.5, 1.65, 1.8, 1.95, 2.1, 2.25, 2.4375, 2.625, 2.8125, 3, 3.15, 3.3, 3.45, 3.6, 3.75]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 12.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "永劫燔世，其将背负"
+kind = "ult"
+multiplier = 4.8
+multipliers = [4.8, 5.28, 5.76, 6.24, 6.72, 7.2, 7.8, 8.4, 9, 9.6, 10.08, 10.56, 11.04, 11.52, 12]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 12.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "此身为炬"
+kind = "talent"
+multiplier = 0.15
+multipliers = [0.15, 0.165, 0.18, 0.195, 0.21, 0.225, 0.2437, 0.2625, 0.2812, 0.3, 0.315, 0.33, 0.345, 0.36, 0.375]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 12.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "命运•此躯即神"
+kind = "talent"
+multiplier = 4
+multipliers = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 12.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "创生•血棘渡亡"
+kind = "basic"
+multiplier = 1.25
+multipliers = [1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 12.0
+skill_point = 1
+target = "adjacent"
+
+[[abilities]]
+name = "灾厄•弑魂焚诏"
+kind = "skill"
+multiplier = 0.2
+multipliers = [0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.325, 0.35, 0.375, 0.4, 0.42, 0.44, 0.46, 0.48, 0.5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 12.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "支柱•死星天裁"
+kind = "skill"
+multiplier = 2.25
+multipliers = [2.25, 2.475, 2.7, 2.925, 3.15, 3.375, 3.6562, 3.9375, 4.2188, 4.5, 4.725, 4.95, 5.175, 5.4, 5.625]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 12.0
+skill_point = -1
+target = "random"

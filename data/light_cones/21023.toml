@@ -1,0 +1,9 @@
+id = "21023"
+name = "我们是地火"
+path = "preservation"
+rarity = 4
+base_hp = 393.12
+base_atk = 252.72
+base_def = 245.7
+superimposition = 1
+passive = "战斗开始时，使我方全体受到的伤害降低#2[i]%，持续#3[i]回合。同时立即为我方全体回复等同于各自已损失生命值#1[i]%的生命值。 | 叠影1: [0.3, 0.08, 5]"

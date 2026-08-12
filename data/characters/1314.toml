@@ -1,0 +1,80 @@
+id = "1314"
+name = "翡翠"
+path = "erudition"
+element = "quantum"
+base_hp = 576.576
+base_atk = 350.064
+base_def = 270.27
+base_spd = 103
+
+[[abilities]]
+name = "挞楚抽薪"
+kind = "basic"
+multiplier = 0.45
+multipliers = [0.45, 0.54, 0.63, 0.72, 0.81, 0.9, 0.99, 1.08, 1.17, 1.26]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 140.0
+skill_point = 1
+target = "adjacent"
+
+[[abilities]]
+name = "恣肆吞併的担保"
+kind = "skill"
+multiplier = 30
+multipliers = [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 140.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "堕此欲渊，立此狱契"
+kind = "ult"
+multiplier = 0.4
+multipliers = [0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.65, 0.7, 0.75, 0.8, 0.84, 0.88, 0.92, 0.96, 1]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 140.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "剔烁之牙"
+kind = "talent"
+multiplier = 0.012
+multipliers = [0.012, 0.0132, 0.0144, 0.0156, 0.0168, 0.018, 0.0195, 0.021, 0.0225, 0.024, 0.0252, 0.0264, 0.0276, 0.0288, 0.03]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 140.0
+skill_point = 0
+target = "all"

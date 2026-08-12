@@ -1,0 +1,9 @@
+id = "21014"
+name = "此时恰好"
+path = "abundance"
+rarity = 4
+base_hp = 505.44
+base_atk = 224.64
+base_def = 210.6
+superimposition = 1
+passive = "使装备者的效果抵抗提高#1[i]%，并使装备者的治疗量提高，提高数值等同于效果抵抗的#2[i]%，最多使治疗量提高#3[i]%。 | 叠影1: [0.16, 0.33, 0.15]"

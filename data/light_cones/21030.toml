@@ -1,0 +1,9 @@
+id = "21030"
+name = "这就是我啦！"
+path = "preservation"
+rarity = 4
+base_hp = 449.28
+base_atk = 196.56
+base_def = 280.8
+superimposition = 1
+passive = "使装备者防御力提高#1[i]%。使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的#2[i]%，该效果每次施放终结技时对每个敌方目标仅生效1次。 | 叠影1: [0.16, 0.6]"

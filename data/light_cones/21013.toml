@@ -1,0 +1,9 @@
+id = "21013"
+name = "别让世界静下来"
+path = "erudition"
+rarity = 4
+base_hp = 449.28
+base_atk = 252.72
+base_def = 210.6
+superimposition = 1
+passive = "使装备者进入战斗时立即恢复#2[i]点能量，同时使其终结技造成的伤害提高#1[i]%。 | 叠影1: [0.32, 20]"

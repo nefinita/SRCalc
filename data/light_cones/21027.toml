@@ -1,0 +1,9 @@
+id = "21027"
+name = "早餐的仪式感"
+path = "erudition"
+rarity = 4
+base_hp = 449.28
+base_atk = 252.72
+base_def = 210.6
+superimposition = 1
+passive = "使装备者造成伤害提高#1[i]%。每消灭1个敌方目标，装备者的攻击力提高#2[i]%，该效果最多叠加#3[i]层。 | 叠影1: [0.12, 0.04, 3]"

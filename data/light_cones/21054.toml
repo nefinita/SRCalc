@@ -1,0 +1,9 @@
+id = "21054"
+name = "故事的下一页"
+path = "remembrance"
+rarity = 4
+base_hp = 561.6
+base_atk = 196.56
+base_def = 210.6
+superimposition = 1
+passive = "使装备者的生命上限提高#1[i]%。装备者的忆灵攻击后，使装备者与忆灵的治疗量提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.16, 0.12, 1]"

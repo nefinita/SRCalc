@@ -1,0 +1,9 @@
+id = "20013"
+name = "灵钥"
+path = "erudition"
+rarity = 3
+base_hp = 393.12
+base_atk = 196.56
+base_def = 140.4
+superimposition = 1
+passive = "使装备者施放战技后额外恢复#1[i]点能量，该效果单个回合内不可重复触发。 | 叠影1: [8]"

@@ -1,0 +1,152 @@
+id = "1217"
+name = "藿藿"
+path = "abundance"
+element = "wind"
+base_hp = 720.72
+base_atk = 319.176
+base_def = 270.27
+base_spd = 98
+
+[[abilities]]
+name = "令旗•征风召雨"
+kind = "basic"
+multiplier = 0.25
+multipliers = [0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 140.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "灵符•保命护身"
+kind = "skill"
+multiplier = 0.14
+multipliers = [0.14, 0.1487, 0.1575, 0.1663, 0.175, 0.182, 0.189, 0.196, 0.203, 0.21, 0.217, 0.224, 0.231, 0.238, 0.245]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 140.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "尾巴•遣神役鬼"
+kind = "ult"
+multiplier = 0.15
+multipliers = [0.15, 0.155, 0.16, 0.165, 0.17, 0.175, 0.1812, 0.1875, 0.1938, 0.2, 0.205, 0.21, 0.215, 0.22, 0.225]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 140.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "凭附•气通天真"
+kind = "talent"
+multiplier = 2
+multipliers = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 140.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "令旗•征风召雨"
+kind = "basic"
+multiplier = 0.25
+multipliers = [0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 140.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "灵符•保命护身"
+kind = "skill"
+multiplier = 0.16
+multipliers = [0.16, 0.17, 0.18, 0.19, 0.2, 0.208, 0.216, 0.224, 0.232, 0.24, 0.248, 0.256, 0.264, 0.272, 0.28]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 140.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "尾巴•遣神役鬼"
+kind = "ult"
+multiplier = 0.15
+multipliers = [0.15, 0.155, 0.16, 0.165, 0.17, 0.175, 0.1812, 0.1875, 0.1938, 0.2, 0.205, 0.21, 0.215, 0.22, 0.225]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 140.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "凭附•气通天真"
+kind = "talent"
+multiplier = 3
+multipliers = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 140.0
+skill_point = 0
+target = "single"

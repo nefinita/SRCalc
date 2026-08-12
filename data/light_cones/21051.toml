@@ -1,0 +1,9 @@
+id = "21051"
+name = "天才们的问候"
+path = "remembrance"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的攻击力提高#1[i]%，装备者施放终结技后，使装备者与忆灵造成的普攻伤害提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.16, 0.2, 3]"

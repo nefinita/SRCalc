@@ -1,0 +1,9 @@
+id = "20023"
+name = "嗤笑"
+path = "elation"
+rarity = 3
+base_hp = 393.12
+base_atk = 196.56
+base_def = 140.4
+superimposition = 1
+passive = "阿哈时刻发动时，使装备者的欢愉度提高#1[i]%，持续到阿哈时刻结束。 | 叠影1: [0.16]"

@@ -1,0 +1,9 @@
+id = "21039"
+name = "织造命运之线"
+path = "preservation"
+rarity = 4
+base_hp = 505.44
+base_atk = 196.56
+base_def = 245.7
+superimposition = 1
+passive = "使装备者的效果抵抗提高#1[i]%。装备者每有#2[i]点防御力，使装备者造成的伤害提高#3[f1]%，最多使造成的伤害提高#4[i]%。 | 叠影1: [0.12, 100, 0.008, 0.32]"

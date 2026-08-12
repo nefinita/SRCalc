@@ -1,0 +1,15 @@
+id = "9000"
+name = "测试木桩"
+level = 80
+def = 1000.0
+max_toughness = 120.0
+broken = false
+
+[res]
+physical = 0.2
+fire = 0.2
+ice = 0.2
+lightning = 0.2
+wind = 0.2
+quantum = 0.0
+imaginary = 0.2

@@ -1,0 +1,98 @@
+id = "8003"
+name = "{NICKNAME}"
+path = "preservation"
+element = "fire"
+base_hp = 658.944
+base_atk = 319.176
+base_def = 321.75
+base_spd = 95
+
+[[abilities]]
+name = "穿彻坚冰的烈芒"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "炽燃不灭的琥珀"
+kind = "skill"
+multiplier = 0.4
+multipliers = [0.4, 0.41, 0.42, 0.43, 0.44, 0.45, 0.4625, 0.475, 0.4875, 0.5, 0.51, 0.52, 0.53, 0.54, 0.55]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "陷阵无回的炎枪"
+kind = "ult"
+multiplier = 0.5
+multipliers = [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8125, 0.875, 0.9375, 1, 1.05, 1.1, 1.15, 1.2, 1.25]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "筑城者遗宝"
+kind = "talent"
+multiplier = 0.04
+multipliers = [0.04, 0.0425, 0.045, 0.0475, 0.05, 0.052, 0.054, 0.056, 0.058, 0.06, 0.062, 0.064, 0.066, 0.068, 0.07]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "穿彻坚冰的烈芒"
+kind = "basic"
+multiplier = 0.9
+multipliers = [0.9, 0.99, 1.08, 1.17, 1.26, 1.35, 1.4625, 1.575, 1.6875, 1.8]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "adjacent"

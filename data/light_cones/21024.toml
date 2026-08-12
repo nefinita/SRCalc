@@ -1,0 +1,9 @@
+id = "21024"
+name = "春水初生"
+path = "the_hunt"
+rarity = 4
+base_hp = 449.28
+base_atk = 252.72
+base_def = 210.6
+superimposition = 1
+passive = "进入战斗后，使装备者速度提高#1[i]%，造成的伤害提高#2[i]%。当装备者受到伤害后该效果失效，下个回合结束时该效果恢复。 | 叠影1: [0.08, 0.12]"

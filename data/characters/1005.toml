@@ -1,0 +1,152 @@
+id = "1005"
+name = "卡芙卡"
+path = "nihility"
+element = "lightning"
+base_hp = 576.576
+base_atk = 360.36
+base_def = 257.4
+base_spd = 100
+
+[[abilities]]
+name = "夜间喧嚣不止"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "月光摩挲连绵"
+kind = "skill"
+multiplier = 0.8
+multipliers = [0.8, 0.88, 0.96, 1.04, 1.12, 1.2, 1.3, 1.4, 1.5, 1.6, 1.68, 1.76, 1.84, 1.92, 2]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "悲剧尽头的颤音"
+kind = "ult"
+multiplier = 0.48
+multipliers = [0.48, 0.512, 0.544, 0.576, 0.608, 0.64, 0.68, 0.72, 0.76, 0.8, 0.832, 0.864, 0.896, 0.928, 0.96]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "温柔亦同残酷"
+kind = "talent"
+multiplier = 0.42
+multipliers = [0.42, 0.518, 0.616, 0.714, 0.812, 0.91, 1.0325, 1.155, 1.2775, 1.4, 1.498, 1.596, 1.694, 1.792, 1.89]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "夜间喧嚣不止"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "月光摩挲连绵"
+kind = "skill"
+multiplier = 0.8
+multipliers = [0.8, 0.88, 0.96, 1.04, 1.12, 1.2, 1.3, 1.4, 1.5, 1.6, 1.68, 1.76, 1.84, 1.92, 2]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "悲剧尽头的颤音"
+kind = "ult"
+multiplier = 0.48
+multipliers = [0.48, 0.512, 0.544, 0.576, 0.608, 0.64, 0.68, 0.72, 0.76, 0.8, 0.832, 0.864, 0.896, 0.928, 0.96]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "温柔亦同残酷"
+kind = "talent"
+multiplier = 0.42
+multipliers = [0.42, 0.518, 0.616, 0.714, 0.812, 0.91, 1.0325, 1.155, 1.2775, 1.4, 1.498, 1.596, 1.694, 1.792, 1.89]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "single"

@@ -1,0 +1,9 @@
+id = "21008"
+name = "猎物的视线"
+path = "nihility"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的效果命中提高#1[i]%，同时造成的持续伤害提高#2[i]%。 | 叠影1: [0.2, 0.24]"

@@ -1,0 +1,80 @@
+id = "1104"
+name = "杰帕德"
+path = "preservation"
+element = "ice"
+base_hp = 741.312
+base_atk = 288.288
+base_def = 347.49
+base_spd = 92
+
+[[abilities]]
+name = "一意之拳"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 100.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "震慑之击"
+kind = "skill"
+multiplier = 1
+multipliers = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.625, 1.75, 1.875, 2, 2.1, 2.2, 2.3, 2.4, 2.5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 100.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "永屹之壁"
+kind = "ult"
+multiplier = 0.3
+multipliers = [0.3, 0.3187, 0.3375, 0.3563, 0.375, 0.39, 0.405, 0.42, 0.435, 0.45, 0.465, 0.48, 0.495, 0.51, 0.525]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 100.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "不屈之身"
+kind = "talent"
+multiplier = 0.25
+multipliers = [0.25, 0.275, 0.3, 0.325, 0.35, 0.375, 0.4062, 0.4375, 0.4688, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 100.0
+skill_point = 0
+target = "single"

@@ -1,0 +1,9 @@
+id = "21001"
+name = "晚安与睡颜"
+path = "nihility"
+rarity = 4
+base_hp = 505.44
+base_atk = 252.72
+base_def = 175.5
+superimposition = 1
+passive = "敌方目标每承受1个负面效果，装备者对其造成的伤害提高#1[i]%，最多叠加#2[i]层。该效果对持续伤害也会生效。 | 叠影1: [0.12, 3]"

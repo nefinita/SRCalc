@@ -1,0 +1,80 @@
+id = "1312"
+name = "米沙"
+path = "destruction"
+element = "ice"
+base_hp = 673.92
+base_atk = 318.24
+base_def = 210.6
+base_spd = 96
+
+[[abilities]]
+name = "请…请让一下！"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 100.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "客…客房服务！"
+kind = "skill"
+multiplier = 1
+multipliers = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.625, 1.75, 1.875, 2, 2.1, 2.2, 2.3, 2.4, 2.5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 100.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "要…要迟到了！"
+kind = "ult"
+multiplier = 3
+multipliers = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 100.0
+skill_point = 0
+target = "random"
+
+[[abilities]]
+name = "擒纵机构"
+kind = "talent"
+multiplier = 1
+multipliers = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.625, 1.75, 1.875, 2, 2.1, 2.2, 2.3, 2.4, 2.5]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 100.0
+skill_point = 0
+target = "single"

@@ -1,0 +1,152 @@
+id = "1307"
+name = "黑天鹅"
+path = "nihility"
+element = "wind"
+base_hp = 576.576
+base_atk = 350.064
+base_def = 257.4
+base_spd = 102
+
+[[abilities]]
+name = "洞见，缄默的黎明"
+kind = "basic"
+multiplier = 0.3
+multipliers = [0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "失坠，伪神的黄昏"
+kind = "skill"
+multiplier = 0.45
+multipliers = [0.45, 0.495, 0.54, 0.585, 0.63, 0.675, 0.7312, 0.7875, 0.8438, 0.9, 0.945, 0.99, 1.035, 1.08, 1.125]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "沉醉于彼界的臂湾"
+kind = "ult"
+multiplier = 0.72
+multipliers = [0.72, 0.768, 0.816, 0.864, 0.912, 0.96, 1.02, 1.08, 1.14, 1.2, 1.248, 1.296, 1.344, 1.392, 1.44]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "无端命运的机杼"
+kind = "talent"
+multiplier = 0.96
+multipliers = [0.96, 1.1184, 1.2768, 1.4352, 1.5936, 1.752, 1.896, 2.04, 2.22, 2.4, 2.52, 2.64, 2.76, 2.88, 3]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "洞见，缄默的黎明"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "失坠，伪神的黄昏"
+kind = "skill"
+multiplier = 0.45
+multipliers = [0.45, 0.495, 0.54, 0.585, 0.63, 0.675, 0.7312, 0.7875, 0.8438, 0.9, 0.945, 0.99, 1.035, 1.08, 1.125]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "adjacent"
+
+[[abilities]]
+name = "沉醉于彼界的臂湾"
+kind = "ult"
+multiplier = 0.72
+multipliers = [0.72, 0.768, 0.816, 0.864, 0.912, 0.96, 1.02, 1.08, 1.14, 1.2, 1.248, 1.296, 1.344, 1.392, 1.44]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "无端命运的机杼"
+kind = "talent"
+multiplier = 0.96
+multipliers = [0.96, 1.1184, 1.2768, 1.4352, 1.5936, 1.752, 1.896, 2.04, 2.22, 2.4, 2.52, 2.64, 2.76, 2.88, 3]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "single"

@@ -1,0 +1,80 @@
+id = "1403"
+name = "缇宝"
+path = "harmony"
+element = "quantum"
+base_hp = 555.984
+base_atk = 277.992
+base_def = 386.1
+base_spd = 96
+
+[[abilities]]
+name = "一百层的小火箭"
+kind = "basic"
+multiplier = 0.15
+multipliers = [0.15, 0.18, 0.21, 0.24, 0.27, 0.3, 0.33, 0.36, 0.39, 0.42]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 120.0
+skill_point = 1
+target = "adjacent"
+
+[[abilities]]
+name = "礼物都去哪儿了"
+kind = "skill"
+multiplier = 0.12
+multipliers = [0.12, 0.132, 0.144, 0.156, 0.168, 0.18, 0.195, 0.21, 0.225, 0.24, 0.252, 0.264, 0.276, 0.288, 0.3]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 120.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "猜猜这里住着谁"
+kind = "ult"
+multiplier = 0.15
+multipliers = [0.15, 0.165, 0.18, 0.195, 0.21, 0.225, 0.2437, 0.2625, 0.2812, 0.3, 0.315, 0.33, 0.345, 0.36, 0.375]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 120.0
+skill_point = 0
+target = "all"
+
+[[abilities]]
+name = "好忙好忙的缇宝"
+kind = "talent"
+multiplier = 0.09
+multipliers = [0.09, 0.099, 0.108, 0.117, 0.126, 0.135, 0.1462, 0.1575, 0.1688, 0.18, 0.189, 0.198, 0.207, 0.216, 0.225]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 120.0
+skill_point = 0
+target = "all"

@@ -1,0 +1,9 @@
+id = "21028"
+name = "暖夜不会漫长"
+path = "abundance"
+rarity = 4
+base_hp = 561.6
+base_atk = 196.56
+base_def = 210.6
+superimposition = 1
+passive = "使装备者的生命上限提高#1[i]%。施放普攻或战技后，为我方全体回复等同于各自生命上限#2[f1]%的生命值。 | 叠影1: [0.16, 0.02]"

@@ -1,0 +1,9 @@
+id = "21007"
+name = "同一种心情"
+path = "abundance"
+rarity = 4
+base_hp = 505.44
+base_atk = 224.64
+base_def = 210.6
+superimposition = 1
+passive = "使装备者的治疗量提高#1[i]%，并在施放战技时为我方全体恢复#2[f1]点能量。 | 叠影1: [0.1, 2]"

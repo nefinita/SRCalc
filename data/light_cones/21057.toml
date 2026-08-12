@@ -1,0 +1,9 @@
+id = "21057"
+name = "花儿不会忘记"
+path = "remembrance"
+rarity = 4
+base_hp = 561.6
+base_atk = 280.8
+base_def = 175.5
+superimposition = 1
+passive = "使装备者的暴击伤害提高#1[i]%。装备者忆灵造成的暴击伤害额外提高#2[i]%。 | 叠影1: [0.24, 0.24]"

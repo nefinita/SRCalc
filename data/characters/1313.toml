@@ -1,0 +1,80 @@
+id = "1313"
+name = "星期日"
+path = "harmony"
+element = "imaginary"
+base_hp = 658.944
+base_atk = 339.768
+base_def = 283.14
+base_spd = 96
+
+[[abilities]]
+name = "闪烁的劝诫"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 130.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "纸与仪典的恩赐"
+kind = "skill"
+multiplier = 1
+multipliers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 130.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "轻与伤痕的赞颂"
+kind = "ult"
+multiplier = 0.2
+multipliers = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 130.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "倾诉之肉身"
+kind = "talent"
+multiplier = 0.1
+multipliers = [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.1625, 0.175, 0.1875, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 130.0
+skill_point = 0
+target = "single"

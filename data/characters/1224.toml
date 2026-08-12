@@ -1,0 +1,98 @@
+id = "1224"
+name = "三月七"
+path = "the_hunt"
+element = "imaginary"
+base_hp = 561.6
+base_atk = 299.52
+base_def = 234
+base_spd = 102
+
+[[abilities]]
+name = "荡涤妖邪琉璃剑"
+kind = "basic"
+multiplier = 0.5
+multipliers = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 110.0
+skill_point = 1
+target = "single"
+
+[[abilities]]
+name = "师父，请喝茶！"
+kind = "skill"
+multiplier = 0.06
+multipliers = [0.06, 0.064, 0.068, 0.072, 0.076, 0.08, 0.085, 0.09, 0.095, 0.1, 0.104, 0.108, 0.112, 0.116, 0.12]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 20.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 30.0
+max_energy = 110.0
+skill_point = -1
+target = "single"
+
+[[abilities]]
+name = "盖世女侠三月七"
+kind = "ult"
+multiplier = 1.44
+multipliers = [1.44, 1.536, 1.632, 1.728, 1.824, 1.92, 2.04, 2.16, 2.28, 2.4, 2.496, 2.592, 2.688, 2.784, 2.88]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 30.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 5.0
+max_energy = 110.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "师父，我悟了！"
+kind = "talent"
+multiplier = 7
+multipliers = [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 110.0
+skill_point = 0
+target = "single"
+
+[[abilities]]
+name = "一扎眉攒，二扎心"
+kind = "basic"
+multiplier = 0.4
+multipliers = [0.4, 0.48, 0.56, 0.64, 0.72, 0.8, 0.88, 0.96, 1.04, 1.12]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 10.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 20.0
+max_energy = 110.0
+skill_point = 1
+target = "single"

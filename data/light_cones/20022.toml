@@ -1,0 +1,9 @@
+id = "20022"
+name = "溯忆"
+path = "remembrance"
+rarity = 3
+base_hp = 336.96
+base_atk = 224.64
+base_def = 140.4
+superimposition = 1
+passive = "忆灵的回合开始时，使装备者和忆灵分别获得1层【缅怀】，每层使造成的伤害提高#1[i]%，最多叠加#2[i]层。忆灵消失时移除装备者和忆灵的【缅怀】。 | 叠影1: [0.08, 4]"

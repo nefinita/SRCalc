@@ -1,0 +1,9 @@
+id = "21053"
+name = "愿旅途永远坦然"
+path = "preservation"
+rarity = 4
+base_hp = 561.6
+base_atk = 196.56
+base_def = 280.8
+superimposition = 1
+passive = "使装备者提供的护盾量提高#1[i]%，我方目标持有护盾时，造成的伤害提高#2[i]%。 | 叠影1: [0.12, 0.12]"
