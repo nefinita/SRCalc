@@ -101,6 +101,29 @@ fn dispatch(method: &str, request: &str) -> Result<String, String> {
             crate::host::config::delete_enemy(id)?;
             Ok("null".to_string())
         }
+        "save_team" => {
+            let v: serde_json::Value = from_json(request)?;
+            let name = v["name"].as_str().ok_or("缺少 name")?;
+            let team: sr_api::Team = serde_json::from_value(v["team"].clone()).map_err(|e| e.to_string())?;
+            crate::host::config::save_team(name, &team)?;
+            Ok("null".to_string())
+        }
+        "load_team" => {
+            let v: serde_json::Value = from_json(request)?;
+            let name = v["name"].as_str().ok_or("缺少 name")?;
+            let team = crate::host::config::load_team(name)?;
+            to_json(&team)
+        }
+        "list_teams" => {
+            let out = crate::host::config::list_teams();
+            to_json(&out)
+        }
+        "delete_team" => {
+            let v: serde_json::Value = from_json(request)?;
+            let name = v["name"].as_str().ok_or("缺少 name")?;
+            crate::host::config::delete_team(name)?;
+            Ok("null".to_string())
+        }
         _ => Err(format!("未知方法: {method}")),
     }
 }
