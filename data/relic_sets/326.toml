@@ -1,5 +1,5 @@
 id = "326"
 name = "千星荟萃之城"
 two_piece = "装备者施放追加攻击时，攻击力提高24%，持续2回合。当敌方目标被消灭时，我方全体在本场战斗中暴击伤害提高12%，该效果无法叠加。"
-two_piece_effects = [{ trigger = "on_follow_up", stat = "atk_pct", value = 0.24, turns = 2, target = "self", max_stacks = 0 }]
+two_piece_effects = [{ trigger = "on_follow_up", stat = "atk_pct", value = 0.24, turns = 2, target = "self", max_stacks = 0 }, { trigger = "on_kill", stat = "crit_dmg", value = 0.12, turns = 0, target = "team" }]
 four_piece_effects = []

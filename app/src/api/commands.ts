@@ -433,6 +433,7 @@ export function mockConfig(): ConfigDataDTO {
         broken: false,
         spd: 100,
         weaknesses: ["quantum"],
+        hp: 0,
         actions: [
           { name: "普通攻击", energy_gain_players: 10, sp_delta: 0, energy_drain: 0 },
         ],

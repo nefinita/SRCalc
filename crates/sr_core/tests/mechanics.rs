@@ -1,7 +1,6 @@
 //! 机制集成测试：共享战技点 / 动态上限 / 定向buff / 触发 / 大招插入 / 敌方机制
 
 use sr_api::*;
-use sr_core::engine::StatMods;
 
 fn enemy() -> Enemy {
     let mut res = std::collections::HashMap::new();
@@ -23,6 +22,7 @@ fn enemy() -> Enemy {
         spd: 1.0,
         actions: vec![],
         weaknesses: vec![],
+        hp: 0.0,
     }
 }
 
@@ -956,4 +956,52 @@ fn ult_dmg_type_stat() {
     let (u1, b1) = run(true);
     assert!(u1 > u0 * 1.4, "终结技伤害应+50% u1={:.2} u0={:.2}", u1, u0);
     assert!((b1 - b0).abs() < 1e-6, "普攻不受终结技增伤影响");
+}
+
+#[test]
+fn enemy_kill_detection_and_on_kill() {
+    // 千星 2件：消灭敌人 → 全队暴伤+12%（本场永久）
+    let set = sr_api::RelicSet {
+        id: "326".into(),
+        name: "千星".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![Effect {
+            trigger: Trigger::OnKill,
+            stat: BuffStat::CritDmg,
+            value: 0.12,
+            turns: 0,
+            target: BuffTarget::Team,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+        four_piece_effects: vec![],
+    };
+    let a = character("a", "A", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "326".into(), count: 2 }];
+    let mut e = enemy();
+    e.hp = 500.0; // 约 2 下半血，第 3 下击杀
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![set],
+        enemies: vec![e.clone()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: e,
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 4],
+        cycles: 1,
+    })
+    .expect("rotation");
+    assert!(out.steps[2].buffs.contains(&"击杀".to_string()), "第3下应击杀: {:?}", out.steps[2].buffs);
+    // 击杀后全队暴伤+12% 永久生效 → 后续普攻提升
+    assert!(out.steps[3].damage > out.steps[0].damage, "击杀后伤害应提升 d3={:.3} d0={:.3}", out.steps[3].damage, out.steps[0].damage);
 }

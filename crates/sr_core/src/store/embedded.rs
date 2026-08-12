@@ -152,5 +152,6 @@ fn default_dummy() -> Enemy {
         spd: 100.0,
         actions: vec![],
         weaknesses: vec![Element::Quantum],
+        hp: 0.0,
     }
 }

@@ -492,6 +492,7 @@ mod tests {
             spd: 100.0,
             actions: vec![],
             weaknesses: vec![],
+            hp: 0.0,
         }
     }
 

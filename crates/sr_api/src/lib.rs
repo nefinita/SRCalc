@@ -319,6 +319,8 @@ pub struct Enemy {
     pub actions: Vec<EnemyAbility>,
     /// 弱点属性（仅弱点属性攻击削韧；空 = 不限制）
     pub weaknesses: Vec<Element>,
+    /// 生命值（>0 时启用击杀判定；0 = 不判定）
+    pub hp: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

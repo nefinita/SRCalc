@@ -113,6 +113,8 @@ struct Sim<'a> {
     enemy_idx: usize,
     enemy_toughness: f64,
     enemy_broken: bool,
+    enemy_hp: f64,
+    enemy_killed: bool,
     sp_consumed_turn: i32,
     total_av: f64,
     total_damage: f64,
@@ -212,6 +214,8 @@ impl<'a> Sim<'a> {
             enemy_idx: 0,
             enemy_toughness: if req.enemy.broken { 0.0 } else { req.enemy.max_toughness },
             enemy_broken: req.enemy.broken,
+            enemy_hp: req.enemy.hp,
+            enemy_killed: false,
             sp_consumed_turn: 0,
             total_av: 0.0,
             total_damage: 0.0,
@@ -341,7 +345,7 @@ impl<'a> Sim<'a> {
                     b.stacks = (b.stacks + 1).min(eff.max_stacks);
                     b.mods = StatMods::from_effect(&eff, b.stacks);
                 }
-                b.turns_remaining = eff.turns.max(1);
+                b.turns_remaining = if eff.turns == 0 { u32::MAX } else { eff.turns.max(1) };
             } else {
                 self.active_buffs.push(ActiveBuff {
                     source: marker,
@@ -353,7 +357,7 @@ impl<'a> Sim<'a> {
                     owner: owner.clone(),
                     skip_first_tick: skip && owner == id,
                     mods: StatMods::from_effect(&eff, 1),
-                    turns_remaining: eff.turns.max(1),
+                    turns_remaining: if eff.turns == 0 { u32::MAX } else { eff.turns.max(1) },
                     stacks: 1,
                     sp_on_basic: eff.sp_on_basic,
                     cap_bonus: eff.cap_bonus,
@@ -374,7 +378,7 @@ impl<'a> Sim<'a> {
             if tick {
                 if self.active_buffs[i].skip_first_tick {
                     self.active_buffs[i].skip_first_tick = false;
-                } else if self.active_buffs[i].turns_remaining > 0 {
+                } else if self.active_buffs[i].turns_remaining < u32::MAX {
                     self.active_buffs[i].turns_remaining -= 1;
                     if self.active_buffs[i].turns_remaining == 0 {
                         let cap = self.active_buffs[i].cap_bonus;
@@ -399,6 +403,21 @@ impl<'a> Sim<'a> {
             ActionKind::Wait => AbilityKind::Talent,
         };
         char.abilities.iter().find(|a| a.kind == kind)
+    }
+
+    /// 敌方受击：扣血并检测击杀（启用 hp>0 时）
+    fn apply_enemy_damage(&mut self, amount: f64) {
+        if self.req.enemy.hp <= 0.0 || self.enemy_killed {
+            return;
+        }
+        self.enemy_hp -= amount;
+        if self.enemy_hp <= 0.0 {
+            self.enemy_killed = true;
+            let ids: Vec<&str> = self.base_stats.keys().copied().collect();
+            for id in &ids {
+                self.apply_set_conditional(id, Trigger::OnKill, None, true);
+            }
+        }
     }
 
     /// 削韧：仅弱点属性；破韧时返回破韧伤害并延迟敌方行动 25%
@@ -558,6 +577,12 @@ impl<'a> Sim<'a> {
             self.apply_set_conditional(t, Trigger::OnTargeted, None, true);
         }
 
+        if damage > 0.0 {
+            self.apply_enemy_damage(damage);
+            if self.enemy_killed {
+                labels.push("击杀".to_string());
+            }
+        }
         self.steps_out.push(RotationStep {
             char_id: step.char_id.clone(),
             char_name,
@@ -624,6 +649,9 @@ impl<'a> Sim<'a> {
         self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref(), false);
         if let Some(s) = self.unit.get_mut(id) {
             s.energy = 0.0;
+        }
+        if damage > 0.0 {
+            self.apply_enemy_damage(damage);
         }
         self.steps_out.push(RotationStep {
             char_id: step.char_id.clone(),

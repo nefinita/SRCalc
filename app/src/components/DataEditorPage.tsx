@@ -257,6 +257,7 @@ export default function DataEditorPage({ addToast }: Props) {
                 <Num label="防御" value={editingEnemy.def} onChange={(v) => patchEnemy({ def: v })} />
                 <Num label="最大韧性" value={editingEnemy.max_toughness} onChange={(v) => patchEnemy({ max_toughness: v })} />
                 <Num label="速度" value={editingEnemy.spd} onChange={(v) => patchEnemy({ spd: v })} />
+                <Num label="生命(>0启用击杀)" value={editingEnemy.hp} onChange={(v) => patchEnemy({ hp: v })} />
               </div>
               <h3 className={styles.subTitle}>弱点属性（仅弱点攻击削韧）</h3>
               <div className={styles.weakRow}>

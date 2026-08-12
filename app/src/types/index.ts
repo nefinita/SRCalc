@@ -169,6 +169,7 @@ export interface EnemyDTO {
   spd: number;
   actions: EnemyAbility[];
   weaknesses: Element[];
+  hp: number;
 }
 
 export interface BuffConfig {
