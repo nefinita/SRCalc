@@ -86,6 +86,8 @@ pub struct FinalStats {
     pub crit_rate: f64,
     pub crit_dmg: f64,
     pub dmg_pct: f64,
+    /// 能量回复效率（ERR，充能绳/副词条）→ 能量获取 ×(1+ERR)
+    pub energy_regen: f64,
 }
 
 /// 进场生效的永久修正：自身光锥效果 + 自身在场被动 + 队友"全队"在场被动
@@ -181,6 +183,8 @@ pub fn compute_final_stats(
         dmg_pct += v;
     }
 
+    let energy_regen = pct.get("energy_regen").copied().unwrap_or(0.0);
+
     FinalStats {
         hp,
         atk,
@@ -189,6 +193,7 @@ pub fn compute_final_stats(
         crit_rate,
         crit_dmg,
         dmg_pct,
+        energy_regen,
     }
 }
 

@@ -88,6 +88,18 @@
   gap: var(--space-xs);
 }
 
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xs);
+}
+
+.subTitle {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: var(--space-sm) 0 var(--space-xs);
+}
+
 .field {
   display: flex;
   flex-direction: column;

@@ -335,9 +335,10 @@ impl<'a> Sim<'a> {
                 }
             }
 
-            // 能量
+            // 能量（×ERR 能量回复效率）
             if let Some(s) = self.unit.get_mut(id) {
-                s.energy = (s.energy + ability.energy_gain).min(s.max_energy);
+                let err = self.base_stats[id].energy_regen;
+                s.energy = (s.energy + ability.energy_gain * (1.0 + err)).min(s.max_energy);
             }
         }
 
@@ -425,8 +426,10 @@ impl<'a> Sim<'a> {
             Some(a) => (a.name.clone(), a.energy_gain_players, a.sp_delta, a.energy_drain),
             None => ("普通攻击".to_string(), 0.0, 0, 0.0),
         };
-        for s in self.unit.values_mut() {
-            s.energy = (s.energy + gain).min(s.max_energy);
+        for (id, base) in &self.base_stats {
+            if let Some(s) = self.unit.get_mut(id) {
+                s.energy = (s.energy + gain * (1.0 + base.energy_regen)).min(s.max_energy);
+            }
         }
         self.sp_pool.add(sp_delta);
         for s in self.unit.values_mut() {

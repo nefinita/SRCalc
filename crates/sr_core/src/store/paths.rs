@@ -1,6 +1,7 @@
 //! paths — 数据目录定位
 //!
-//! 优先级：`SR_DATA_DIR` 环境变量 → 可执行文件同目录 `data/` → macOS .app bundle `Resources/data`。
+//! 查找顺序：`SR_DATA_DIR` env → exe 旁 `data/` → macOS bundle `Resources/data`
+//!         → CWD `data/` → CWD `../data`（dev 从 `app/` 启动）。
 //! 用户可写数据目录（队伍保存）：macOS 用 Application Support，否则用当前目录。
 
 use std::path::PathBuf;
@@ -28,6 +29,17 @@ pub fn data_dir() -> Option<PathBuf> {
             if candidate.is_dir() {
                 return Some(candidate);
             }
+        }
+    }
+    // 开发模式兜底：当前目录或上一级（npx tauri dev 从 app/ 启动 → 仓库根 data/）
+    if let Ok(cwd) = std::env::current_dir() {
+        let candidate = cwd.join("data");
+        if candidate.is_dir() {
+            return Some(candidate);
+        }
+        let parent = cwd.join("..").join("data");
+        if parent.is_dir() {
+            return Some(parent);
         }
     }
     None

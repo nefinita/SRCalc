@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import * as api from "../api/commands";
 import type { BuildConfig, ConfigDataDTO, Team, TeamMember } from "../types";
+import { mainStatOptions, SLOT_KEYS, SUBSTAT_KEYS, type MainSlot } from "../utils/constants";
 import styles from "./TeamPanel.module.css";
 
 interface Props {
@@ -28,6 +29,18 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
 
   function patchBuild(index: number, patch: Partial<BuildConfig>) {
     patchMember(index, { build: { ...team.members[index].build, ...patch } });
+  }
+
+  function setMainStat(index: number, slot: MainSlot, stat: string, value: number) {
+    const main_stats = team.members[index].build.main_stats.filter((m) => m.slot !== slot);
+    main_stats.push({ slot, stat, value });
+    patchBuild(index, { main_stats });
+  }
+
+  function setRelic(index: number, relicIndex: 0 | 1, setId: string) {
+    const relic_sets = [...team.members[index].build.relic_sets];
+    relic_sets[relicIndex] = setId;
+    patchBuild(index, { relic_sets: relic_sets.filter(Boolean) });
   }
 
   function addMember() {
@@ -105,6 +118,9 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
       <div className={styles.members}>
         {team.members.map((m, i) => {
           const char = config?.characters.find((c) => c.id === m.char_id);
+          const opts = char ? mainStatOptions(char.element) : null;
+          const currentMain = (slot: MainSlot) =>
+            m.build.main_stats.find((x) => x.slot === slot);
           return (
             <div key={i} className={styles.member}>
               <div className={styles.memberHead}>
@@ -114,7 +130,11 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
                   onChange={(e) => patchMember(i, { char_id: e.target.value })}
                 >
                   {config?.characters.map((c) => (
-                    <option key={c.id} value={c.id} disabled={team.members.some((x, j) => j !== i && x.char_id === c.id)}>
+                    <option
+                      key={c.id}
+                      value={c.id}
+                      disabled={team.members.some((x, j) => j !== i && x.char_id === c.id)}
+                    >
                       {c.name}
                     </option>
                   ))}
@@ -123,14 +143,13 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
                   ×
                 </button>
               </div>
-              <div className={styles.buildRow}>
+
+              <div className={styles.row}>
                 <label className={styles.field}>
                   <span>光锥</span>
                   <select
                     value={m.build.light_cone ?? ""}
-                    onChange={(e) =>
-                      patchBuild(i, { light_cone: e.target.value || null })
-                    }
+                    onChange={(e) => patchBuild(i, { light_cone: e.target.value || null })}
                   >
                     <option value="">无</option>
                     {config?.light_cones
@@ -152,52 +171,75 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
                     onChange={(e) => patchBuild(i, { level: Number(e.target.value) })}
                   />
                 </label>
-                <label className={styles.field}>
-                  <span>暴击率</span>
-                  <input
-                    type="number"
-                    step={0.01}
-                    value={m.build.substats.crit_rate ?? 0}
-                    onChange={(e) =>
-                      patchBuild(i, {
-                        substats: { ...m.build.substats, crit_rate: Number(e.target.value) },
-                      })
-                    }
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>暴伤</span>
-                  <input
-                    type="number"
-                    step={0.01}
-                    value={m.build.substats.crit_dmg ?? 0}
-                    onChange={(e) =>
-                      patchBuild(i, {
-                        substats: { ...m.build.substats, crit_dmg: Number(e.target.value) },
-                      })
-                    }
-                  />
-                </label>
-                <label className={styles.field}>
-                  <span>攻击%</span>
-                  <input
-                    type="number"
-                    step={0.01}
-                    value={m.build.substats.atk_pct ?? 0}
-                    onChange={(e) =>
-                      patchBuild(i, {
-                        substats: { ...m.build.substats, atk_pct: Number(e.target.value) },
-                      })
-                    }
-                  />
-                </label>
+              </div>
+
+              <div className={styles.subTitle}>主词条</div>
+              {opts &&
+                SLOT_KEYS.map((slot) => {
+                  const cur = currentMain(slot);
+                  return (
+                    <label key={slot} className={styles.field}>
+                      <span>{slotLabel(slot)}</span>
+                      <select
+                        value={cur?.stat ?? ""}
+                        onChange={(e) => {
+                          const opt = opts[slot].find((o) => o.stat === e.target.value);
+                          if (opt) setMainStat(i, slot, opt.stat, opt.value);
+                        }}
+                      >
+                        <option value="">未选择</option>
+                        {opts[slot].map((o) => (
+                          <option key={o.stat} value={o.stat}>
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  );
+                })}
+
+              <div className={styles.subTitle}>副词条</div>
+              <div className={styles.row}>
+                {SUBSTAT_KEYS.map((s) => (
+                  <label key={s.key} className={styles.field}>
+                    <span>{s.label}</span>
+                    <input
+                      type="number"
+                      step={0.01}
+                      value={m.build.substats[s.key] ?? 0}
+                      onChange={(e) =>
+                        patchBuild(i, {
+                          substats: { ...m.build.substats, [s.key]: Number(e.target.value) },
+                        })
+                      }
+                    />
+                  </label>
+                ))}
+              </div>
+
+              <div className={styles.subTitle}>遗器套装</div>
+              <div className={styles.row}>
+                {[0, 1].map((idx) => (
+                  <label key={idx} className={styles.field}>
+                    <span>套装 {idx + 1}</span>
+                    <select
+                      value={m.build.relic_sets[idx] ?? ""}
+                      onChange={(e) => setRelic(i, idx as 0 | 1, e.target.value)}
+                    >
+                      <option value="">无</option>
+                      {config?.relic_sets.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {r.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ))}
               </div>
             </div>
           );
         })}
-        {team.members.length === 0 && (
-          <div className={styles.empty}>尚未添加角色</div>
-        )}
+        {team.members.length === 0 && <div className={styles.empty}>尚未添加角色</div>}
       </div>
 
       <div className={styles.footer}>
@@ -218,4 +260,17 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
       </div>
     </div>
   );
+}
+
+function slotLabel(slot: MainSlot): string {
+  switch (slot) {
+    case "body":
+      return "身体";
+    case "feet":
+      return "脚部";
+    case "sphere":
+      return "位面球";
+    case "rope":
+      return "连接绳";
+  }
 }
