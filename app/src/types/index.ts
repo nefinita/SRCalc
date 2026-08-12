@@ -39,7 +39,12 @@ export type Trigger =
   | "on_basic"
   | "on_hit"
   | "turn_start"
-  | "on_follow_up";
+  | "on_follow_up"
+  | "on_attack"
+  | "on_apply_debuff"
+  | "on_heal"
+  | "on_kill"
+  | "on_targeted";
 
 export interface Effect {
   trigger: Trigger;

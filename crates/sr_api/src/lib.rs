@@ -111,6 +111,14 @@ pub enum BuffStat {
     VulnPct,
     BreakEffect,
     EnergyRegen,
+    /// 终结技伤害%（风举云飞 4件）
+    UltDmgPct,
+    /// 战技伤害%
+    SkillDmgPct,
+    /// 普攻伤害%
+    BasicDmgPct,
+    /// 追加攻击伤害%
+    FollowUpDmgPct,
 }
 
 /// 增益作用目标
@@ -147,6 +155,16 @@ pub enum Trigger {
     TurnStart,
     /// 施放追加攻击时触发
     OnFollowUp,
+    /// 攻击命中时触发（劫火铸炼宫）
+    OnAttack,
+    /// 对敌方施加负面时触发（名冶/死水深潜）
+    OnApplyDebuff,
+    /// 治疗时触发（烈阳女武神）
+    OnHeal,
+    /// 消灭敌人时触发（千星）
+    OnKill,
+    /// 成为其他我方目标技能目标时触发（船长）
+    OnTargeted,
 }
 
 /// 通用效果：buff / 光锥被动 / 角色在场被动

@@ -1,5 +1,5 @@
 id = "324"
 name = "天国@直播间"
 two_piece = "使装备者的暴击伤害提高16%，若在同一回合内消耗大于等于3点战技点，额外使装备者暴击伤害提高32%，持续3回合。"
-two_piece_effects = [{ trigger = "battle_start", stat = "crit_dmg", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "crit_dmg", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_sp_consume", stat = "crit_dmg", value = 0.32, turns = 3 }]
 four_piece_effects = []

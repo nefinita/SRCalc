@@ -394,10 +394,15 @@ SET_CONDITIONALS = {
     "114": {"4pc": [{"trigger": "on_ult", "stat": "speed_pct", "value": 0.12, "turns": 1}]},
     "115": {"4pc": [{"trigger": "on_follow_up", "stat": "atk_pct", "value": 0.06, "turns": 3, "target": "self", "max_stacks": 8}]},
     "118": {"4pc": [{"trigger": "on_ult", "stat": "break_effect", "value": 0.30, "turns": 2}]},
+    "120": {"4pc": [{"trigger": "on_follow_up", "stat": "ult_dmg_pct", "value": 0.36, "turns": 1}]},
     "121": {"4pc": [
         {"trigger": "on_skill", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
         {"trigger": "on_ult", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
     ]},
+    "125": {"4pc": [{"trigger": "on_heal", "stat": "crit_dmg", "value": 0.15, "turns": 2, "target": "team"}]},
+    "132": {"4pc": [{"trigger": "on_apply_debuff", "stat": "dmg_pct", "value": 0.15, "turns": 2, "target": "team"}]},
+    "316": {"2pc": [{"trigger": "on_attack", "stat": "break_effect", "value": 0.40, "turns": 1}]},
+    "324": {"2pc": [{"trigger": "on_sp_consume", "stat": "crit_dmg", "value": 0.32, "turns": 3}]},
     "326": {"2pc": [{"trigger": "on_follow_up", "stat": "atk_pct", "value": 0.24, "turns": 2, "target": "self", "max_stacks": 0}]},
 }
 

@@ -27,6 +27,10 @@ pub struct StatMods {
     pub vuln_pct: f64,
     pub break_effect: f64,
     pub energy_regen: f64,
+    pub ult_dmg_pct: f64,
+    pub skill_dmg_pct: f64,
+    pub basic_dmg_pct: f64,
+    pub followup_dmg_pct: f64,
 }
 
 impl StatMods {
@@ -60,6 +64,10 @@ impl StatMods {
             BuffStat::VulnPct => m.vuln_pct = v,
             BuffStat::BreakEffect => m.break_effect = v,
             BuffStat::EnergyRegen => m.energy_regen = v,
+            BuffStat::UltDmgPct => m.ult_dmg_pct = v,
+            BuffStat::SkillDmgPct => m.skill_dmg_pct = v,
+            BuffStat::BasicDmgPct => m.basic_dmg_pct = v,
+            BuffStat::FollowUpDmgPct => m.followup_dmg_pct = v,
         }
         m
     }
@@ -77,6 +85,10 @@ impl StatMods {
         self.vuln_pct += o.vuln_pct;
         self.break_effect += o.break_effect;
         self.energy_regen += o.energy_regen;
+        self.ult_dmg_pct += o.ult_dmg_pct;
+        self.skill_dmg_pct += o.skill_dmg_pct;
+        self.basic_dmg_pct += o.basic_dmg_pct;
+        self.followup_dmg_pct += o.followup_dmg_pct;
     }
 }
 
@@ -356,7 +368,13 @@ pub fn compute_ability_damage_for(ctx: AbilityContext) -> DamageBreakdown {
     let mult = ability_multiplier(ability);
     let base = mult * scaling_stat + ability.flat_damage;
 
-    let boost = 1.0 + stats.dmg_pct + mods.dmg_pct;
+    let type_dmg = match ability.kind {
+        sr_api::AbilityKind::Basic => mods.basic_dmg_pct,
+        sr_api::AbilityKind::Skill => mods.skill_dmg_pct,
+        sr_api::AbilityKind::Ult => mods.ult_dmg_pct,
+        sr_api::AbilityKind::Talent => mods.followup_dmg_pct,
+    };
+    let boost = 1.0 + stats.dmg_pct + mods.dmg_pct + type_dmg;
     let def_m = def_multiplier(attacker_level, enemy, mods.def_ignore, coeff);
     let res_m = res_multiplier(enemy, element, mods.res_pen);
     let vuln = 1.0 + mods.vuln_pct;

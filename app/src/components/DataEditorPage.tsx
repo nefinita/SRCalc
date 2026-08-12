@@ -355,6 +355,11 @@ function EffectFields({
           <option value="on_hit">受击</option>
           <option value="turn_start">回合开始</option>
           <option value="on_follow_up">追加攻击后</option>
+          <option value="on_attack">攻击命中</option>
+          <option value="on_apply_debuff">施加负面</option>
+          <option value="on_heal">治疗</option>
+          <option value="on_kill">消灭敌人</option>
+          <option value="on_targeted">成为技能目标</option>
         </select>
       </label>
       <label className={styles.field}>
@@ -371,6 +376,11 @@ function EffectFields({
           <option value="res_pen">抗穿</option>
           <option value="vuln_pct">易伤</option>
           <option value="break_effect">击破特攻</option>
+          <option value="energy_regen">充能效率</option>
+          <option value="ult_dmg_pct">终结技伤害</option>
+          <option value="skill_dmg_pct">战技伤害</option>
+          <option value="basic_dmg_pct">普攻伤害</option>
+          <option value="follow_up_dmg_pct">追加攻击伤害</option>
         </select>
       </label>
       <Num label="值" value={eff.value} onChange={(v) => onChange({ value: v })} />

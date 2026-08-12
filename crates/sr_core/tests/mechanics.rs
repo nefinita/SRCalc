@@ -749,3 +749,211 @@ fn ally_target_set_buff_applies_and_expires() {
     assert!(dmg[0] > dmg[2], "buff 期应更高 b0={:.3} b2={:.3}", dmg[0], dmg[2]);
     assert!((dmg[0] - dmg[1]).abs() < 1e-6);
 }
+
+#[test]
+fn sp_consume_threshold_set() {
+    // 天国直播间 2件：同回合消耗≥3战技点 → 暴伤+32%·3回合
+    let set = sr_api::RelicSet {
+        id: "324".into(),
+        name: "天国直播间".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![Effect {
+            trigger: Trigger::OnSpConsume,
+            stat: BuffStat::CritDmg,
+            value: 0.32,
+            turns: 3,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+        four_piece_effects: vec![],
+    };
+    let a = character("a", "A", 200.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+            name: "强化战技".into(),
+            kind: AbilityKind::Skill,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 10.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 30.0,
+            max_energy: 100.0,
+            skill_point: -3,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+        },
+    ]);
+    let run = |with_set: bool| {
+        let mut b = Build::default();
+        b.level = 80;
+        if with_set {
+            b.relic_sets = vec![sr_api::RelicSetPiece { set_id: "324".into(), count: 2 }];
+        }
+        let cfg = ConfigData {
+            characters: vec![a.clone()],
+            light_cones: vec![],
+            relic_sets: vec![set.clone()],
+            enemies: vec![enemy()],
+        };
+        let tm = TeamMember { char_id: "a".into(), build: b };
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg,
+            team: Team { members: vec![tm] },
+            enemy: enemy(),
+            coefficient: Default::default(),
+            battle: BattleConfig { start_sp: 5, ..Default::default() },
+            steps: vec![skill("a"), basic("a")],
+            cycles: 1,
+        })
+        .expect("rotation");
+        out.steps[1].damage
+    };
+    // 强化战技一次消耗 3 点 → 触发暴伤+32%，下个普攻受益
+    let without = run(false);
+    let with = run(true);
+    assert!(with > without, "阈值触发后普攻应提升 with={:.2} without={:.2}", with, without);
+}
+
+#[test]
+fn on_attack_break_buff() {
+    // 劫火 2件：攻击命中 → 击破特攻+40%·1回合（下一次击破受益）
+    let set = sr_api::RelicSet {
+        id: "316".into(),
+        name: "劫火铸炼宫".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![Effect {
+            trigger: Trigger::OnAttack,
+            stat: BuffStat::BreakEffect,
+            value: 0.40,
+            turns: 1,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+        four_piece_effects: vec![],
+    };
+    let a = character("a", "A", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut e = enemy();
+    e.max_toughness = 20.0; // 两下普攻破韧，第二次破韧时带击破加成
+    e.weaknesses = vec![Element::Quantum];
+    let run = |with_set: bool| {
+        let mut build = Build::default();
+        build.level = 80;
+        if with_set {
+            build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "316".into(), count: 2 }];
+        }
+        let cfg = ConfigData {
+            characters: vec![a.clone()],
+            light_cones: vec![],
+            relic_sets: vec![set.clone()],
+            enemies: vec![e.clone()],
+        };
+        let tm = TeamMember { char_id: "a".into(), build };
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg,
+            team: Team { members: vec![tm] },
+            enemy: e.clone(),
+            coefficient: Default::default(),
+            battle: BattleConfig::default(),
+            steps: vec![basic("a"), basic("a")],
+            cycles: 1,
+        })
+        .expect("rotation");
+        out.steps[1].damage
+    };
+    let without = run(false);
+    let with = run(true);
+    assert!(with > without, "击破加成后破韧伤害应更高 with={:.2} without={:.2}", with, without);
+}
+
+#[test]
+fn ult_dmg_type_stat() {
+    // 终结技伤害% 常驻效果 → 终结技伤害提升（普攻不受影响）
+    let set = sr_api::RelicSet {
+        id: "t".into(),
+        name: "测试".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::BattleStart,
+            stat: BuffStat::UltDmgPct,
+            value: 0.5,
+            turns: 0,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+    };
+    let a = character("a", "A", 200.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+            name: "终结技".into(),
+            kind: AbilityKind::Ult,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 10.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 5.0,
+            max_energy: 100.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+        },
+    ]);
+    let run = |with_set: bool| {
+        let mut build = Build::default();
+        build.level = 80;
+        if with_set {
+            build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "t".into(), count: 4 }];
+        }
+        let cfg = ConfigData {
+            characters: vec![a.clone()],
+            light_cones: vec![],
+            relic_sets: vec![set.clone()],
+            enemies: vec![enemy()],
+        };
+        let tm = TeamMember { char_id: "a".into(), build };
+        let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg,
+            team: Team { members: vec![tm] },
+            enemy: enemy(),
+            coefficient: Default::default(),
+            battle: BattleConfig { start_energy: 100.0, ..Default::default() },
+            steps: vec![ult("a"), basic("a")],
+            cycles: 1,
+        })
+        .expect("rotation");
+        (out.steps[0].damage, out.steps[1].damage)
+    };
+    let (u0, b0) = run(false);
+    let (u1, b1) = run(true);
+    assert!(u1 > u0 * 1.4, "终结技伤害应+50% u1={:.2} u0={:.2}", u1, u0);
+    assert!((b1 - b0).abs() < 1e-6, "普攻不受终结技增伤影响");
+}

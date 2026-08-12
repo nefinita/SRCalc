@@ -41,6 +41,8 @@ struct ActiveBuff {
     carrier: Carrier,
     /// 效果归属角色（tick/作用判断）；source 为去重标识
     owner: String,
+    /// 当回合施放 → 本回合末不递减（"持续N回合"从下一回合算）
+    skip_first_tick: bool,
     mods: StatMods,
     turns_remaining: u32,
     stacks: u32,
@@ -101,6 +103,7 @@ struct Sim<'a> {
     by_id: HashMap<&'a str, &'a Character>,
     builds: HashMap<&'a str, &'a Build>,
     base_stats: HashMap<&'a str, FinalStats>,
+    permanent: HashMap<&'a str, StatMods>,
     unit: HashMap<&'a str, UnitState>,
     on_sp_consume: Vec<(&'a str, &'a Effect)>,
     set_conditionals: HashMap<&'a str, Vec<(Trigger, Effect)>>,
@@ -110,6 +113,7 @@ struct Sim<'a> {
     enemy_idx: usize,
     enemy_toughness: f64,
     enemy_broken: bool,
+    sp_consumed_turn: i32,
     total_av: f64,
     total_damage: f64,
     steps_out: Vec<RotationStep>,
@@ -165,7 +169,9 @@ impl<'a> Sim<'a> {
                     }
                     Trigger::OnSpConsume => on_sp_consume.push((id, e)),
                     Trigger::OnUlt | Trigger::OnSkill | Trigger::OnBasic | Trigger::OnHit
-                    | Trigger::TurnStart | Trigger::OnFollowUp => {}
+                    | Trigger::TurnStart | Trigger::OnFollowUp | Trigger::OnAttack
+                    | Trigger::OnApplyDebuff | Trigger::OnHeal | Trigger::OnKill
+                    | Trigger::OnTargeted => {}
                 }
             }
             perm.add(&relic_set_permanent(&m.build, &sets));
@@ -196,6 +202,7 @@ impl<'a> Sim<'a> {
             by_id,
             builds,
             base_stats,
+            permanent: perm_map,
             unit,
             on_sp_consume,
             set_conditionals,
@@ -205,6 +212,7 @@ impl<'a> Sim<'a> {
             enemy_idx: 0,
             enemy_toughness: if req.enemy.broken { 0.0 } else { req.enemy.max_toughness },
             enemy_broken: req.enemy.broken,
+            sp_consumed_turn: 0,
             total_av: 0.0,
             total_damage: 0.0,
             steps_out: Vec::new(),
@@ -213,6 +221,17 @@ impl<'a> Sim<'a> {
 
     fn mods_for(&self, id: &str) -> StatMods {
         let mut m = StatMods::default();
+        // 常驻伤害类修正（未被 compute_final_stats 消化的字段）
+        if let Some(p) = self.permanent.get(id) {
+            m.def_ignore = p.def_ignore;
+            m.res_pen = p.res_pen;
+            m.vuln_pct = p.vuln_pct;
+            m.break_effect = p.break_effect;
+            m.ult_dmg_pct = p.ult_dmg_pct;
+            m.skill_dmg_pct = p.skill_dmg_pct;
+            m.basic_dmg_pct = p.basic_dmg_pct;
+            m.followup_dmg_pct = p.followup_dmg_pct;
+        }
         for b in &self.active_buffs {
             let apply = match &b.carrier {
                 Carrier::Team => true,
@@ -231,7 +250,7 @@ impl<'a> Sim<'a> {
         base * (1.0 + self.mods_for(id).spd_pct)
     }
 
-    fn apply_buff(&mut self, source: &str, eff: &Effect, target: Option<&str>) {
+    fn apply_buff(&mut self, source: &str, eff: &Effect, target: Option<&str>, skip: bool) {
         let carrier = match eff.target {
             BuffTarget::Self_ => Carrier::Owner,
             BuffTarget::Team => Carrier::Team,
@@ -249,7 +268,8 @@ impl<'a> Sim<'a> {
         self.active_buffs.push(ActiveBuff {
             source: source.to_string(),
             carrier,
-            owner,
+            owner: owner.clone(),
+            skip_first_tick: skip && owner == source,
             mods: StatMods::from_effect(eff, 1),
             turns_remaining: eff.turns,
             stacks: 1,
@@ -273,6 +293,7 @@ impl<'a> Sim<'a> {
                 source: source.to_string(),
                 carrier: Carrier::Team,
                 owner: source.to_string(),
+                skip_first_tick: true,
                 mods: StatMods::from_effect(eff, 1),
                 turns_remaining: eff.turns,
                 stacks: 1,
@@ -285,7 +306,13 @@ impl<'a> Sim<'a> {
 
     /// 触发式套装被动：按触发类型应用（刷新或叠层），持续 eff.turns 回合；
     /// target=ally 时挂到技能目标（如司铎4件）
-    fn apply_set_conditional(&mut self, id: &str, trigger: Trigger, target: Option<&str>) {
+    fn apply_set_conditional(
+        &mut self,
+        id: &str,
+        trigger: Trigger,
+        target: Option<&str>,
+        skip: bool,
+    ) {
         let Some(conds) = self.set_conditionals.get(id) else {
             return;
         };
@@ -323,7 +350,8 @@ impl<'a> Sim<'a> {
                     } else {
                         Carrier::Owner
                     },
-                    owner,
+                    owner: owner.clone(),
+                    skip_first_tick: skip && owner == id,
                     mods: StatMods::from_effect(&eff, 1),
                     turns_remaining: eff.turns.max(1),
                     stacks: 1,
@@ -343,16 +371,20 @@ impl<'a> Sim<'a> {
                 Carrier::Owner => self.active_buffs[i].owner == actor,
                 Carrier::Ally(a) => a == actor,
             };
-            if tick && self.active_buffs[i].turns_remaining > 0 {
-                self.active_buffs[i].turns_remaining -= 1;
-                if self.active_buffs[i].turns_remaining == 0 {
-                    let cap = self.active_buffs[i].cap_bonus;
-                    if cap != 0 {
-                        self.sp_pool.cap -= cap;
-                        self.sp_pool.clamp();
+            if tick {
+                if self.active_buffs[i].skip_first_tick {
+                    self.active_buffs[i].skip_first_tick = false;
+                } else if self.active_buffs[i].turns_remaining > 0 {
+                    self.active_buffs[i].turns_remaining -= 1;
+                    if self.active_buffs[i].turns_remaining == 0 {
+                        let cap = self.active_buffs[i].cap_bonus;
+                        if cap != 0 {
+                            self.sp_pool.cap -= cap;
+                            self.sp_pool.clamp();
+                        }
+                        self.active_buffs.remove(i);
+                        continue;
                     }
-                    self.active_buffs.remove(i);
-                    continue;
                 }
             }
             i += 1;
@@ -422,8 +454,9 @@ impl<'a> Sim<'a> {
         let mut damage = 0.0_f64;
         let mut labels = Vec::new();
 
-        // 回合开始触发式套装被动
-        self.apply_set_conditional(id, Trigger::TurnStart, None);
+        // 回合开始触发式套装被动；重置本回合消耗战技点计数
+        self.sp_consumed_turn = 0;
+        self.apply_set_conditional(id, Trigger::TurnStart, None, true);
 
         if let Some(ability) = &ability {
             if step.action != ActionKind::Wait {
@@ -452,8 +485,12 @@ impl<'a> Sim<'a> {
             // 战技点：按技能消耗/恢复
             self.sp_pool.add(ability.skill_point);
             if ability.skill_point < 0 {
+                self.sp_consumed_turn += -ability.skill_point;
                 for (src, eff) in self.on_sp_consume.clone() {
                     self.stack_team_buff(src, eff);
+                }
+                if self.sp_consumed_turn >= 3 {
+                    self.apply_set_conditional(id, Trigger::OnSpConsume, None, true);
                 }
             }
             self.sp_pool.add_recover(ability.bonus_sp);
@@ -472,7 +509,7 @@ impl<'a> Sim<'a> {
 
             // 施放时应用 buff
             if let Some(eff) = &ability.buff {
-                self.apply_buff(id, eff, step.target.as_deref());
+                self.apply_buff(id, eff, step.target.as_deref(), true);
             }
 
             // 行动提前 / 立即行动（目标）
@@ -500,10 +537,25 @@ impl<'a> Sim<'a> {
 
         // 套装触发式被动（按动作类型；定向型传目标）
         match step.action {
-            ActionKind::Ult => self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref()),
-            ActionKind::Skill => self.apply_set_conditional(id, Trigger::OnSkill, step.target.as_deref()),
-            ActionKind::Basic => self.apply_set_conditional(id, Trigger::OnBasic, None),
+            ActionKind::Ult => {
+                self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref(), true);
+                self.apply_set_conditional(id, Trigger::OnAttack, None, true);
+            }
+            ActionKind::Skill => {
+                self.apply_set_conditional(id, Trigger::OnSkill, step.target.as_deref(), true);
+                self.apply_set_conditional(id, Trigger::OnAttack, None, true);
+            }
+            ActionKind::Basic => {
+                self.apply_set_conditional(id, Trigger::OnBasic, None, true);
+                self.apply_set_conditional(id, Trigger::OnAttack, None, true);
+            }
             ActionKind::Wait => {}
+        }
+        // 成为其他我方目标技能目标（船长"助力"）
+        if let Some(t) = step.target.as_deref()
+            && t != id
+        {
+            self.apply_set_conditional(t, Trigger::OnTargeted, None, true);
         }
 
         self.steps_out.push(RotationStep {
@@ -566,10 +618,10 @@ impl<'a> Sim<'a> {
             self.sp_pool.add(ability.skill_point);
             self.sp_pool.add_recover(ability.bonus_sp);
             if let Some(eff) = &ability.buff {
-                self.apply_buff(id, eff, step.target.as_deref());
+                self.apply_buff(id, eff, step.target.as_deref(), true);
             }
         }
-        self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref());
+        self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref(), false);
         if let Some(s) = self.unit.get_mut(id) {
             s.energy = 0.0;
         }
@@ -597,7 +649,7 @@ impl<'a> Sim<'a> {
         };
         let hit_ids: Vec<&str> = self.base_stats.keys().copied().collect();
         for id in &hit_ids {
-            self.apply_set_conditional(id, Trigger::OnHit, None);
+            self.apply_set_conditional(id, Trigger::OnHit, None, true);
         }
         for (id, base) in &self.base_stats {
             if let Some(s) = self.unit.get_mut(id) {
