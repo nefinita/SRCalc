@@ -258,6 +258,24 @@ export default function DataEditorPage({ addToast }: Props) {
                 <Num label="最大韧性" value={editingEnemy.max_toughness} onChange={(v) => patchEnemy({ max_toughness: v })} />
                 <Num label="速度" value={editingEnemy.spd} onChange={(v) => patchEnemy({ spd: v })} />
               </div>
+              <h3 className={styles.subTitle}>弱点属性（仅弱点攻击削韧）</h3>
+              <div className={styles.weakRow}>
+                {(["physical", "fire", "ice", "lightning", "wind", "quantum", "imaginary"] as const).map((el) => (
+                  <label key={el} className={styles.weakItem}>
+                    <input
+                      type="checkbox"
+                      checked={editingEnemy.weaknesses.includes(el)}
+                      onChange={(e) => {
+                        const set = new Set(editingEnemy.weaknesses);
+                        if (e.target.checked) set.add(el);
+                        else set.delete(el);
+                        patchEnemy({ weaknesses: [...set] });
+                      }}
+                    />
+                    {el}
+                  </label>
+                ))}
+              </div>
               <h3 className={styles.subTitle}>抗性</h3>
               <div className={styles.row}>
                 {(Object.keys(editingEnemy.res) as (keyof typeof editingEnemy.res)[]).map((k) => (

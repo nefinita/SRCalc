@@ -5,6 +5,7 @@ def = 1000.0
 max_toughness = 120.0
 broken = false
 spd = 100.0
+weaknesses = ["quantum"]
 
 [[actions]]
 name = "普通攻击"

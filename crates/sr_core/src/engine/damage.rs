@@ -227,8 +227,8 @@ pub fn res_multiplier(enemy: &Enemy, element: Element, res_pen: f64) -> f64 {
 }
 
 /// 韧性乘区：未破韧 0.9，已破韧 1.0
-pub fn broken_multiplier(enemy: &Enemy, coeff: &CoefficientConfig) -> f64 {
-    if enemy.broken {
+pub fn broken_multiplier(broken: bool, coeff: &CoefficientConfig) -> f64 {
+    if broken {
         coeff.break_multiplier
     } else {
         coeff.broken_multiplier
@@ -254,6 +254,8 @@ pub struct AbilityContext<'a> {
     /// 当前生效（时变）修正：主动 buff + 全局 buff
     pub mods: &'a StatMods,
     pub coeff: &'a CoefficientConfig,
+    /// 韧性是否已破（动态，覆盖 enemy.broken）
+    pub broken: bool,
 }
 
 /// 按技能等级取倍率：multipliers 非空时取 `skill_level` 档，否则回退 `multiplier`
@@ -271,7 +273,7 @@ pub fn ability_multiplier(ability: &AbilityData) -> f64 {
 }
 
 pub fn compute_ability_damage_for(ctx: AbilityContext) -> DamageBreakdown {
-    let AbilityContext { stats, ability, element, attacker_level, enemy, mods, coeff } = ctx;
+    let AbilityContext { stats, ability, element, attacker_level, enemy, mods, coeff, broken: _ } = ctx;
     let scaling_stat = match ability.scaling {
         Scaling::Atk => stats.atk * (1.0 + mods.atk_pct),
         Scaling::Hp => stats.hp * (1.0 + mods.hp_pct),
@@ -284,7 +286,7 @@ pub fn compute_ability_damage_for(ctx: AbilityContext) -> DamageBreakdown {
     let def_m = def_multiplier(attacker_level, enemy, mods.def_ignore, coeff);
     let res_m = res_multiplier(enemy, element, mods.res_pen);
     let vuln = 1.0 + mods.vuln_pct;
-    let broken = broken_multiplier(enemy, coeff);
+    let broken = broken_multiplier(ctx.broken, coeff);
 
     let pre_crit = base * boost * def_m * res_m * vuln * broken;
 
@@ -317,6 +319,7 @@ pub fn compute_break_damage(
     enemy: &Enemy,
     mods: &StatMods,
     coeff: &CoefficientConfig,
+    broken: bool,
 ) -> f64 {
     let type_coeff = match element {
         Element::Physical | Element::Fire => 2.0,
@@ -330,9 +333,9 @@ pub fn compute_break_damage(
     let def_m = def_multiplier(attacker_level, enemy, mods.def_ignore, coeff);
     let res_m = res_multiplier(enemy, element, mods.res_pen);
     let vuln = 1.0 + mods.vuln_pct;
-    let broken = broken_multiplier(enemy, coeff);
+    let broken_m = broken_multiplier(broken, coeff);
 
-    base * (1.0 + mods.break_effect) * def_m * res_m * vuln * broken
+    base * (1.0 + mods.break_effect) * def_m * res_m * vuln * broken_m
 }
 
 /// 主词条标准值（5★ Lv15），供配装优化器使用
@@ -396,6 +399,7 @@ mod tests {
             res,
             spd: 100.0,
             actions: vec![],
+            weaknesses: vec![],
         }
     }
 
@@ -474,6 +478,7 @@ mod tests {
             enemy: &enemy,
             mods: &mods,
             coeff: &coeff,
+            broken: enemy.broken,
         });
         // base = 1.1 × 563 = 619.3；def=0.5；res=1；broken=0.9
         // pre_crit = 619.3 × 0.5 × 0.9 = 278.685
@@ -490,7 +495,7 @@ mod tests {
         let enemy = dummy_enemy(80, 1000.0, false);
         let mods = StatMods::default();
         let coeff = CoefficientConfig::default();
-        let dmg = compute_break_damage(Element::Quantum, 80, &enemy, &mods, &coeff);
+        let dmg = compute_break_damage(Element::Quantum, 80, &enemy, &mods, &coeff, enemy.broken);
         // type_coeff=0.5, LM(80)=3767.5533, MTM=0.5+120/40=3.5
         // base=0.5×3767.5533×3.5=6593.218275；×def(0.5)×res(1)×broken(0.9)
         let expected = 0.5 * sr_const::level_multiplier(80) * 3.5 * 0.5 * 0.9;

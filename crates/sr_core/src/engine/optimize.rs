@@ -71,6 +71,7 @@ pub fn run(req: &OptimizeRequest) -> Result<OptimizeResult, String> {
                         enemy: &req.enemy,
                         mods: &mods,
                         coeff: &req.coefficient,
+                        broken: req.enemy.broken,
                     });
 
                     best.push((

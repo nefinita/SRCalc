@@ -8,12 +8,15 @@
 //! - 敌方行动：回我方能量 / 特殊机制回/扣战技点与能量
 
 use sr_api::{
-    action_value, AbilityKind, ActionKind, BuffTarget, Build, Character, Effect, LightCone,
-    RotationRequest, RotationResult, RotationStep, RotationStepReq, Trigger,
+    action_value, AbilityKind, ActionKind, BuffTarget, Build, Character, Effect, Element,
+    LightCone, RotationRequest, RotationResult, RotationStep, RotationStepReq, Trigger,
 };
 use std::collections::HashMap;
 
-use super::damage::{compute_ability_damage_for, compute_final_stats, AbilityContext, FinalStats, StatMods};
+use super::damage::{
+    compute_ability_damage_for, compute_break_damage, compute_final_stats, AbilityContext,
+    FinalStats, StatMods,
+};
 
 #[derive(Debug, Clone, PartialEq)]
 enum Carrier {
@@ -55,11 +58,36 @@ struct UnitState {
 struct SpPool {
     current: i32,
     cap: i32,
+    /// 溢出记录（花火大招等：溢出至多 10 点，消耗后补回）
+    overflow: i32,
 }
 
 impl SpPool {
+    /// 基础增减（普攻/战技）：钳制；消耗时优先从溢出补回
     fn add(&mut self, v: i32) {
         self.current = (self.current + v).clamp(0, self.cap);
+        if v < 0 {
+            let refill = self.overflow.min(self.cap - self.current);
+            self.current += refill;
+            self.overflow -= refill;
+        }
+    }
+    /// 效果恢复（大招/敌方/罚恶）：溢出可记录至多 10 点
+    fn add_recover(&mut self, v: i32) {
+        if v > 0 {
+            let room = self.cap - self.current;
+            if v > room {
+                self.overflow = (self.overflow + (v - room)).min(10);
+                self.current = self.cap;
+            } else {
+                self.current += v;
+            }
+        } else if v < 0 {
+            self.current = (self.current + v).max(0);
+            let refill = self.overflow.min(self.cap - self.current);
+            self.current += refill;
+            self.overflow -= refill;
+        }
     }
     fn clamp(&mut self) {
         self.current = self.current.clamp(0, self.cap);
@@ -77,6 +105,8 @@ struct Sim<'a> {
     sp_pool: SpPool,
     enemy_av: f64,
     enemy_idx: usize,
+    enemy_toughness: f64,
+    enemy_broken: bool,
     total_av: f64,
     total_damage: f64,
     steps_out: Vec<RotationStep>,
@@ -106,6 +136,7 @@ impl<'a> Sim<'a> {
         let mut sp_pool = SpPool {
             current: req.battle.start_sp,
             cap: req.battle.base_sp_cap,
+            overflow: 0,
         };
 
         for m in &req.team.members {
@@ -159,6 +190,8 @@ impl<'a> Sim<'a> {
             sp_pool,
             enemy_av: action_value(req.enemy.spd.max(1.0)),
             enemy_idx: 0,
+            enemy_toughness: if req.enemy.broken { 0.0 } else { req.enemy.max_toughness },
+            enemy_broken: req.enemy.broken,
             total_av: 0.0,
             total_damage: 0.0,
             steps_out: Vec::new(),
@@ -256,6 +289,40 @@ impl<'a> Sim<'a> {
         char.abilities.iter().find(|a| a.kind == kind)
     }
 
+    /// 削韧：仅弱点属性；破韧时返回破韧伤害并延迟敌方行动 25%
+    fn apply_toughness(
+        &mut self,
+        element: Element,
+        amount: f64,
+        mods: &StatMods,
+        attacker_level: u32,
+    ) -> Option<f64> {
+        if amount <= 0.0 {
+            return None;
+        }
+        let weak = self.req.enemy.weaknesses.is_empty()
+            || self.req.enemy.weaknesses.contains(&element);
+        if !weak {
+            return None;
+        }
+        self.enemy_toughness -= amount;
+        if self.enemy_toughness <= 0.0 && !self.enemy_broken {
+            self.enemy_broken = true;
+            let bd = compute_break_damage(
+                element,
+                attacker_level,
+                &self.req.enemy,
+                mods,
+                &self.req.coefficient,
+                false, // 破韧一击按未破韧 ×0.9
+            );
+            self.enemy_av += action_value(self.req.enemy.spd.max(1.0)) * 0.25;
+            Some(bd)
+        } else {
+            None
+        }
+    }
+
     fn resolve_action(&mut self, step: &RotationStepReq) -> Result<(), String> {
         let id = step.char_id.as_str();
         let char_name = self
@@ -286,10 +353,16 @@ impl<'a> Sim<'a> {
                     enemy: &self.req.enemy,
                     mods: &mods,
                     coeff: &self.req.coefficient,
+                    broken: self.enemy_broken,
                 };
                 damage = compute_ability_damage_for(ctx).expected;
                 if mods.atk_pct > 0.0 || mods.dmg_pct > 0.0 || mods.crit_rate > 0.0 {
                     labels.push("增益覆盖".to_string());
+                }
+                // 削韧（弱点属性）→ 破韧 + 破韧伤害 + 敌方行动延迟
+                if let Some(bd) = self.apply_toughness(element, ability.toughness_reduction, &mods, build.level.max(1)) {
+                    damage += bd;
+                    labels.push("破韧".to_string());
                 }
             }
 
@@ -300,9 +373,9 @@ impl<'a> Sim<'a> {
                     self.stack_team_buff(src, eff);
                 }
             }
-            self.sp_pool.add(ability.bonus_sp);
+            self.sp_pool.add_recover(ability.bonus_sp);
 
-            // 目标普攻时额外战技点（寒鸦"罚恶"）
+            // 目标普攻时额外战技点（寒鸦"罚恶"）→ 溢出记录
             if step.action == ActionKind::Basic {
                 let sp_on = self
                     .active_buffs
@@ -310,7 +383,7 @@ impl<'a> Sim<'a> {
                     .filter(|b| b.sp_on_basic > 0 && b.carrier.applies_to(id) && b.source != id)
                     .count();
                 for _ in 0..sp_on {
-                    self.sp_pool.add(1);
+                    self.sp_pool.add_recover(1);
                 }
             }
 
@@ -393,10 +466,14 @@ impl<'a> Sim<'a> {
                 enemy: &self.req.enemy,
                 mods: &mods,
                 coeff: &self.req.coefficient,
+                broken: self.enemy_broken,
             };
             damage = compute_ability_damage_for(ctx).expected;
+            if let Some(bd) = self.apply_toughness(element, ability.toughness_reduction, &mods, build.level.max(1)) {
+                damage += bd;
+            }
             self.sp_pool.add(ability.skill_point);
-            self.sp_pool.add(ability.bonus_sp);
+            self.sp_pool.add_recover(ability.bonus_sp);
             if let Some(eff) = &ability.buff {
                 self.apply_buff(id, eff, step.target.as_deref());
             }
@@ -431,7 +508,12 @@ impl<'a> Sim<'a> {
                 s.energy = (s.energy + gain * (1.0 + base.energy_regen)).min(s.max_energy);
             }
         }
-        self.sp_pool.add(sp_delta);
+        self.sp_pool.add_recover(sp_delta);
+        // 敌方回合：破韧恢复（韧性回满、解除击破）
+        if self.enemy_broken {
+            self.enemy_broken = false;
+            self.enemy_toughness = self.req.enemy.max_toughness;
+        }
         for s in self.unit.values_mut() {
             s.energy = (s.energy - drain).max(0.0);
         }

@@ -43,6 +43,7 @@ pub fn calculate_damage(req: DamageRequest) -> Result<Vec<SkillResult>, String> 
             enemy: &req.enemy,
             mods: &mods,
             coeff: &req.coefficient,
+            broken: req.enemy.broken,
         });
         out.push(SkillResult {
             char_name: character.name.clone(),
@@ -63,6 +64,7 @@ pub fn calculate_damage(req: DamageRequest) -> Result<Vec<SkillResult>, String> 
         &req.enemy,
         &mods,
         &req.coefficient,
+        req.enemy.broken,
     );
     out.push(SkillResult {
         char_name: character.name.clone(),

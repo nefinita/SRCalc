@@ -1,7 +1,7 @@
 //! 端到端集成测试：内置数据 → 队伍 → 伤害 → 排轴 → 配装
 
 use sr_api::{
-    ActionKind, BattleConfig, Build, BuffConfig, CoefficientConfig, ConfigData, DamageRequest,
+    ActionKind, BattleConfig, Build, BuffConfig, ConfigData, DamageRequest,
     OptimizeRequest, RotationRequest, RotationStepReq, Team, TeamMember,
 };
 

@@ -21,6 +21,7 @@ fn enemy() -> Enemy {
         res,
         spd: 1.0,
         actions: vec![],
+        weaknesses: vec![],
     }
 }
 
@@ -215,7 +216,7 @@ fn ult_bonus_sp_and_insertion_av() {
 #[test]
 fn ally_buff_targets_and_immediate_action() {
     // 布洛妮娅战技→A：立即行动（AV 归0）+ 增伤 buff
-    let mut b = character("b", "布洛妮娅", 99.0, vec![AbilityData {
+    let b = character("b", "布洛妮娅", 99.0, vec![AbilityData {
         name: "战技".into(),
         kind: AbilityKind::Skill,
         multiplier: 0.0,
@@ -388,4 +389,112 @@ fn on_sp_consume_stacks_team_damage() {
     let out = rotate(vec![s, a], &["s", "a"], steps, BattleConfig::default());
     let dmg: Vec<f64> = out.steps.iter().filter(|x| !x.is_enemy).map(|x| x.damage).collect();
     assert!(dmg[3] > dmg[0] * 1.05, "期望 dmg3≈1.06×dmg0, got {:.2} vs {:.2}", dmg[3], dmg[0]);
+}
+
+#[test]
+fn weakness_break_system() {
+    // 韧性 30，量子弱点；希儿类普攻削韧 10 → 第 3 下破韧
+    let mut e = enemy();
+    e.max_toughness = 30.0;
+    e.weaknesses = vec![Element::Quantum];
+    e.broken = false;
+    let a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![e.clone()],
+    };
+    let mut build = Build::default();
+    build.level = 80;
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: e,
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 4],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let dmg: Vec<f64> = out.steps.iter().map(|s| s.damage).collect();
+    // 前两下未破韧（×0.9），第三下破韧（含破韧伤害），第四下破韧后（×1.0）
+    assert!((dmg[0] - dmg[1]).abs() < 1e-6, "d0={:.2} d1={:.2}", dmg[0], dmg[1]);
+    assert!(dmg[2] > dmg[1] * 3.0, "破韧伤害未计入 d2={:.2}", dmg[2]);
+    assert!(dmg[3] > dmg[0], "破韧后伤害应提升 d3={:.2} d0={:.2}", dmg[3], dmg[0]);
+    assert!(out.steps[2].buffs.contains(&"破韧".to_string()));
+}
+
+#[test]
+fn non_weakness_no_break() {
+    // 敌人弱风，角色量子 → 不削韧不破韧
+    let mut e = enemy();
+    e.max_toughness = 30.0;
+    e.weaknesses = vec![Element::Wind];
+    let a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![e.clone()],
+    };
+    let mut build = Build::default();
+    build.level = 80;
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: e,
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 4],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let dmg: Vec<f64> = out.steps.iter().map(|s| s.damage).collect();
+    assert!((dmg[3] - dmg[0]).abs() < 1e-6);
+}
+
+#[test]
+fn sp_overflow_recording() {
+    // 花火：上限+2=7，开局满SP；大招回4 → 溢出记录4；战技-1 → 从溢出补回
+    let mut s = character("s", "花火", 99.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        ability("战技", AbilityKind::Skill, 2.0, -1, 30.0),
+        AbilityData {
+            name: "一人千役".into(),
+            kind: AbilityKind::Ult,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 10.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 5.0,
+            max_energy: 100.0,
+            skill_point: 0,
+            bonus_sp: 4,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+        },
+    ]);
+    s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
+    let out = rotate(
+        vec![s],
+        &["s"],
+        vec![ult("s"), skill("s")],
+        BattleConfig { start_sp: 7, start_energy: 100.0, ..Default::default() },
+    );
+    // 大招：7 + 4 → 溢出记4，仍 7
+    assert_eq!(out.steps[0].skill_point, 7);
+    // 战技：-1 → 6 → 从溢出补回 1 → 7
+    assert_eq!(out.steps[1].skill_point, 7);
 }

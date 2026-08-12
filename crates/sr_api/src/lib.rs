@@ -272,6 +272,8 @@ pub struct Enemy {
     pub res: HashMap<Element, f64>,
     pub spd: f64,
     pub actions: Vec<EnemyAbility>,
+    /// 弱点属性（仅弱点属性攻击削韧；空 = 不限制）
+    pub weaknesses: Vec<Element>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

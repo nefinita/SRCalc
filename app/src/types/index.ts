@@ -147,6 +147,7 @@ export interface EnemyDTO {
   res: Record<Element, number>;
   spd: number;
   actions: EnemyAbility[];
+  weaknesses: Element[];
 }
 
 export interface BuffConfig {
