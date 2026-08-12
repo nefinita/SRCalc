@@ -15,6 +15,34 @@ export type AbilityKind = "basic" | "skill" | "ult" | "talent";
 
 export type ActionKind = "basic" | "skill" | "ult" | "wait";
 
+export type BuffStat =
+  | "atk_pct"
+  | "hp_pct"
+  | "def_pct"
+  | "speed_pct"
+  | "crit_rate"
+  | "crit_dmg"
+  | "dmg_pct"
+  | "def_ignore"
+  | "res_pen"
+  | "vuln_pct"
+  | "break_effect";
+
+export type BuffTarget = "self" | "team" | "ally";
+
+export type Trigger = "on_use" | "on_sp_consume";
+
+export interface Effect {
+  trigger: Trigger;
+  stat: BuffStat;
+  value: number;
+  turns: number;
+  target: BuffTarget;
+  cap_bonus: number;
+  sp_on_basic: number;
+  max_stacks: number;
+}
+
 export interface AbilityData {
   name: string;
   kind: AbilityKind;
@@ -31,7 +59,12 @@ export interface AbilityData {
   energy_gain: number;
   max_energy: number;
   skill_point: number;
+  bonus_sp: number;
   target: "single" | "all" | "adjacent" | "random";
+  buff: Effect | null;
+  immediate_action: boolean;
+  action_advance_pct: number;
+  self_advance_pct: number;
 }
 
 export interface CharacterDTO {
@@ -44,6 +77,7 @@ export interface CharacterDTO {
   base_def: number;
   base_spd: number;
   abilities: AbilityData[];
+  team_effects: Effect[];
 }
 
 export interface LightConeDTO {
@@ -56,6 +90,7 @@ export interface LightConeDTO {
   base_def: number;
   superimposition: number;
   passive?: string;
+  effects: Effect[];
 }
 
 export interface RelicSetDTO {
@@ -66,7 +101,7 @@ export interface RelicSetDTO {
 }
 
 export interface MainStat {
-  slot: "body" | "feet" | "sphere" | "rope";
+  slot: "head" | "hands" | "body" | "feet" | "sphere" | "rope";
   stat: string;
   value: number;
 }
@@ -80,6 +115,28 @@ export interface BuildConfig {
   traces: Record<string, boolean>;
 }
 
+export interface TeamMember {
+  char_id: string;
+  build: BuildConfig;
+}
+
+export interface Team {
+  members: TeamMember[];
+}
+
+export interface BattleConfig {
+  base_sp_cap: number;
+  start_sp: number;
+  start_energy: number;
+}
+
+export interface EnemyAbility {
+  name: string;
+  energy_gain_players: number;
+  sp_delta: number;
+  energy_drain: number;
+}
+
 export interface EnemyDTO {
   id: string;
   name: string;
@@ -88,6 +145,8 @@ export interface EnemyDTO {
   max_toughness: number;
   broken: boolean;
   res: Record<Element, number>;
+  spd: number;
+  actions: EnemyAbility[];
 }
 
 export interface BuffConfig {
@@ -126,10 +185,27 @@ export interface SkillResultDTO {
   expected: number;
 }
 
+export interface DamageRequest {
+  config: ConfigDataDTO;
+  team: Team;
+  focus: string;
+  enemy: EnemyDTO;
+  buff: BuffConfig;
+  coefficient: CoefficientConfig;
+}
+
+export interface RotationStepReq {
+  char_id: string;
+  action: ActionKind;
+  target: string | null;
+}
+
 export interface RotationStepDTO {
   char_id: string;
   char_name: string;
   action: ActionKind;
+  is_enemy: boolean;
+  enemy_ability: string | null;
   av: number;
   damage: number;
   energy: number;
@@ -137,17 +213,12 @@ export interface RotationStepDTO {
   buffs: string[];
 }
 
-export interface RotationStepReq {
-  char_id: string;
-  action: ActionKind;
-}
-
 export interface RotationRequest {
   config: ConfigDataDTO;
-  builds: Record<string, BuildConfig>;
+  team: Team;
   enemy: EnemyDTO;
-  buff: BuffConfig;
   coefficient: CoefficientConfig;
+  battle: BattleConfig;
   steps: RotationStepReq[];
   cycles: number;
 }
@@ -159,11 +230,11 @@ export interface RotationResultDTO {
 }
 
 export interface OptimizeRequest {
-  char_id: string;
   config: ConfigDataDTO;
-  build: BuildConfig;
+  team: Team;
+  focus: string;
   enemy: EnemyDTO;
-  buff: BuffConfig;
+  coefficient: CoefficientConfig;
 }
 
 export interface OptimizeResultDTO {

@@ -2,16 +2,18 @@ import { useEffect, useMemo, useState } from "react";
 import * as api from "../api/commands";
 import type {
   ActionKind,
-  BuffConfig,
-  BuildConfig,
+  BattleConfig,
   ConfigDataDTO,
+  RotationRequest,
   RotationResultDTO,
   RotationStepReq,
+  Team,
 } from "../types";
 import styles from "./RotationPage.module.css";
 import { formatNumber } from "../utils/format";
 
 interface Props {
+  team: Team;
   addToast: (msg: string, type?: "success" | "error" | "info") => void;
 }
 
@@ -22,31 +24,14 @@ const ACTION_LABEL: Record<ActionKind, string> = {
   wait: "等待",
 };
 
-const ACTION_SP: Record<ActionKind, string> = {
-  basic: "+1",
-  skill: "-1",
-  ult: "0",
-  wait: "0",
-};
+const DEFAULT_BATTLE: BattleConfig = { base_sp_cap: 5, start_sp: 3, start_energy: 0 };
 
-const EMPTY_BUFF: BuffConfig = {
-  atk_pct: 0,
-  dmg_pct: 0,
-  crit_rate: 0,
-  crit_dmg: 0,
-  def_ignore: 0,
-  res_pen: 0,
-  vuln_pct: 0,
-  break_effect: 0,
-  weakness_break_eff: 0,
-};
-
-export default function RotationPage({ addToast }: Props) {
+export default function RotationPage({ team, addToast }: Props) {
   const [config, setConfig] = useState<ConfigDataDTO | null>(null);
   const [enemyId, setEnemyId] = useState("");
   const [sequence, setSequence] = useState<RotationStepReq[]>([]);
+  const [battle, setBattle] = useState<BattleConfig>(DEFAULT_BATTLE);
   const [cycles, setCycles] = useState(1);
-  const [buff, setBuff] = useState<BuffConfig>(EMPTY_BUFF);
   const [result, setResult] = useState<RotationResultDTO | null>(null);
   const [running, setRunning] = useState(false);
 
@@ -62,8 +47,23 @@ export default function RotationPage({ addToast }: Props) {
     [config, enemyId]
   );
 
+  const teamChars = useMemo(
+    () =>
+      team.members
+        .map((m) => config?.characters.find((c) => c.id === m.char_id))
+        .filter(Boolean) as NonNullable<ConfigDataDTO["characters"]>,
+    [team, config]
+  );
+
   function addStep(charId: string, action: ActionKind) {
-    setSequence((s) => [...s, { char_id: charId, action }]);
+    const ability = config?.characters
+      .find((c) => c.id === charId)
+      ?.abilities.find((a) => a.kind === action);
+    const needsTarget = ability?.buff?.target === "ally" || ability?.immediate_action;
+    const defaultTarget = needsTarget
+      ? team.members.find((m) => m.char_id !== charId)?.char_id ?? null
+      : null;
+    setSequence((s) => [...s, { char_id: charId, action, target: defaultTarget }]);
   }
 
   function removeStep(index: number) {
@@ -80,6 +80,10 @@ export default function RotationPage({ addToast }: Props) {
     });
   }
 
+  function patchStep(index: number, patch: Partial<RotationStepReq>) {
+    setSequence((s) => s.map((x, i) => (i === index ? { ...x, ...patch } : x)));
+  }
+
   async function handleRun() {
     if (!config || !enemy) {
       addToast("请先选择敌方", "error");
@@ -89,25 +93,18 @@ export default function RotationPage({ addToast }: Props) {
       addToast("请先编排行动序列", "error");
       return;
     }
+    if (team.members.length === 0) {
+      addToast("请先在上方添加队伍成员", "error");
+      return;
+    }
     setRunning(true);
     try {
-      const builds: Record<string, BuildConfig> = {};
-      for (const id of new Set(sequence.map((s) => s.char_id))) {
-        builds[id] = {
-          level: 80,
-          light_cone: null,
-          relic_sets: [],
-          main_stats: [],
-          substats: {},
-          traces: {},
-        };
-      }
-      const req = {
+      const req: RotationRequest = {
         config,
-        builds,
+        team,
         enemy,
-        buff,
         coefficient: { def_const: 200, broken_multiplier: 0.9, break_multiplier: 1.0 },
+        battle,
         steps: sequence,
         cycles,
       };
@@ -125,8 +122,8 @@ export default function RotationPage({ addToast }: Props) {
     <div className={styles.page}>
       <div className={styles.left}>
         <div className={styles.panel}>
-          <h2 className={styles.sectionTitle}>角色行动</h2>
-          {config?.characters.map((c) => (
+          <h2 className={styles.sectionTitle}>队伍行动</h2>
+          {teamChars.map((c) => (
             <div key={c.id} className={styles.charRow}>
               <span className={styles.charName}>{c.name}</span>
               <div className={styles.actionBtns}>
@@ -137,7 +134,7 @@ export default function RotationPage({ addToast }: Props) {
                       key={a.kind}
                       className={styles.actionBtn}
                       onClick={() => addStep(c.id, a.kind as ActionKind)}
-                      title={`SP ${ACTION_SP[a.kind as ActionKind]}`}
+                      title={`SP ${a.skill_point > 0 ? "+" + a.skill_point : a.skill_point} · 能量 ${a.energy_gain}`}
                     >
                       {a.name}
                     </button>
@@ -145,10 +142,13 @@ export default function RotationPage({ addToast }: Props) {
               </div>
             </div>
           ))}
+          {teamChars.length === 0 && (
+            <div className={styles.empty}>先在上方添加队伍成员</div>
+          )}
         </div>
 
         <div className={styles.panel}>
-          <h2 className={styles.sectionTitle}>敌方与循环</h2>
+          <h2 className={styles.sectionTitle}>敌方与战斗环境</h2>
           <label className={styles.field}>
             <span>敌方</span>
             <select value={enemyId} onChange={(e) => setEnemyId(e.target.value)}>
@@ -159,24 +159,41 @@ export default function RotationPage({ addToast }: Props) {
               ))}
             </select>
           </label>
-          <label className={styles.field}>
-            <span>循环次数</span>
-            <input
-              type="number"
-              min={1}
-              value={cycles}
-              onChange={(e) => setCycles(Math.max(1, Number(e.target.value)))}
-            />
-          </label>
-          <label className={styles.field}>
-            <span>增益攻击%</span>
-            <input
-              type="number"
-              step={0.01}
-              value={buff.atk_pct}
-              onChange={(e) => setBuff((b) => ({ ...b, atk_pct: Number(e.target.value) }))}
-            />
-          </label>
+          <div className={styles.grid2}>
+            <label className={styles.field}>
+              <span>战技点上限</span>
+              <input
+                type="number"
+                value={battle.base_sp_cap}
+                onChange={(e) => setBattle((b) => ({ ...b, base_sp_cap: Math.max(1, Number(e.target.value)) }))}
+              />
+            </label>
+            <label className={styles.field}>
+              <span>开局战技点</span>
+              <input
+                type="number"
+                value={battle.start_sp}
+                onChange={(e) => setBattle((b) => ({ ...b, start_sp: Math.max(0, Number(e.target.value)) }))}
+              />
+            </label>
+            <label className={styles.field}>
+              <span>开局能量</span>
+              <input
+                type="number"
+                value={battle.start_energy}
+                onChange={(e) => setBattle((b) => ({ ...b, start_energy: Number(e.target.value) }))}
+              />
+            </label>
+            <label className={styles.field}>
+              <span>循环次数</span>
+              <input
+                type="number"
+                min={1}
+                value={cycles}
+                onChange={(e) => setCycles(Math.max(1, Number(e.target.value)))}
+              />
+            </label>
+          </div>
         </div>
       </div>
 
@@ -188,13 +205,29 @@ export default function RotationPage({ addToast }: Props) {
           ) : (
             <ol className={styles.seqList}>
               {sequence.map((step, i) => {
-                const c = config?.characters.find((x) => x.id === step.char_id);
+                const c = teamChars.find((x) => x.id === step.char_id);
                 return (
                   <li key={i} className={styles.seqItem}>
                     <span className={styles.seqIndex}>{i + 1}</span>
                     <span className={styles.seqChar}>{c?.name ?? step.char_id}</span>
                     <span className={styles.seqAction}>{ACTION_LABEL[step.action]}</span>
-                    <span className={styles.seqSp}>SP {ACTION_SP[step.action]}</span>
+                    {step.action !== "wait" && team.members.length > 1 && (
+                      <select
+                        className={styles.targetSel}
+                        value={step.target ?? ""}
+                        onChange={(e) => patchStep(i, { target: e.target.value || null })}
+                        title="目标"
+                      >
+                        <option value="">—</option>
+                        {team.members
+                          .filter((m) => m.char_id !== step.char_id)
+                          .map((m) => (
+                            <option key={m.char_id} value={m.char_id}>
+                              {teamChars.find((x) => x.id === m.char_id)?.name}
+                            </option>
+                          ))}
+                      </select>
+                    )}
                     <div className={styles.seqBtns}>
                       <button onClick={() => moveStep(i, -1)}>↑</button>
                       <button onClick={() => moveStep(i, 1)}>↓</button>
@@ -224,7 +257,7 @@ export default function RotationPage({ addToast }: Props) {
                 <thead>
                   <tr>
                     <th>AV</th>
-                    <th>角色</th>
+                    <th>单位</th>
                     <th>动作</th>
                     <th>伤害</th>
                     <th>能量</th>
@@ -233,10 +266,10 @@ export default function RotationPage({ addToast }: Props) {
                 </thead>
                 <tbody>
                   {result.steps.map((s, i) => (
-                    <tr key={i}>
+                    <tr key={i} className={s.is_enemy ? styles.enemyRow : undefined}>
                       <td>{s.av.toFixed(1)}</td>
-                      <td>{s.char_name}</td>
-                      <td>{ACTION_LABEL[s.action]}</td>
+                      <td>{s.is_enemy ? `${s.char_name}·${s.enemy_ability}` : s.char_name}</td>
+                      <td>{s.is_enemy ? "敌方行动" : ACTION_LABEL[s.action]}</td>
                       <td className={styles.strong}>{formatNumber(s.damage)}</td>
                       <td>{s.energy.toFixed(0)}</td>
                       <td>{s.skill_point}</td>

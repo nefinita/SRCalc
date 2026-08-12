@@ -1,81 +1,54 @@
 import { useEffect, useMemo, useState } from "react";
 import * as api from "../api/commands";
-import type {
-  BuffConfig,
-  BuildConfig,
-  ConfigDataDTO,
-  OptimizeResultDTO,
-} from "../types";
+import type { ConfigDataDTO, OptimizeRequest, OptimizeResultDTO, Team } from "../types";
 import styles from "./OptimizePage.module.css";
 import { formatNumber } from "../utils/format";
 
 interface Props {
+  team: Team;
   addToast: (msg: string, type?: "success" | "error" | "info") => void;
 }
 
-const EMPTY_BUFF: BuffConfig = {
-  atk_pct: 0,
-  dmg_pct: 0,
-  crit_rate: 0,
-  crit_dmg: 0,
-  def_ignore: 0,
-  res_pen: 0,
-  vuln_pct: 0,
-  break_effect: 0,
-  weakness_break_eff: 0,
-};
-
-export default function OptimizePage({ addToast }: Props) {
+export default function OptimizePage({ team, addToast }: Props) {
   const [config, setConfig] = useState<ConfigDataDTO | null>(null);
-  const [charId, setCharId] = useState("");
-  const [coneId, setConeId] = useState("");
   const [enemyId, setEnemyId] = useState("");
+  const [focus, setFocus] = useState("");
   const [result, setResult] = useState<OptimizeResultDTO | null>(null);
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
     api.loadConfig().then((cfg) => {
       setConfig(cfg);
-      if (cfg.characters.length) setCharId(cfg.characters[0].id);
       if (cfg.enemies.length) setEnemyId(cfg.enemies[0].id);
-      if (cfg.light_cones.length) setConeId(cfg.light_cones[0].id);
     });
   }, []);
 
-  const character = useMemo(
-    () => config?.characters.find((c) => c.id === charId),
-    [config, charId]
+  useEffect(() => {
+    if (!focus && team.members.length > 0) setFocus(team.members[0].char_id);
+  }, [team, focus]);
+
+  const focusName = useMemo(
+    () => config?.characters.find((c) => c.id === focus)?.name ?? "",
+    [config, focus]
   );
 
-  function buildBuild(): BuildConfig {
-    return {
-      level: 80,
-      light_cone: config?.light_cones.find((c) => c.id === coneId)?.id ?? null,
-      relic_sets: [],
-      main_stats: [],
-      substats: {},
-      traces: {},
-    };
-  }
-
   async function handleRun() {
-    if (!character || !config) {
-      addToast("请先选择角色", "error");
-      return;
-    }
-    const enemy = config.enemies.find((e) => e.id === enemyId);
+    const enemy = config?.enemies.find((e) => e.id === enemyId);
     if (!enemy) {
       addToast("请先选择敌方", "error");
       return;
     }
+    if (!focus || !team.members.some((m) => m.char_id === focus)) {
+      addToast("请先在上方添加要优化的角色", "error");
+      return;
+    }
     setRunning(true);
     try {
-      const req = {
-        config,
-        char_id: charId,
-        build: buildBuild(),
+      const req: OptimizeRequest = {
+        config: config!,
+        team,
+        focus,
         enemy,
-        buff: EMPTY_BUFF,
         coefficient: { def_const: 200, broken_multiplier: 0.9, break_multiplier: 1.0 },
       };
       const r = await api.runOptimize(req);
@@ -91,23 +64,13 @@ export default function OptimizePage({ addToast }: Props) {
   return (
     <div className={styles.page}>
       <div className={styles.panel}>
-        <h2 className={styles.sectionTitle}>优化目标</h2>
+        <h2 className={styles.sectionTitle}>优化目标（队伍上下文中）</h2>
         <label className={styles.field}>
           <span>角色</span>
-          <select value={charId} onChange={(e) => setCharId(e.target.value)}>
-            {config?.characters.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.field}>
-          <span>光锥</span>
-          <select value={coneId} onChange={(e) => setConeId(e.target.value)}>
-            {config?.light_cones.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
+          <select value={focus} onChange={(e) => setFocus(e.target.value)}>
+            {team.members.map((m) => (
+              <option key={m.char_id} value={m.char_id}>
+                {config?.characters.find((c) => c.id === m.char_id)?.name ?? m.char_id}
               </option>
             ))}
           </select>
@@ -126,7 +89,7 @@ export default function OptimizePage({ addToast }: Props) {
           {running ? "优化中…" : "开始优化"}
         </button>
         <p className={styles.hint}>
-          枚举 身体×脚部×位面球×连接绳 主词条组合，以期望伤害排序。
+          枚举 身体×脚部×位面球×连接绳 主词条组合，以{focusName}期望伤害排序（含队伍在场被动）。
         </p>
       </div>
 

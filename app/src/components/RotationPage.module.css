@@ -132,6 +132,26 @@
   font-size: 12px;
 }
 
+.targetSel {
+  padding: 2px 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 11px;
+  max-width: 80px;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xs);
+}
+
+.enemyRow td {
+  color: var(--warning);
+}
+
 .seqBtns {
   display: flex;
   gap: 4px;

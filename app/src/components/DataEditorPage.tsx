@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import * as api from "../api/commands";
-import type { AbilityData, CharacterDTO, ConfigDataDTO, EnemyDTO } from "../types";
+import type {
+  AbilityData,
+  CharacterDTO,
+  ConfigDataDTO,
+  Effect,
+  EnemyAbility,
+  EnemyDTO,
+} from "../types";
 import styles from "./DataEditorPage.module.css";
 
 interface Props {
@@ -14,7 +21,6 @@ export default function DataEditorPage({ addToast }: Props) {
   const [tab, setTab] = useState<Tab>("character");
   const [charId, setCharId] = useState("");
   const [enemyId, setEnemyId] = useState("");
-
   const [editingChar, setEditingChar] = useState<CharacterDTO | null>(null);
   const [editingEnemy, setEditingEnemy] = useState<EnemyDTO | null>(null);
 
@@ -23,11 +29,11 @@ export default function DataEditorPage({ addToast }: Props) {
       setConfig(cfg);
       if (cfg.characters.length) {
         setCharId(cfg.characters[0].id);
-        setEditingChar(cfg.characters[0]);
+        setEditingChar(structuredClone(cfg.characters[0]));
       }
       if (cfg.enemies.length) {
         setEnemyId(cfg.enemies[0].id);
-        setEditingEnemy(cfg.enemies[0]);
+        setEditingEnemy(structuredClone(cfg.enemies[0]));
       }
     });
   }, []);
@@ -59,8 +65,24 @@ export default function DataEditorPage({ addToast }: Props) {
     });
   }
 
+  function patchEffect(index: number, patch: Partial<Effect>) {
+    setEditingChar((c) => {
+      if (!c) return c;
+      const team_effects = c.team_effects.map((e, i) => (i === index ? { ...e, ...patch } : e));
+      return { ...c, team_effects };
+    });
+  }
+
   function patchEnemy(patch: Partial<EnemyDTO>) {
     setEditingEnemy((e) => (e ? { ...e, ...patch } : e));
+  }
+
+  function patchEnemyAction(index: number, patch: Partial<EnemyAbility>) {
+    setEditingEnemy((e) => {
+      if (!e) return e;
+      const actions = e.actions.map((a, i) => (i === index ? { ...a, ...patch } : a));
+      return { ...e, actions };
+    });
   }
 
   async function handleSaveChar() {
@@ -159,36 +181,51 @@ export default function DataEditorPage({ addToast }: Props) {
                       </select>
                     </label>
                     <Num label="倍率" value={a.multiplier} onChange={(v) => patchAbility(i, { multiplier: v })} />
-                    <label className={styles.field}>
-                      <span>技能等级</span>
-                      <input
-                        type="number"
-                        min={1}
-                        value={a.skill_level}
-                        onChange={(e) => patchAbility(i, { skill_level: Math.max(1, Number(e.target.value)) })}
-                      />
-                    </label>
-                    <label className={styles.field}>
-                      <span>每级倍率(逗号分隔)</span>
-                      <input
-                        value={a.multipliers.join(",")}
-                        onChange={(e) =>
-                          patchAbility(i, {
-                            multipliers: e.target.value
-                              .split(",")
-                              .map((x) => Number(x.trim()))
-                              .filter((x) => Number.isFinite(x)),
-                          })
-                        }
-                      />
-                    </label>
+                    <Num label="技能等级" value={a.skill_level} onChange={(v) => patchAbility(i, { skill_level: v })} />
+                    <Field label="每级倍率(逗号)" value={a.multipliers.join(",")} onChange={(v) => patchAbility(i, { multipliers: v.split(",").map((x) => Number(x.trim())).filter((x) => Number.isFinite(x)) })} />
                     <Num label="削韧" value={a.toughness_reduction} onChange={(v) => patchAbility(i, { toughness_reduction: v })} />
                     <Num label="回能" value={a.energy_gain} onChange={(v) => patchAbility(i, { energy_gain: v })} />
                     <Num label="最大能量" value={a.max_energy} onChange={(v) => patchAbility(i, { max_energy: v })} />
                     <Num label="战技点" value={a.skill_point} onChange={(v) => patchAbility(i, { skill_point: v })} />
+                    <Num label="额外战技点" value={a.bonus_sp} onChange={(v) => patchAbility(i, { bonus_sp: v })} />
+                    <Num label="行动提前%" value={a.action_advance_pct * 100} onChange={(v) => patchAbility(i, { action_advance_pct: v / 100 })} />
+                    <Num label="自身提前%" value={a.self_advance_pct * 100} onChange={(v) => patchAbility(i, { self_advance_pct: v / 100 })} />
+                    <label className={styles.field}>
+                      <span>立即行动</span>
+                      <input type="checkbox" checked={a.immediate_action} onChange={(e) => patchAbility(i, { immediate_action: e.target.checked })} />
+                    </label>
                   </div>
+                  {a.buff && (
+                    <div className={styles.effectBox}>
+                      <span className={styles.effectTitle}>施放buff</span>
+                      <EffectFields
+                        eff={a.buff}
+                        onChange={(p) => patchAbility(i, { buff: { ...a.buff!, ...p } })}
+                        onRemove={() => patchAbility(i, { buff: null })}
+                      />
+                    </div>
+                  )}
+                  {!a.buff && (
+                    <button className={styles.miniBtn} onClick={() => patchAbility(i, { buff: emptyEffect() })}>
+                      + 添加 buff
+                    </button>
+                  )}
                 </div>
               ))}
+
+              <h3 className={styles.subTitle}>在场被动（team_effects）</h3>
+              {editingChar.team_effects.map((e, i) => (
+                <div key={i} className={styles.effectBox}>
+                  <EffectFields
+                    eff={e}
+                    onChange={(p) => patchEffect(i, p)}
+                    onRemove={() => patchChar({ team_effects: editingChar.team_effects.filter((_, j) => j !== i) })}
+                  />
+                </div>
+              ))}
+              <button className={styles.miniBtn} onClick={() => patchChar({ team_effects: [...editingChar.team_effects, emptyEffect()] })}>
+                + 添加在场被动
+              </button>
 
               <button className={styles.saveBtn} onClick={handleSaveChar}>
                 保存角色
@@ -219,6 +256,7 @@ export default function DataEditorPage({ addToast }: Props) {
                 <Num label="等级" value={editingEnemy.level} onChange={(v) => patchEnemy({ level: v })} />
                 <Num label="防御" value={editingEnemy.def} onChange={(v) => patchEnemy({ def: v })} />
                 <Num label="最大韧性" value={editingEnemy.max_toughness} onChange={(v) => patchEnemy({ max_toughness: v })} />
+                <Num label="速度" value={editingEnemy.spd} onChange={(v) => patchEnemy({ spd: v })} />
               </div>
               <h3 className={styles.subTitle}>抗性</h3>
               <div className={styles.row}>
@@ -231,6 +269,27 @@ export default function DataEditorPage({ addToast }: Props) {
                   />
                 ))}
               </div>
+              <h3 className={styles.subTitle}>行动（回能/回SP/扣能）</h3>
+              {editingEnemy.actions.map((a, i) => (
+                <div key={i} className={styles.abilityCard}>
+                  <div className={styles.row}>
+                    <Field label="名称" value={a.name} onChange={(v) => patchEnemyAction(i, { name: v })} />
+                    <Num label="我方回能" value={a.energy_gain_players} onChange={(v) => patchEnemyAction(i, { energy_gain_players: v })} />
+                    <Num label="战技点变化" value={a.sp_delta} onChange={(v) => patchEnemyAction(i, { sp_delta: v })} />
+                    <Num label="扣能" value={a.energy_drain} onChange={(v) => patchEnemyAction(i, { energy_drain: v })} />
+                  </div>
+                </div>
+              ))}
+              <button
+                className={styles.miniBtn}
+                onClick={() =>
+                  patchEnemy({
+                    actions: [...editingEnemy.actions, { name: "新行动", energy_gain_players: 10, sp_delta: 0, energy_drain: 0 }],
+                  })
+                }
+              >
+                + 添加行动
+              </button>
               <button className={styles.saveBtn} onClick={handleSaveEnemy}>
                 保存敌方
               </button>
@@ -238,6 +297,73 @@ export default function DataEditorPage({ addToast }: Props) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function emptyEffect(): Effect {
+  return {
+    trigger: "on_use",
+    stat: "atk_pct",
+    value: 0,
+    turns: 1,
+    target: "team",
+    cap_bonus: 0,
+    sp_on_basic: 0,
+    max_stacks: 0,
+  };
+}
+
+function EffectFields({
+  eff,
+  onChange,
+  onRemove,
+}: {
+  eff: Effect;
+  onChange: (p: Partial<Effect>) => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div className={styles.effectRow}>
+      <label className={styles.field}>
+        <span>触发</span>
+        <select value={eff.trigger} onChange={(e) => onChange({ trigger: e.target.value as Effect["trigger"] })}>
+          <option value="on_use">施放</option>
+          <option value="on_sp_consume">消耗战技点</option>
+        </select>
+      </label>
+      <label className={styles.field}>
+        <span>属性</span>
+        <select value={eff.stat} onChange={(e) => onChange({ stat: e.target.value as Effect["stat"] })}>
+          <option value="atk_pct">攻击%</option>
+          <option value="hp_pct">生命%</option>
+          <option value="def_pct">防御%</option>
+          <option value="speed_pct">速度%</option>
+          <option value="crit_rate">暴击率</option>
+          <option value="crit_dmg">暴伤</option>
+          <option value="dmg_pct">增伤</option>
+          <option value="def_ignore">无视防御</option>
+          <option value="res_pen">抗穿</option>
+          <option value="vuln_pct">易伤</option>
+          <option value="break_effect">击破特攻</option>
+        </select>
+      </label>
+      <Num label="值" value={eff.value} onChange={(v) => onChange({ value: v })} />
+      <Num label="回合" value={eff.turns} onChange={(v) => onChange({ turns: v })} />
+      <label className={styles.field}>
+        <span>目标</span>
+        <select value={eff.target} onChange={(e) => onChange({ target: e.target.value as Effect["target"] })}>
+          <option value="self">自己</option>
+          <option value="team">全队</option>
+          <option value="ally">单体</option>
+        </select>
+      </label>
+      <Num label="SP上限+" value={eff.cap_bonus} onChange={(v) => onChange({ cap_bonus: v })} />
+      <Num label="目标普攻+SP" value={eff.sp_on_basic} onChange={(v) => onChange({ sp_on_basic: v })} />
+      <Num label="叠层上限" value={eff.max_stacks} onChange={(v) => onChange({ max_stacks: v })} />
+      <button className={styles.miniBtn} onClick={onRemove}>
+        删除
+      </button>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 .page {
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: 360px 1fr;
   gap: var(--space-xl);
   align-items: start;
 }
@@ -11,6 +11,12 @@
   border-radius: var(--radius-lg);
   backdrop-filter: var(--glass-blur);
   padding: var(--space-lg);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
 }
 
 .sectionTitle {

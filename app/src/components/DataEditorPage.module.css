@@ -110,3 +110,38 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.effectBox {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  margin: var(--space-sm) 0;
+}
+
+.effectTitle {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-xs);
+  display: block;
+}
+
+.effectRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: var(--space-xs);
+  align-items: end;
+}
+
+.miniBtn {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: var(--space-xs);
+}
+
+.miniBtn:hover {
+  background: var(--glass-highlight);
+}
