@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "Shoot属性大爆发"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "无敌玩家，启动！"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "有我在，把把都是顺风局"
@@ -107,6 +110,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "奖励关：「狼尊时刻」"
@@ -132,6 +136,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "超超超大剑"
@@ -156,6 +161,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "爆爆爆炸蛋"
@@ -180,6 +186,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "怪怪怪味豆"
@@ -204,3 +211,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false

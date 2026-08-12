@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "钺贯"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "凿破大荒"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "雷狩"
@@ -107,6 +110,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "闪裂刃舞"
@@ -131,6 +135,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "钺贯天冲"
@@ -155,6 +160,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "凿破大荒"
@@ -179,3 +185,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false

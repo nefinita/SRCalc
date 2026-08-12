@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "师父，请喝茶！"
@@ -59,6 +60,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "盖世女侠三月七"
@@ -83,6 +85,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "师父，我悟了！"
@@ -108,6 +111,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "一扎眉攒，二扎心"
@@ -132,3 +136,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false

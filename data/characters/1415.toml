@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "盛放吧，来世的乐土"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "诗的「◦」誓约的「∞」"
@@ -83,6 +85,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "众愿啊，汇流如歌"
@@ -108,6 +111,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "向着爱与明天♪"
@@ -132,6 +136,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "一如初见的重逢"
@@ -156,3 +161,415 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
+
+[[abilities]]
+name = "花与箭的舞曲"
+kind = "memosprite"
+multiplier = 0.3
+multipliers = [0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "此诗，献予一切生命"
+kind = "memosprite"
+multiplier = 12
+multipliers = [12, 12, 12, 12, 12, 12, 12, 12, 12, 12]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.4, turns = 2, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = true
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「创世」之诗"
+kind = "memosprite"
+multiplier = 0.08
+multipliers = [0.08, 0.096, 0.112, 0.128, 0.144, 0.16, 0.176, 0.192, 0.208, 0.224]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.16, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「浪漫」之诗"
+kind = "memosprite"
+multiplier = 70
+multipliers = [70, 70, 70, 70, 70, 70, 70, 70, 70, 70]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.72, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「门径」之诗"
+kind = "memosprite"
+multiplier = 1
+multipliers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「纷争」之诗"
+kind = "memosprite"
+multiplier = 1
+multipliers = [1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 2, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.01
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「生死」之诗"
+kind = "memosprite"
+multiplier = 0
+multipliers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「理性」之诗"
+kind = "memosprite"
+multiplier = 3
+multipliers = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 1
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.6, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「天空」之诗"
+kind = "memosprite"
+multiplier = 0.36
+multipliers = [0.36, 0.432, 0.504, 0.576, 0.648, 0.72, 0.792, 0.864, 0.936, 1.008]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = true
+forced = false
+
+[[abilities]]
+name = "献予「诡计」之诗"
+kind = "memosprite"
+multiplier = 0.18
+multipliers = [0.18, 0.216, 0.252, 0.288, 0.324, 0.36, 0.396, 0.432, 0.468, 0.504]
+skill_level = 6
+scaling = "def"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.36, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = true
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「负世」之诗"
+kind = "memosprite"
+multiplier = 0.08
+multipliers = [0.08, 0.096, 0.112, 0.128, 0.144, 0.16, 0.176, 0.192, 0.208, 0.224]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.12, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「海洋」之诗"
+kind = "memosprite"
+multiplier = 0.6
+multipliers = [0.6, 0.72, 0.84, 0.96, 1.08, 1.2, 1.32, 1.44, 1.56, 1.68]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "dot"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 1.2, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「律法」之诗"
+kind = "memosprite"
+multiplier = 0.15
+multipliers = [0.15, 0.18, 0.21, 0.24, 0.27, 0.3, 0.33, 0.36, 0.39, 0.42]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.3, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「岁月」之诗"
+kind = "memosprite"
+multiplier = 0.09
+multipliers = [0.09, 0.108, 0.126, 0.144, 0.162, 0.18, 0.198, 0.216, 0.234, 0.252]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.18, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「大地」之诗"
+kind = "memosprite"
+multiplier = 0.12
+multipliers = [0.12, 0.144, 0.168, 0.192, 0.216, 0.24, 0.264, 0.288, 0.312, 0.336]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.24, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "献予「真我」之诗"
+kind = "memosprite"
+multiplier = 0.3
+multipliers = [0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false

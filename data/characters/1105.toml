@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "爱，救护与抉择"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "新生之礼"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "生机焕发"
@@ -106,3 +109,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = true
+forced = false

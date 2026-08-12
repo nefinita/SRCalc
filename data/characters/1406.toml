@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "嘿，空手套白银"
@@ -59,6 +60,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "猫咪怪盗，敬上！"
@@ -83,6 +85,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "热情好客的多洛斯人"
@@ -107,3 +110,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false

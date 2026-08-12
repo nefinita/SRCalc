@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "舔舐…背叛伸出火舌"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "沉溺…飞灰邀入墓床"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false
 
 [[abilities]]
 name = "谁在害怕康士坦丝？"
@@ -106,3 +109,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false

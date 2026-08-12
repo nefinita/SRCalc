@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "缄默，幽蝶之轻抚"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "亡喉怒哮，苏生之颂铃"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false
 
 [[abilities]]
 name = "掌心淌过的荒芜"
@@ -107,6 +110,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "骸爪，冥龙之环拥"
@@ -131,3 +135,129 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
+
+[[abilities]]
+name = "擘裂冥茫的爪痕"
+kind = "memosprite"
+multiplier = 0.2
+multipliers = [0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "燎尽黯泽的焰息"
+kind = "memosprite"
+multiplier = 0.25
+multipliers = [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "燎尽黯泽的焰息"
+kind = "memosprite"
+multiplier = 0.25
+multipliers = [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = true
+
+[[abilities]]
+name = "燎尽黯泽的焰息"
+kind = "memosprite"
+multiplier = 0.25
+multipliers = [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = true
+
+[[abilities]]
+name = "灼掠幽墟的晦翼"
+kind = "memosprite"
+multiplier = 0.2
+multipliers = [0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56]
+skill_level = 6
+scaling = "hp"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "random"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false

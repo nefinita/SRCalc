@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "燔燎急袭"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false
 
 [[abilities]]
 name = "鼎阵妙法，奇正相生"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false
 
 [[abilities]]
 name = "四示八权，纤滋精味"
@@ -106,3 +109,4 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false

@@ -11,7 +11,7 @@ export type Path =
   | "remembrance"
   | "elation";
 
-export type AbilityKind = "basic" | "skill" | "ult" | "talent";
+export type AbilityKind = "basic" | "skill" | "ult" | "talent" | "memosprite";
 
 export type ActionKind = "basic" | "skill" | "ult" | "wait";
 
@@ -82,6 +82,7 @@ export interface AbilityData {
   self_advance_pct: number;
   applies_debuff: boolean;
   heals: boolean;
+  forced: boolean;
 }
 
 export interface CharacterDTO {
@@ -242,6 +243,12 @@ export interface RotationStepDTO {
   buffs: string[];
 }
 
+export interface MemospriteStepReq {
+  owner_id: string;
+  ability_index: number;
+  target: string | null;
+}
+
 export interface RotationRequest {
   config: ConfigDataDTO;
   team: Team;
@@ -249,6 +256,7 @@ export interface RotationRequest {
   coefficient: CoefficientConfig;
   battle: BattleConfig;
   steps: RotationStepReq[];
+  memosprite_steps: MemospriteStepReq[];
   cycles: number;
 }
 

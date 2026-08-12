@@ -208,6 +208,10 @@ export default function DataEditorPage({ addToast }: Props) {
                       <span>治疗</span>
                       <input type="checkbox" checked={a.heals} onChange={(e) => patchAbility(i, { heals: e.target.checked })} />
                     </label>
+                    <label className={styles.field}>
+                      <span>忆灵强制</span>
+                      <input type="checkbox" checked={a.forced} onChange={(e) => patchAbility(i, { forced: e.target.checked })} />
+                    </label>
                   </div>
                   {a.buff && (
                     <div className={styles.effectBox}>

@@ -372,7 +372,7 @@ pub fn compute_ability_damage_for(ctx: AbilityContext) -> DamageBreakdown {
         sr_api::AbilityKind::Basic => mods.basic_dmg_pct,
         sr_api::AbilityKind::Skill => mods.skill_dmg_pct,
         sr_api::AbilityKind::Ult => mods.ult_dmg_pct,
-        sr_api::AbilityKind::Talent => mods.followup_dmg_pct,
+        sr_api::AbilityKind::Talent | sr_api::AbilityKind::Memosprite => mods.followup_dmg_pct,
     };
     let boost = 1.0 + stats.dmg_pct + mods.dmg_pct + type_dmg;
     let def_m = def_multiplier(attacker_level, enemy, mods.def_ignore, coeff);
@@ -530,6 +530,7 @@ mod tests {
                 self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
             }],
             team_effects: vec![],
             has_memosprite: false,

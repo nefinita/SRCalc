@@ -51,7 +51,16 @@ ELEMENT_MAP = {
     "Imaginary": "imaginary",
 }
 
-TYPE_KIND = {"Normal": "basic", "BPSkill": "skill", "Ultra": "ult", "Talent": "talent"}
+TYPE_KIND = {
+    "Normal": "basic",
+    "BPSkill": "skill",
+    "Ultra": "ult",
+    "Talent": "talent",
+    "MemospriteSkill": "memosprite",
+}
+
+# 强制触发忆灵技能（死龙/长夜月：回合到必放，不可选）
+MEMOSPRITE_FORCED = {"1141301", "1140710", "1140711"}
 
 ATTACK_EFFECTS = {"SingleAttack", "AoEAttack", "Blast", "Bounce"}
 
@@ -127,7 +136,7 @@ def find_stat_key(desc: str):
 
 def parse_sp(desc: str, kind: str, params: list) -> tuple:
     """按描述解析战技点：返回 (skill_point, bonus_sp)。"""
-    base = {"basic": 1, "skill": -1, "ult": 0, "talent": 0}[kind]
+    base = {"basic": 1, "skill": -1, "ult": 0, "talent": 0}.get(kind, 0)
     m = re.search(r"消耗#(\d+)\[i\]点战技点", desc)
     if m:
         val = resolve_param(desc, params, 5, int(m.group(1)))
@@ -158,7 +167,7 @@ def parse_buff(desc: str, params: list, kind: str):
         return None
     tm = re.search(r"持续#(\d+)\[i\]回合", desc)
     turns = int(resolve_param(desc, params, 5, int(tm.group(1))) or 1) if tm else 1
-    target = {"basic": "self", "skill": "ally", "ult": "team", "talent": "self"}[kind]
+    target = {"basic": "self", "skill": "ally", "ult": "team", "talent": "self"}.get(kind, "self")
     return {
         "trigger": "on_use",
         "stat": stat,
@@ -302,11 +311,11 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             "flat_damage": 0.0,
             "dmg_type": "dot" if ("持续伤害" in desc or "DoT" in desc) else "normal",
             "can_crit": effect in ATTACK_EFFECTS,
-            "toughness_reduction": {"basic": 10.0, "skill": 20.0, "ult": 30.0, "talent": 0.0}[kind],
+            "toughness_reduction": {"basic": 10.0, "skill": 20.0, "ult": 30.0, "talent": 0.0}.get(kind, 0.0),
             "hits": 1,
             "hit_split": [1.0],
-            "energy_gain": {"basic": 20.0, "skill": 30.0, "ult": 5.0, "talent": 0.0}[kind],
-            "max_energy": float(c.get("max_sp") or 100),
+            "energy_gain": {"basic": 20.0, "skill": 30.0, "ult": 5.0, "talent": 0.0}.get(kind, 0.0),
+            "max_energy": 0.0 if kind == "memosprite" else float(c.get("max_sp") or 100),
             "skill_point": sp,
             "bonus_sp": bonus_sp,
             "target": TARGET_MAP.get(effect, "single"),
@@ -316,6 +325,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             "self_advance_pct": 0.0,
             "applies_debuff": applies_debuff,
             "heals": heals,
+            "forced": sid in MEMOSPRITE_FORCED,
         }
         abilities.append(ability)
         team_effects.extend(parse_team_effects(desc, params, kind))

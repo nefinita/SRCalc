@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "作战再部署"
@@ -59,6 +60,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "贝洛伯格进行曲"
@@ -84,6 +86,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "先人一步"
@@ -108,3 +111,4 @@ action_advance_pct = 0.0023
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false

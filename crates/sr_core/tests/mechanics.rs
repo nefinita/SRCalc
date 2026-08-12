@@ -51,6 +51,7 @@ fn ability(name: &str, kind: AbilityKind, mult: f64, sp: i32, energy: f64) -> Ab
         self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
     }
 }
 
@@ -121,6 +122,7 @@ fn rotate(
         coefficient: Default::default(),
         battle,
         steps,
+        memosprite_steps: vec![],
         cycles: 1,
     })
     .expect("rotation")
@@ -203,6 +205,7 @@ fn ult_bonus_sp_and_insertion_av() {
             self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -248,6 +251,7 @@ fn ally_buff_targets_and_immediate_action() {
         self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
     }]);
     let a = character("a", "A", 115.0, vec![
         ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
@@ -286,6 +290,7 @@ fn enemy_actions_energy_sp_drain() {
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps,
+        memosprite_steps: vec![],
         cycles: 1,
     })
     .expect("rotation");
@@ -337,6 +342,7 @@ fn sp_on_basic_brand() {
         self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
     }]);
     let a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     // 寒鸦战技(-1)→3-1=2；A 普攻 +1(普攻)+1(罚恶)=4
@@ -373,6 +379,7 @@ fn per_skill_sp_cost() {
         self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
     }]);
     let out = rotate(vec![a], &["a"], vec![basic("a")], BattleConfig::default());
     assert_eq!(out.steps[0].skill_point, 1); // 3 - 2
@@ -428,6 +435,7 @@ fn weakness_break_system() {
         enemy: e,
         coefficient: Default::default(),
         battle: BattleConfig::default(),
+        memosprite_steps: vec![],
         steps: vec![basic("a"); 4],
         cycles: 1,
     })
@@ -462,6 +470,7 @@ fn non_weakness_no_break() {
         enemy: e,
         coefficient: Default::default(),
         battle: BattleConfig::default(),
+        memosprite_steps: vec![],
         steps: vec![basic("a"); 4],
         cycles: 1,
     })
@@ -500,6 +509,7 @@ fn sp_overflow_recording() {
             self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -610,6 +620,7 @@ fn conditional_set_effect_on_ult_expires() {
             self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
         },
     ]);
     let mut build = Build::default();
@@ -628,6 +639,7 @@ fn conditional_set_effect_on_ult_expires() {
         enemy: enemy(),
         coefficient: Default::default(),
         battle: BattleConfig { start_energy: 100.0, ..Default::default() },
+        memosprite_steps: vec![],
         steps: vec![ult("a"), basic("a"), basic("a"), basic("a")],
         cycles: 1,
     })
@@ -678,6 +690,7 @@ fn on_hit_set_stacks_crit_rate() {
         enemy: e,
         coefficient: Default::default(),
         battle: BattleConfig::default(),
+        memosprite_steps: vec![],
         steps: vec![basic("a"); 6],
         cycles: 1,
     })
@@ -730,6 +743,7 @@ fn ally_target_set_buff_applies_and_expires() {
         self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
     }]);
     let b = character("b", "B", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     let mut build = Build::default();
@@ -760,6 +774,7 @@ fn ally_target_set_buff_applies_and_expires() {
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps,
+        memosprite_steps: vec![],
         cycles: 1,
     })
     .expect("rotation");
@@ -815,6 +830,7 @@ fn sp_consume_threshold_set() {
             self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -836,7 +852,8 @@ fn sp_consume_threshold_set() {
             enemy: enemy(),
             coefficient: Default::default(),
             battle: BattleConfig { start_sp: 5, ..Default::default() },
-            steps: vec![skill("a"), basic("a")],
+            memosprite_steps: vec![],
+        steps: vec![skill("a"), basic("a")],
             cycles: 1,
         })
         .expect("rotation");
@@ -891,7 +908,8 @@ fn on_attack_break_buff() {
             enemy: e.clone(),
             coefficient: Default::default(),
             battle: BattleConfig::default(),
-            steps: vec![basic("a"), basic("a")],
+            memosprite_steps: vec![],
+        steps: vec![basic("a"), basic("a")],
             cycles: 1,
         })
         .expect("rotation");
@@ -948,6 +966,7 @@ fn ult_dmg_type_stat() {
             self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -969,7 +988,8 @@ fn ult_dmg_type_stat() {
             enemy: enemy(),
             coefficient: Default::default(),
             battle: BattleConfig { start_energy: 100.0, ..Default::default() },
-            steps: vec![ult("a"), basic("a")],
+            memosprite_steps: vec![],
+        steps: vec![ult("a"), basic("a")],
             cycles: 1,
         })
         .expect("rotation");
@@ -1020,6 +1040,7 @@ fn enemy_kill_detection_and_on_kill() {
         enemy: e,
         coefficient: Default::default(),
         battle: BattleConfig::default(),
+        memosprite_steps: vec![],
         steps: vec![basic("a"); 4],
         cycles: 1,
     })
@@ -1075,6 +1096,7 @@ fn on_apply_debuff_set() {
             self_advance_pct: 0.0,
             applies_debuff: true,
             heals: false,
+            forced: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -1096,7 +1118,8 @@ fn on_apply_debuff_set() {
             enemy: enemy(),
             coefficient: Default::default(),
             battle: BattleConfig::default(),
-            steps: vec![skill("a"), basic("a")],
+            memosprite_steps: vec![],
+        steps: vec![skill("a"), basic("a")],
             cycles: 1,
         })
         .expect("rotation");
@@ -1151,6 +1174,7 @@ fn on_heal_set() {
             self_advance_pct: 0.0,
             applies_debuff: false,
             heals: true,
+            forced: false,
         },
     ]);
     let run = |with_set: bool| {
@@ -1172,7 +1196,8 @@ fn on_heal_set() {
             enemy: enemy(),
             coefficient: Default::default(),
             battle: BattleConfig::default(),
-            steps: vec![skill("a"), basic("a")],
+            memosprite_steps: vec![],
+        steps: vec![skill("a"), basic("a")],
             cycles: 1,
         })
         .expect("rotation");
@@ -1240,6 +1265,7 @@ fn captain_charge_ult_buff() {
         self_advance_pct: 0.0,
         applies_debuff: false,
         heals: false,
+                forced: false,
     },
     ]);
     let b = character("b", "B", 200.0, vec![ability("战技", AbilityKind::Skill, 0.0, -1, 30.0)]);
@@ -1256,6 +1282,7 @@ fn captain_charge_ult_buff() {
             coefficient: Default::default(),
             battle: BattleConfig { start_energy: 100.0, ..Default::default() },
             steps,
+            memosprite_steps: vec![],
             cycles: 1,
         })
         .expect("rotation");
@@ -1346,6 +1373,7 @@ fn death_water_amplify_on_debuff() {
             self_advance_pct: 0.0,
             applies_debuff: true,
             heals: false,
+            forced: false,
         },
     ]);
     let run = |steps: Vec<RotationStepReq>| {
@@ -1366,6 +1394,7 @@ fn death_water_amplify_on_debuff() {
             coefficient: Default::default(),
             battle: BattleConfig::default(),
             steps,
+            memosprite_steps: vec![],
             cycles: 1,
         })
         .expect("rotation");
@@ -1418,6 +1447,7 @@ fn memosprite_attack_crit_buff() {
         enemy: enemy(),
         coefficient: Default::default(),
         battle: BattleConfig::default(),
+        memosprite_steps: vec![],
         steps: vec![basic("a"); 8],
         cycles: 1,
     })
@@ -1428,4 +1458,93 @@ fn memosprite_attack_crit_buff() {
     // 忆灵行动后两下普攻提升，之后过期回落
     assert!(dmg[dmg.len() - 3] > dmg[0], "忆灵攻击后普攻应提升 d={:.3} base={:.3}", dmg[dmg.len()-3], dmg[0]);
     assert!(dmg[dmg.len() - 1] < dmg[dmg.len() - 3], "buff 过期应回落 d_last={:.3}", dmg[dmg.len()-1]);
+}
+
+#[test]
+fn forced_memosprite_skill_overrides_queue() {
+    // 死龙/长夜月类：忆灵强制技能无视队列选择，必放
+    let mut a = character("a", "A", 200.0, vec![
+        sr_api::AbilityData {
+            name: "忆灵·普通".into(),
+            kind: sr_api::AbilityKind::Memosprite,
+            multiplier: 1.0,
+            multipliers: vec![],
+            skill_level: 1,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 0.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 0.0,
+            max_energy: 0.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: false,
+            heals: false,
+            forced: false,
+        },
+        sr_api::AbilityData {
+            name: "忆灵·强制".into(),
+            kind: sr_api::AbilityKind::Memosprite,
+            multiplier: 3.0,
+            multipliers: vec![],
+            skill_level: 1,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 0.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 0.0,
+            max_energy: 0.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+            applies_debuff: false,
+            heals: false,
+            forced: true,
+        },
+    ]);
+    a.has_memosprite = true;
+    a.memosprite_spd = 100.0;
+    let mut build = Build::default();
+    build.level = 80;
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![enemy()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    // 队列选 index 0（倍率1.0），但强制技能应覆盖 → 用倍率 3.0
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 4],
+        memosprite_steps: vec![sr_api::MemospriteStepReq {
+            owner_id: "a".into(),
+            ability_index: 0,
+            target: None,
+        }],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let memo = out.steps.iter().find(|s| s.buffs.contains(&"忆灵攻击".to_string())).expect("忆灵行动");
+    // 倍率 3.0 的伤害应显著高于倍率 1.0（~3倍）
+    assert!(memo.damage > 400.0, "强制技能应使用倍率3.0 dmg={:.1}", memo.damage);
 }

@@ -52,6 +52,7 @@ fn default_seele() -> Character {
                 self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
             },
             AbilityData {
                 name: "归刃".into(),
@@ -77,6 +78,7 @@ fn default_seele() -> Character {
                 self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
             },
             AbilityData {
                 name: "乱蝶".into(),
@@ -102,6 +104,7 @@ fn default_seele() -> Character {
                 self_advance_pct: 0.0,
                 applies_debuff: false,
                 heals: false,
+                forced: false,
             },
         ],
         team_effects: vec![],

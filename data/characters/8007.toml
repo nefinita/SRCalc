@@ -9,7 +9,7 @@ base_spd = 103
 team_effects = []
 has_memosprite = true
 memosprite_spd = 100.0
-memosprite_multiplier = 0.0
+memosprite_multiplier = 0.18
 
 [[abilities]]
 name = "包在我身上！"
@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "就决定是你了！"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "一起上吧，迷迷！"
@@ -82,6 +84,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "无所不能的伙伴"
@@ -106,6 +109,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "明天，一同写下！"
@@ -130,6 +134,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "就决定是你了！"
@@ -154,3 +159,54 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = true
+forced = false
+
+[[abilities]]
+name = "坏人！麻烦！"
+kind = "memosprite"
+multiplier = 0.18
+multipliers = [0.18, 0.216, 0.252, 0.288, 0.324, 0.36, 0.396, 0.432, 0.468, 0.504]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = true
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false
+
+[[abilities]]
+name = "我会！帮你！"
+kind = "memosprite"
+multiplier = 0.18
+multipliers = [0.18, 0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36]
+skill_level = 6
+scaling = "atk"
+flat_damage = 0.0
+dmg_type = "normal"
+can_crit = false
+toughness_reduction = 0.0
+hits = 1
+hit_split = [1.0]
+energy_gain = 0.0
+max_energy = 0.0
+skill_point = 0
+bonus_sp = 0
+target = "single"
+immediate_action = false
+action_advance_pct = 0.01
+self_advance_pct = 0.0
+applies_debuff = false
+heals = false
+forced = false

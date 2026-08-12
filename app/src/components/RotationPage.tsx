@@ -4,6 +4,7 @@ import type {
   ActionKind,
   BattleConfig,
   ConfigDataDTO,
+  MemospriteStepReq,
   RotationRequest,
   RotationResultDTO,
   RotationStepReq,
@@ -30,6 +31,7 @@ export default function RotationPage({ team, addToast }: Props) {
   const [config, setConfig] = useState<ConfigDataDTO | null>(null);
   const [enemyId, setEnemyId] = useState("");
   const [sequence, setSequence] = useState<RotationStepReq[]>([]);
+  const [memoSteps, setMemoSteps] = useState<MemospriteStepReq[]>([]);
   const [battle, setBattle] = useState<BattleConfig>(DEFAULT_BATTLE);
   const [cycles, setCycles] = useState(1);
   const [result, setResult] = useState<RotationResultDTO | null>(null);
@@ -64,6 +66,13 @@ export default function RotationPage({ team, addToast }: Props) {
       ? team.members.find((m) => m.char_id !== charId)?.char_id ?? null
       : null;
     setSequence((s) => [...s, { char_id: charId, action, target: defaultTarget }]);
+  }
+
+  function addMemoStep(ownerId: string, abilityIndex: number) {
+    setMemoSteps((s) => [...s, { owner_id: ownerId, ability_index: abilityIndex, target: null }]);
+  }
+  function removeMemoStep(index: number) {
+    setMemoSteps((s) => s.filter((_, i) => i !== index));
   }
 
   function removeStep(index: number) {
@@ -106,6 +115,7 @@ export default function RotationPage({ team, addToast }: Props) {
         coefficient: { def_const: 200, broken_multiplier: 0.9, break_multiplier: 1.0 },
         battle,
         steps: sequence,
+        memosprite_steps: memoSteps,
         cycles,
       };
       const r = await api.calculateRotation(req);
@@ -144,6 +154,49 @@ export default function RotationPage({ team, addToast }: Props) {
           ))}
           {teamChars.length === 0 && (
             <div className={styles.empty}>先在上方添加队伍成员</div>
+          )}
+        </div>
+
+        <div className={styles.panel}>
+          <h2 className={styles.sectionTitle}>忆灵行动</h2>
+          {teamChars
+            .map((c) => ({ c, memos: c.abilities.filter((a) => a.kind === "memosprite") }))
+            .filter(({ memos }) => memos.length > 0)
+            .map(({ c, memos }) => (
+              <div key={c.id} className={styles.charRow}>
+                <span className={styles.charName}>{c.name}·忆灵</span>
+                <div className={styles.actionBtns}>
+                  {memos.map((a, idx) => (
+                    <button
+                      key={a.name + idx}
+                      className={styles.actionBtn}
+                      disabled={a.forced}
+                      title={a.forced ? "强制触发，不可选" : "加入忆灵行动序列"}
+                      onClick={() => addMemoStep(c.id, idx)}
+                    >
+                      {a.name}
+                      {a.forced ? " (强制)" : ""}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          {memoSteps.length > 0 && (
+            <div className={styles.seqList}>
+              {memoSteps.map((m, i) => {
+                const c = teamChars.find((x) => x.id === m.owner_id);
+                const ab = c?.abilities.filter((a) => a.kind === "memosprite")[m.ability_index];
+                return (
+                  <li key={i} className={styles.seqItem}>
+                    <span className={styles.seqChar}>{c?.name}·{ab?.name}</span>
+                    <button className={styles.removeBtn} onClick={() => removeMemoStep(i)}>×</button>
+                  </li>
+                );
+              })}
+            </div>
+          )}
+          {teamChars.filter((c) => c.abilities.some((a) => a.kind === "memosprite")).length === 0 && (
+            <div className={styles.empty}>队伍无忆灵角色</div>
           )}
         </div>
 

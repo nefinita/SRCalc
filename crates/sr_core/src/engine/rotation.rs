@@ -11,7 +11,7 @@ use sr_api::{
     action_value, AbilityKind, ActionKind, BuffTarget, Build, Character, Effect, Element,
     LightCone, RotationRequest, RotationResult, RotationStep, RotationStepReq, Trigger,
 };
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 
 use super::damage::{
     compute_ability_damage_for, compute_break_damage, compute_final_stats, relic_set_conditional,
@@ -64,7 +64,8 @@ struct MemoState {
     owner: String,
     av: f64,
     spd: f64,
-    multiplier: f64,
+    /// 忆灵行动队列（ability_index, target）；空 = 默认第 0 个忆灵技能
+    queue: VecDeque<(u32, Option<String>)>,
 }
 
 #[derive(Debug, Clone)]
@@ -209,6 +210,13 @@ impl<'a> Sim<'a> {
             base_stats.insert(id, stats);
         }
 
+        let mut memo_queues: HashMap<String, VecDeque<(u32, Option<String>)>> = HashMap::new();
+        for ms in &req.memosprite_steps {
+            memo_queues
+                .entry(ms.owner_id.clone())
+                .or_default()
+                .push_back((ms.ability_index, ms.target.clone()));
+        }
         let mut memos: HashMap<String, MemoState> = HashMap::new();
         for m in &req.team.members {
             let mid = m.char_id.as_str();
@@ -222,7 +230,7 @@ impl<'a> Sim<'a> {
                         owner: mid.to_string(),
                         av: action_value(c.memosprite_spd),
                         spd: c.memosprite_spd,
-                        multiplier: c.memosprite_multiplier.max(0.0),
+                        queue: memo_queues.remove(mid).unwrap_or_default(),
                     },
                 );
             }
@@ -727,10 +735,10 @@ impl<'a> Sim<'a> {
         Ok(())
     }
 
-    /// 忆灵行动：触发 OnMemospriteAttack + 自动攻击伤害（继承忆主面板）
-    fn resolve_memo(&mut self, owner: &str, multiplier: f64) {
+    /// 忆灵行动：触发 OnMemospriteAttack + 使用选中的忆灵技能攻击（继承忆主面板）
+    fn resolve_memo(&mut self, owner: &str, ability_index: u32, target: Option<&str>) {
         self.apply_set_conditional(owner, Trigger::OnMemospriteAttack, None, false);
-        let Some(stats) = self.base_stats.get(owner) else {
+        let Some(stats) = self.base_stats.get(owner).cloned() else {
             return;
         };
         let element = self.by_id.get(owner).map(|c| c.element).unwrap_or_default();
@@ -740,33 +748,34 @@ impl<'a> Sim<'a> {
             .map(|b| b.level.max(1))
             .unwrap_or(80);
         let mods = self.mods_for(owner);
-        let ability = sr_api::AbilityData {
-            name: "忆灵攻击".into(),
-            kind: sr_api::AbilityKind::Talent,
-            multiplier,
-            multipliers: vec![],
-            skill_level: 1,
-            scaling: sr_api::Scaling::Atk,
-            flat_damage: 0.0,
-            dmg_type: sr_api::DmgType::Normal,
-            can_crit: true,
-            toughness_reduction: 0.0,
-            hits: 1,
-            hit_split: vec![1.0],
-            energy_gain: 0.0,
-            max_energy: 0.0,
-            skill_point: 0,
-            bonus_sp: 0,
-            target: sr_api::Target::Single,
-            buff: None,
-            immediate_action: false,
-            action_advance_pct: 0.0,
-            self_advance_pct: 0.0,
-            applies_debuff: false,
-            heals: false,
-        };
+        // 选中的忆灵技能（kind=memosprite 下标）；缺省用 memosprite_multiplier 合成
+        let memo_abilities: Vec<sr_api::AbilityData> = self
+            .by_id
+            .get(owner)
+            .map(|c| {
+                c.abilities
+                    .iter()
+                    .filter(|a| a.kind == sr_api::AbilityKind::Memosprite)
+                    .cloned()
+                    .collect()
+            })
+            .unwrap_or_default();
+        // 强制触发技能（死龙/长夜月）：回合到必放，忽略选择；否则用序列/默认
+        let forced = memo_abilities.iter().find(|a| a.forced).cloned();
+        let ability = forced
+            .or_else(|| memo_abilities.get(ability_index as usize).cloned())
+            .unwrap_or_else(|| sr_api::AbilityData {
+                name: "忆灵攻击".into(),
+                kind: sr_api::AbilityKind::Memosprite,
+                multiplier: self.by_id.get(owner).map(|c| c.memosprite_multiplier).unwrap_or(0.0),
+                can_crit: true,
+                ..Default::default()
+            });
+        if let Some(eff) = &ability.buff {
+            self.apply_buff(owner, eff, target, false);
+        }
         let ctx = AbilityContext {
-            stats,
+            stats: &stats,
             ability: &ability,
             element,
             attacker_level,
@@ -782,7 +791,7 @@ impl<'a> Sim<'a> {
         let owner_name = self.by_id.get(owner).map(|c| c.name.clone()).unwrap_or_default();
         self.steps_out.push(RotationStep {
             char_id: owner.to_string(),
-            char_name: format!("{owner_name}·忆灵"),
+            char_name: format!("{owner_name}·{}", ability.name),
             action: sr_api::ActionKind::Wait,
             is_enemy: false,
             enemy_ability: None,
@@ -880,11 +889,12 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
                 sim.resolve_enemy();
                 sim.enemy_av = action_value(sim.req.enemy.spd.max(1.0));
             } else if let Some(mid) = memo_id {
-                let (owner, mult) = {
-                    let m = sim.memos.get(&mid).expect("memo");
-                    (m.owner.clone(), m.multiplier)
+                let (owner, next_action) = {
+                    let m = sim.memos.get_mut(&mid).expect("memo");
+                    (m.owner.clone(), m.queue.pop_front())
                 };
-                sim.resolve_memo(&owner, mult);
+                let (idx, tgt) = next_action.unwrap_or((0, None));
+                sim.resolve_memo(&owner, idx, tgt.as_deref());
                 if let Some(m) = sim.memos.get_mut(&mid) {
                     m.av = action_value(m.spd.max(1.0));
                 }

@@ -123,6 +123,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
           {
             name: "归刃",
@@ -148,6 +149,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
           {
             name: "乱蝶",
@@ -173,6 +175,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
         ],
       },
@@ -225,6 +228,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
           {
             name: "梦游鱼",
@@ -259,6 +263,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
           {
             name: "一人千役",
@@ -284,6 +289,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
         ],
       },
@@ -325,6 +331,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
           {
             name: "战技·归途",
@@ -359,6 +366,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
         ],
       },
@@ -400,6 +408,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
           {
             name: "战技·罚恶",
@@ -434,6 +443,7 @@ export function mockConfig(): ConfigDataDTO {
             self_advance_pct: 0,
             applies_debuff: false,
             heals: false,
+            forced: false,
           },
         ],
       },

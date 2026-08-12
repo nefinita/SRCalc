@@ -34,6 +34,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "支付困难？"
@@ -58,6 +59,7 @@ action_advance_pct = 0.0
 self_advance_pct = 0.0
 applies_debuff = true
 heals = false
+forced = false
 
 [[abilities]]
 name = "扭亏为盈！"
@@ -83,6 +85,7 @@ action_advance_pct = 0.005
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false
 
 [[abilities]]
 name = "猪市？！"
@@ -107,3 +110,4 @@ action_advance_pct = 0.005
 self_advance_pct = 0.0
 applies_debuff = false
 heals = false
+forced = false

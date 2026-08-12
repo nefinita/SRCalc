@@ -42,6 +42,8 @@ pub enum AbilityKind {
     Skill,
     Ult,
     Talent,
+    /// 忆灵技能（忆灵回合可选用）
+    Memosprite,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
@@ -224,6 +226,8 @@ pub struct AbilityData {
     pub applies_debuff: bool,
     /// 治疗（触发 OnHeal 套装）
     pub heals: bool,
+    /// 忆灵技能强制触发（死龙/长夜月：回合到必放该技能）
+    pub forced: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -452,6 +456,15 @@ pub struct RotationStepReq {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(default)]
+pub struct MemospriteStepReq {
+    pub owner_id: String,
+    /// 忆灵技能下标（角色 abilities 中 kind=memosprite 的序号）
+    pub ability_index: u32,
+    pub target: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(default)]
 pub struct RotationRequest {
     pub config: ConfigData,
     pub team: Team,
@@ -459,6 +472,8 @@ pub struct RotationRequest {
     pub coefficient: CoefficientConfig,
     pub battle: BattleConfig,
     pub steps: Vec<RotationStepReq>,
+    /// 忆灵行动序列（忆灵回合按序消耗；空 = 默认第 0 个忆灵技能）
+    pub memosprite_steps: Vec<MemospriteStepReq>,
     pub cycles: u32,
 }
 

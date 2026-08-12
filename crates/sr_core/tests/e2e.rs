@@ -55,6 +55,7 @@ fn rotation_pipeline() {
             start_energy: 120.0,
             ..Default::default()
         },
+        memosprite_steps: vec![],
         steps: vec![
             RotationStepReq {
                 char_id: "1101".into(),
