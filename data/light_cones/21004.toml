@@ -7,3 +7,4 @@ base_atk = 224.64
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的击破特攻提高#1[i]%。装备者施放攻击后，额外恢复#2[i]点能量，该效果单个回合内不可重复触发。 | 叠影1: [0.28, 4]"
+effects = []

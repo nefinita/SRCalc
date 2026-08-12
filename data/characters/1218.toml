@@ -6,6 +6,7 @@ base_hp = 720.72
 base_atk = 319.176
 base_def = 270.27
 base_spd = 98
+team_effects = []
 
 [[abilities]]
 name = "仁火攻心"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 100.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "燔燎急袭"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 100.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "鼎阵妙法，奇正相生"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 100.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "四示八权，纤滋精味"
@@ -77,4 +90,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 100.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

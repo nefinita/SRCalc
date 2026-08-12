@@ -6,6 +6,7 @@ base_hp = 617.76
 base_atk = 370.656
 base_def = 257.4
 base_spd = 99
+team_effects = []
 
 [[abilities]]
 name = "石火流光"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 130.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "紫霄震曜"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 130.0
 skill_point = -1
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "吾身光明"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "斩勘神形"
@@ -77,4 +90,9 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "random"
+buff = { trigger = "on_use", stat = "speed_pct", value = 10, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

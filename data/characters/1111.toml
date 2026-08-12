@@ -6,6 +6,7 @@ base_hp = 486.72
 base_atk = 308.88
 base_def = 257.4
 base_spd = 103
+team_effects = []
 
 [[abilities]]
 name = "直冲拳"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 130.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "裂伤拳"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 130.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "制胜一击"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火花四溅"
@@ -77,7 +90,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "直冲碎天拳"
@@ -95,4 +112,8 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 130.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

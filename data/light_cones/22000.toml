@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 175.5
 superimposition = 1
 passive = "使装备者的效果命中提高#1[i]%。当装备者攻击防御力被降低的敌方目标后，恢复#2[i]点能量。 | 叠影1: [0.2, 4]"
+effects = []

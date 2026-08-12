@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的攻击力提高#1[i]%。当装备者施放攻击后，每击中1名不同的敌方目标，恢复#3[f1]点能量，每次攻击最多通过该方式恢复#4[i]次能量。当装备者施放终结技后，使我方全体速度提高#2[i]点，持续1回合。 | 叠影1: [0.24, 12, 3, 3]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "speed_pct", value = 12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

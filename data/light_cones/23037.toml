@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的暴击率提高#1[i]%。装备者施放终结技时，使装备者造成的战技和终结技伤害提高#4[i]%，持续#5[i]回合。装备者施放终结技后，若本次终结技消耗的能量大于等于#3[i]点，恢复1个战技点。 | 叠影1: [0.12, 2, 140, 0.6, 3]"
+effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

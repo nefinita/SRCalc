@@ -6,6 +6,7 @@ base_hp = 720.72
 base_atk = 329.472
 base_def = 257.4
 base_spd = 99
+team_effects = []
 
 [[abilities]]
 name = "易位，兵贵神速"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 130.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "升变，士皆可帅"
@@ -41,7 +46,12 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 130.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.54, turns = 1, target = "ally", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "世事如棋，四步堪杀"
@@ -59,7 +69,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "荣光属于凯撒"
@@ -77,4 +91,9 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.21, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

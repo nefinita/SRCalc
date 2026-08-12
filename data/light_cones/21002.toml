@@ -7,3 +7,4 @@ base_atk = 196.56
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的防御力提高#1[i]%。进入战斗后，使我方全体的全属性抗性提高#2[i]%。同类技能无法重复生效。 | 叠影1: [0.16, 0.08]"
+effects = [{ trigger = "on_use", stat = "def_pct", value = 0.16, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

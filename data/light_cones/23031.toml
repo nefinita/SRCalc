@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的暴击率提高#1[f1]%。装备者施放追加攻击时，获得1层【流光】，最多叠加#3[i]层。每层【流光】使装备者造成的终结技伤害无视目标#2[i]%的防御力。装备者回合结束时，移除1层【流光】。 | 叠影1: [0.15, 0.27, 2]"
+effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.15, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

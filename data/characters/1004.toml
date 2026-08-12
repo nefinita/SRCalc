@@ -6,6 +6,7 @@ base_hp = 597.168
 base_atk = 329.472
 base_def = 270.27
 base_spd = 102
+team_effects = []
 
 [[abilities]]
 name = "重力压制"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 120.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "虚空断界"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 120.0
 skill_point = -1
+bonus_sp = 0
 target = "random"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "拟似黑洞"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "时空扭曲"
@@ -77,7 +90,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "重力压制"
@@ -95,7 +112,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 120.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "虚空断界"
@@ -113,7 +134,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 120.0
 skill_point = -1
+bonus_sp = 0
 target = "random"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "拟似黑洞"
@@ -131,7 +156,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "时空扭曲"
@@ -149,4 +178,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

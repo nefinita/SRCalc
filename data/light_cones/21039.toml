@@ -7,3 +7,4 @@ base_atk = 196.56
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的效果抵抗提高#1[i]%。装备者每有#2[i]点防御力，使装备者造成的伤害提高#3[f1]%，最多使造成的伤害提高#4[i]%。 | 叠影1: [0.12, 100, 0.008, 0.32]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.008, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

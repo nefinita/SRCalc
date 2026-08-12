@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的暴击伤害提高#1[i]%。当装备者击中敌方目标时，使敌方陷入【泡影】状态，持续1回合。装备者每次攻击时，对每个目标只可触发1次。装备者对陷入【泡影】状态的目标造成的伤害提高#2[i]%，终结技造成的伤害额外提高#3[i]%。 | 叠影1: [0.36, 0.24, 0.24]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.36, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

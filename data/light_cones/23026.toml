@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 245.7
 superimposition = 1
 passive = "我方角色每次攻击时，使装备者获得1层【歌咏】，每层【歌咏】使装备者的能量恢复效率提高#1[f1]%，最多叠加#2[i]层。装备者施放终结技时，移除【歌咏】并获得【华彩】，【华彩】使装备者的攻击力提高#4[i]%，使我方全体造成的伤害提高#3[i]%，持续#5[i]回合。 | 叠影1: [0.03, 5, 0.24, 0.48, 1]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "atk_pct", value = 0.48, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

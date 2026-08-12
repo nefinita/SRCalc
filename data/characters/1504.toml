@@ -6,6 +6,7 @@ base_hp = 453.024
 base_atk = 411.84
 base_def = 205.92
 base_spd = 106
+team_effects = []
 
 [[abilities]]
 name = "利爪，授以礼仪"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 150.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "鞭哨，逐尽恶兽"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 150.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "飨宴，自始无终"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 150.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "宿怨，切齿奉还"
@@ -77,4 +90,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 150.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

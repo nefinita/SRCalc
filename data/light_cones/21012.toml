@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 140.4
 superimposition = 1
 passive = "使装备者造成的伤害提高#1[i]%，同时对当前生命值百分比大于等于装备者自身当前生命值百分比的敌方目标造成的伤害额外提高#2[i]%。 | 叠影1: [0.2, 0.2]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.2, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

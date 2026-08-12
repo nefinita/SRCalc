@@ -6,6 +6,7 @@ base_hp = 720.72
 base_atk = 360.36
 base_def = 244.53
 base_spd = 94
+team_effects = []
 
 [[abilities]]
 name = "翻风转日"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 240.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "飞铗震赫"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 240.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "剑为地纪，刃惊天宗"
@@ -59,7 +68,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 240.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.8, turns = 1, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "闪铄"
@@ -77,4 +91,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 240.0
 skill_point = 0
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

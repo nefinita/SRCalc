@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 140.4
 superimposition = 1
 passive = "使装备者的生命上限提高#1[i]%，损失或回复自身生命值后，暴击伤害提高#2[i]%，持续#3[i]回合，该效果每回合只可触发1次。 | 叠影1: [0.12, 0.18, 2]"
+effects = [{ trigger = "on_use", stat = "crit_dmg", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

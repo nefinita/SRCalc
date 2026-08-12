@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的攻击力提高#1[i]%。当装备者对我方单体角色施放战技或终结技后，使目标欢愉度提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.2, 0.12, 2]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.2, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

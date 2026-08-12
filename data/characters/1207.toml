@@ -6,6 +6,7 @@ base_hp = 486.72
 base_atk = 318.24
 base_def = 198.9
 base_spd = 107
+team_effects = []
 
 [[abilities]]
 name = "流镝"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 130.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "天阙鸣弦"
@@ -41,7 +46,12 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 130.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.6, turns = 1, target = "ally", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "贯云饮羽"
@@ -59,7 +69,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.52, turns = 1, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "箭彻七札"
@@ -77,4 +92,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

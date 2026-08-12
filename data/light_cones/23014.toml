@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的暴击伤害提高#1[i]%。当队友受到攻击或消耗生命值后，装备者获得1层【月蚀】，最多叠加#2[i]层。每层【月蚀】使装备者下一次攻击造成的伤害提高#3[f1]%。叠满#2[i]层时，额外使该次攻击无视目标#4[i]%的防御力。该效果在装备者施放攻击后解除。 | 叠影1: [0.2, 3, 0.14, 0.12]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.14, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.2, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

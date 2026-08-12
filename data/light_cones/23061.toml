@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 280.8
 superimposition = 1
 passive = "使装备者的暴击率提高#1[i]%。我方任意角色在自身同一回合内累计消耗大于等于#3[i]点战技点时，装备者获得【闪耀王冠】，持续#4[i]回合。装备者持有【闪耀王冠】时，我方全体造成的伤害无视目标#5[i]%的防御力，装备者造成的战技伤害提高#2[i]%，同类效果无法叠加。 | 叠影1: [0.18, 0.72, 4, 3, 0.2]"
+effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

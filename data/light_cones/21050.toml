@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的暴击伤害提高#1[i]%，当装备者的忆灵对我方目标施放技能时，使我方全体目标造成的伤害提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.12, 0.08, 3]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.08, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

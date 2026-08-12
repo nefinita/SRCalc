@@ -7,3 +7,4 @@ base_atk = 168.48
 base_def = 105.3
 superimposition = 1
 passive = "当装备者施放普攻后，使下一次行动提前#1[i]%。 | 叠影1: [0.12]"
+effects = []

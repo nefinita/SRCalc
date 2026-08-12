@@ -7,3 +7,4 @@ base_atk = 196.56
 base_def = 140.4
 superimposition = 1
 passive = "使装备者在消灭敌方目标后，速度提高#1[i]%，持续#2[i]回合。 | 叠影1: [0.1, 2]"
+effects = [{ trigger = "on_use", stat = "speed_pct", value = 0.1, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

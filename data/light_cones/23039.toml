@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的生命上限提高#1[i]%，受到的治疗量提高#6[i]%，施放战技或终结技时消耗等同于自身#2[f1]%生命上限的生命值，并使本次攻击造成的伤害提高#3[i]%，若该效果消耗的生命值高于#4[i]点，可使伤害额外提高#5[i]%。\n若当前生命值不足，该效果最多使装备者的当前生命值降低至1点。 | 叠影1: [0.18, 0.06, 0.3, 500, 0.3, 0.2]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.3, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

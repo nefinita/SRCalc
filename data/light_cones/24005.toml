@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的速度提高#1[f1]%。装备者施放战技后，使我方全体造成的伤害提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.06, 0.08, 3]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.08, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "speed_pct", value = 0.06, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

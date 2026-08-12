@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者造成的伤害提高#2[i]%。装备者每次施放攻击后，速度提高#3[f1]%，最多叠加#4[i]层。\n当装备者击中敌方目标时，如果该目标不处于【游丝】状态，则有100%的基础概率使其陷入【游丝】状态。当敌方目标处于【游丝】状态时，也会被视为陷入了触电状态。【游丝】状态下，敌方目标每回合开始时受到等同于装备者#1[i]%攻击力的雷属性持续伤害，持续#5[i]回合。 | 叠影1: [0.6, 0.24, 0.048, 3, 1]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "speed_pct", value = 0.048, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

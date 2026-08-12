@@ -6,6 +6,7 @@ base_hp = 679.536
 base_atk = 339.768
 base_def = 257.4
 base_spd = 102
+team_effects = []
 
 [[abilities]]
 name = "扑翼白声"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 160.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "翎之咏叹调"
@@ -41,7 +46,12 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 160.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.375, turns = 3, target = "ally", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "千音迭奏，群星赋格"
@@ -59,7 +69,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 160.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.19, turns = 1, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "调性合颂"
@@ -77,4 +92,9 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 160.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.125, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

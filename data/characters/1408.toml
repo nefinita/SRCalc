@@ -6,6 +6,7 @@ base_hp = 761.904
 base_atk = 308.88
 base_def = 373.23
 base_spd = 94
+team_effects = []
 
 [[abilities]]
 name = "逐火救世，行则将至"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 12.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "黎明创世，地辟天开"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 12.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "永劫燔世，其将背负"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 12.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "此身为炬"
@@ -77,7 +90,12 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 12.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.225, turns = 3, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "命运•此躯即神"
@@ -95,7 +113,12 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 12.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.6, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "创生•血棘渡亡"
@@ -113,7 +136,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 12.0
 skill_point = 1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "灾厄•弑魂焚诏"
@@ -131,7 +158,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 12.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = true
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "支柱•死星天裁"
@@ -149,4 +180,8 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 12.0
 skill_point = -1
+bonus_sp = 0
 target = "random"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的效果命中提高#1[i]%。当装备者对同时处于大于等于#4[i]个负面效果的敌方目标造成伤害时，暴击率提高#5[i]%。装备者施放普攻、战技、终结技后，有#2[i]%的基础概率对随机1个未持有【以太编码】的受击目标施加【以太编码】。持有【以太编码】的目标受到的伤害提高#3[i]%，持续1回合。 | 叠影1: [0.24, 1, 0.12, 3, 0.12]"
+effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 175.5
 superimposition = 1
 passive = "使装备者造成的伤害提高#1[i]%。装备者攻击后，有#2[i]%基础概率使受到攻击的目标陷入易伤状态，受到的伤害提高#3[i]%，持续#4[i]回合。同类效果无法叠加。 | 叠影1: [0.16, 1, 0.1, 2]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.16, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

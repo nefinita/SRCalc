@@ -6,6 +6,7 @@ base_hp = 555.984
 base_atk = 391.248
 base_def = 193.05
 base_spd = 103
+team_effects = []
 
 [[abilities]]
 name = "芬芳一现"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 180.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "公正，此处盛放"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 180.0
 skill_point = -1
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "驻于花庭，赐与尽美"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 180.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "崇高的客体"
@@ -77,7 +90,12 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 180.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_rate", value = 0.0175, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "驻「我」华庭，授予至勋"
@@ -95,4 +113,8 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 180.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的速度提高#1[i]%。装备者的忆灵对我方单体施放忆灵技时获得【空白】：敌方全体受到的伤害提高#3[i]%。装备者的忆灵对敌方施放忆灵技时获得【诗行】：我方全体的暴击伤害提高#2[i]%。装备者的忆灵同时持有【空白】和【诗行】时，【空白】和【诗行】的效果提高#4[i]%。 | 叠影1: [0.18, 0.16, 0.1, 0.6]"
+effects = [{ trigger = "on_use", stat = "crit_dmg", value = 0.16, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "speed_pct", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

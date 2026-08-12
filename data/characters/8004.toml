@@ -6,6 +6,7 @@ base_hp = 658.944
 base_atk = 319.176
 base_def = 321.75
 base_spd = 95
+team_effects = []
 
 [[abilities]]
 name = "穿彻坚冰的烈芒"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 120.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "炽燃不灭的琥珀"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 120.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "陷阵无回的炎枪"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "筑城者遗宝"
@@ -77,7 +90,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "穿彻坚冰的烈芒"
@@ -95,4 +112,8 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 120.0
 skill_point = 1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 210.6
 superimposition = 1
 passive = "场上每有1个敌方目标，使装备者的攻击力提高#2[f1]%，该效果最多叠加5层。当有敌方目标的弱点被击破时，装备者造成的伤害提高#1[i]%，持续1回合。 | 叠影1: [0.3, 0.09]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.3, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "atk_pct", value = 0.09, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

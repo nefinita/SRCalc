@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的暴击率提高#1[i]%。当装备者施放普攻时，获得1层【龙吟】，持续#2[i]回合。每层【龙吟】使装备者的攻击力提高#4[i]%，能量恢复效率提高#5[f1]%。【龙吟】最多叠加#3[i]层。 | 叠影1: [0.18, 2, 2, 0.18, 0.06]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_rate", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

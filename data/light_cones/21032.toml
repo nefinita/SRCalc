@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 175.5
 superimposition = 1
 passive = "在战斗开始时以及当装备者回合开始时，随机生效1个效果。该效果生效时，替换上次的效果且本次不会与上次重复。效果包含：使我方全体攻击力提高#1[i]%；使我方全体暴击伤害提高#2[i]%；使我方全体能量恢复效率提高#3[i]%。同类效果无法叠加，在装备者陷入无法战斗状态时解除。 | 叠影1: [0.1, 0.12, 0.06]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.1, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

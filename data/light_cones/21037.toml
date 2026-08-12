@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 175.5
 superimposition = 1
 passive = "使装备者的攻击力提高#1[i]%。当装备者对敌方目标造成暴击后获得一层【好运】，最多叠加#3[i]层。每层【好运】使装备者的暴击伤害提高#2[i]%，【好运】在装备者的回合结束时移除。 | 叠影1: [0.12, 0.08, 4]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.08, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

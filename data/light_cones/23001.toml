@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的暴击率提高#1[i]%。当装备者在战斗中速度大于100时，每超过#2[i]点，普攻和战技造成的伤害提高#3[i]%，同时终结技的暴击伤害提高#4[i]%，该效果可叠加#5[i]层。 | 叠影1: [0.18, 10, 0.06, 0.12, 6]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.06, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_rate", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

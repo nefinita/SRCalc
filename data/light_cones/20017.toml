@@ -7,3 +7,4 @@ base_atk = 140.4
 base_def = 140.4
 superimposition = 1
 passive = "当装备者击破敌方目标的弱点时，回复等同于自身生命上限#1[i]%的生命值。 | 叠影1: [0.12]"
+effects = []

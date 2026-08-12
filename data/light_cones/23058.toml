@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的暴击伤害提高#1[i]%，能量恢复效率提高#4[f1]%。装备者的能量上限大于#5[i]时，每超出10点能量上限额外使能量恢复效率提高#6[f1]%，最多计入#7[i]点超出的能量上限。装备者施放欢愉技时，使敌方全体受到的伤害提高#2[f1]%，持续#3[i]回合，同类效果无法叠加。 | 叠影1: [0.6, 0.15, 2, 0.1, 120, 0.003, 360]"
+effects = [{ trigger = "on_use", stat = "crit_dmg", value = 0.6, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

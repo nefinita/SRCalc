@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的能量恢复效率提高#1[i]%，并在对我方目标施放终结技时恢复1个战技点。该效果每施放2次终结技可触发1次。当装备者施放战技后，使下一个行动的我方其他目标造成的伤害提高#2[i]%，持续#3[i]回合。 | 叠影1: [0.1, 0.3, 1]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.3, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者对陷入负面效果的敌方目标造成的伤害提高#1[i]%。当装备者施放战技时，装备者此次攻击的效果命中提高#2[i]%，攻击力提高#3[i]%。 | 叠影1: [0.24, 0.18, 0.24]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "atk_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

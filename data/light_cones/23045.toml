@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 280.8
 superimposition = 1
 passive = "使装备者的暴击伤害提高#1[i]%。施放终结技时，使装备者的攻击力提高#6[i]%，若装备者的能量上限大于等于#3[i]点，为装备者固定恢复等同于装备者能量上限#5[i]%的能量，并再次使装备者的攻击力提高#2[i]%，持续#4[i]回合。 | 叠影1: [0.36, 0.4, 300, 2, 0.1, 0.4]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.4, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.36, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

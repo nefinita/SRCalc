@@ -7,3 +7,4 @@ base_atk = 224.64
 base_def = 210.6
 superimposition = 1
 passive = "当装备者的回合开始时，随机为1个当前能量百分比小于#1[i]%的我方其他目标恢复#2[i]点能量。 | 叠影1: [0.5, 8]"
+effects = []

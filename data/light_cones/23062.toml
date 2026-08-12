@@ -7,3 +7,4 @@ base_atk = 336.96
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的攻击力提高#1[i]%，能量恢复效率提高#2[f1]%。装备者施放终结技时，每消耗1点能量值，使本次造成的终结技伤害提高#3[f2]%，最多提高#6[i]%。装备者进入战斗或施放终结技时，使装备者获得【王之娱乐】，持续#4[i]回合。当装备者持有【王之娱乐】时，我方全体暴击伤害提高#5[i]%，同类效果无法叠加。 | 叠影1: [0.18, 0.1, 0.002, 3, 0.24, 0.72]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

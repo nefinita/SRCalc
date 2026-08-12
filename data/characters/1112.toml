@@ -6,6 +6,7 @@ base_hp = 494.208
 base_atk = 329.472
 base_def = 218.79
 base_spd = 110
+team_effects = []
 
 [[abilities]]
 name = "赤字…"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 130.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "支付困难？"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 130.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "扭亏为盈！"
@@ -59,7 +68,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.1875, turns = 1, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.005
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "猪市？！"
@@ -77,4 +91,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 130.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.005
+self_advance_pct = 0.0

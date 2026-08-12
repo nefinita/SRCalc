@@ -6,6 +6,7 @@ base_hp = 711.36
 base_atk = 327.6
 base_def = 187.2
 base_spd = 94
+team_effects = []
 
 [[abilities]]
 name = "喂！小心火烛"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 120.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "嘿！记得虎克吗"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 120.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "轰！飞来焰火"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "哈！火上浇油"
@@ -77,7 +90,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 120.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "嘿！记得虎克吗"
@@ -95,4 +112,8 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 120.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

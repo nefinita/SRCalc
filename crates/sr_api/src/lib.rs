@@ -117,6 +117,7 @@ pub enum BuffStat {
 #[serde(rename_all = "snake_case")]
 pub enum BuffTarget {
     #[default]
+    #[serde(rename = "self")]
     Self_,
     Team,
     Ally,

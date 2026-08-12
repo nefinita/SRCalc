@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的击破特攻提高#1[i]%，造成的击破伤害无视目标#3[i]%的防御力。当装备者在战斗中击破特攻大于等于#2[i]%时，速度提高#4[i]%。 | 叠影1: [0.6, 1.5, 0.2, 0.12]"
+effects = [{ trigger = "on_use", stat = "speed_pct", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

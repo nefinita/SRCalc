@@ -6,6 +6,7 @@ base_hp = 597.168
 base_atk = 370.656
 base_def = 231.66
 base_spd = 101
+team_effects = []
 
 [[abilities]]
 name = "三途枯榷"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 9.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "八雷飞渡"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 9.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "残梦尽染，一刀缭断"
@@ -59,7 +68,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 9.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "红叶时雨，万倾一空"
@@ -77,7 +90,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 9.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -95,7 +112,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 9.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -113,7 +134,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 9.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -131,7 +156,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 9.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "黄泉返渡"
@@ -149,4 +178,8 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 9.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

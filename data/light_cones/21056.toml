@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 210.6
 superimposition = 1
 passive = "进入战斗后，使我方全体造成的击破伤害提高#1[i]%。同类技能无法重复生效。 | 叠影1: [0.16]"
+effects = []

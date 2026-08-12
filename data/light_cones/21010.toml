@@ -7,3 +7,4 @@ base_atk = 252.72
 base_def = 175.5
 superimposition = 1
 passive = "当装备者多次击中同一敌方目标时，每次造成的伤害提高#1[i]%，该效果最多叠加#2[i]层。若攻击目标发生变化，立即解除当前的增益效果。 | 叠影1: [0.08, 5]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.08, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

@@ -7,3 +7,4 @@ base_atk = 196.56
 base_def = 140.4
 superimposition = 1
 passive = "当装备者施放终结技时，攻击力提高#1[i]%，持续#2[i]回合。 | 叠影1: [0.24, 2]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.24, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

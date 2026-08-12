@@ -6,6 +6,7 @@ base_hp = 542.88
 base_atk = 346.32
 base_def = 234
 base_spd = 98
+team_effects = []
 
 [[abilities]]
 name = "门前清"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 140.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "海底捞月"
@@ -41,7 +46,12 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 140.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "dmg_pct", value = 0.21, turns = 1, target = "ally", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "四幺暗刻？和！"
@@ -59,7 +69,11 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 140.0
 skill_point = 0
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "帝垣琼玉"
@@ -77,7 +91,12 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 140.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "atk_pct", value = 0.54, turns = 1, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "杠上开花！"
@@ -95,4 +114,8 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 140.0
 skill_point = 1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

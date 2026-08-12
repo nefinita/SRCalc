@@ -6,6 +6,7 @@ base_hp = 432.432
 base_atk = 277.992
 base_def = 411.84
 base_spd = 104
+team_effects = []
 
 [[abilities]]
 name = "指令-闪燃推进"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 240.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "指令-天火轰击"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 240.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0025
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火萤Ⅳ型-完全燃烧"
@@ -59,7 +68,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 240.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "speed_pct", value = 45, turns = 1, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "茧式源火中枢"
@@ -77,7 +91,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 240.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火萤Ⅳ型-底火斩击"
@@ -95,7 +113,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 240.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火萤Ⅳ型-死星过载"
@@ -113,7 +135,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 240.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "指令-闪燃推进"
@@ -131,7 +157,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 240.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "指令-天火轰击"
@@ -149,7 +179,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 240.0
 skill_point = -1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0025
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火萤Ⅳ型-完全燃烧"
@@ -167,7 +201,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 240.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "speed_pct", value = 45, turns = 1, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "茧式源火中枢"
@@ -185,7 +224,11 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 240.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火萤Ⅳ型-底火斩击"
@@ -203,7 +246,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 240.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "火萤Ⅳ型-死星过载"
@@ -221,4 +268,8 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 240.0
 skill_point = -1
+bonus_sp = 0
 target = "adjacent"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

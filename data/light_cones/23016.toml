@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者暴击率提高#1[i]%，追加攻击造成的伤害提高#2[i]%。装备者施放追加攻击后，使目标陷入【温驯】状态，该效果最多叠加#4[i]层。我方目标击中【温驯】状态下的敌方目标时，每层【温驯】使造成的暴击伤害提高#3[i]%。 | 叠影1: [0.18, 0.3, 0.12, 2]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.3, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_dmg", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_rate", value = 0.18, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

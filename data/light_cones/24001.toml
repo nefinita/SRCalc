@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的暴击率提高#1[i]%，装备者对生命值百分比小于等于#2[i]%的敌方目标暴击率额外提高#3[i]%。当装备者消灭敌方目标后，攻击力提高#4[i]%，持续#5[i]回合。 | 叠影1: [0.08, 0.5, 0.08, 0.2, 2]"
+effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.2, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_rate", value = 0.08, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

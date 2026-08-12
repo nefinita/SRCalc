@@ -7,3 +7,4 @@ base_atk = 224.64
 base_def = 280.8
 superimposition = 1
 passive = "使装备者的生命上限提高#1[i]%，能量恢复效率提高#4[i]%。当装备者的生命值降低时，使我方全体造成的伤害提高#2[f1]%，持续#5[i]回合。\n每个波次开始时，为我方全体回复等同于各自已损失生命值#3[i]%的生命值。 | 叠影1: [0.24, 0.09, 0.8, 0.12, 2]"
+effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.09, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

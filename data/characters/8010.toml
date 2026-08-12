@@ -6,6 +6,7 @@ base_hp = 576.576
 base_atk = 247.104
 base_def = 334.62
 base_spd = 106
+team_effects = []
 
 [[abilities]]
 name = "此即应援"
@@ -23,7 +24,11 @@ hit_split = [1.0]
 energy_gain = 20.0
 max_energy = 160.0
 skill_point = 1
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "风暴甚是喧嚣"
@@ -41,7 +46,11 @@ hit_split = [1.0]
 energy_gain = 30.0
 max_energy = 160.0
 skill_point = -1
+bonus_sp = 0
 target = "all"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "放心飞，开拓永相随！"
@@ -59,7 +68,12 @@ hit_split = [1.0]
 energy_gain = 5.0
 max_energy = 160.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+buff = { trigger = "on_use", stat = "crit_dmg", value = 0.4, turns = 3, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }
+immediate_action = false
+action_advance_pct = 0.005
+self_advance_pct = 0.0
 
 [[abilities]]
 name = "英雄一笑，生死难料"
@@ -77,4 +91,8 @@ hit_split = [1.0]
 energy_gain = 0.0
 max_energy = 160.0
 skill_point = 0
+bonus_sp = 0
 target = "single"
+immediate_action = false
+action_advance_pct = 0.0
+self_advance_pct = 0.0

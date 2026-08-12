@@ -7,3 +7,4 @@ base_atk = 196.56
 base_def = 105.3
 superimposition = 1
 passive = "装备者当前生命值百分比小于#1[i]%时，暴击率提高#2[i]%。 | 叠影1: [0.8, 0.12]"
+effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

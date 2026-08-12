@@ -12,6 +12,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -95,6 +96,147 @@ def stat_at(values, level: int) -> dict:
     return {k: round(v["base"] + v["step"] * (level - start), 3) for k, v in last.items()}
 
 
+def resolve_param(desc: str, params: list, lvl: int, key: int):
+    """解析 desc 中 #N[i] 或 #N[f1] 占位符对应的参数值。"""
+    if not params:
+        return None
+    if not re.search(r"#" + str(key) + r"\[(?:i|f\d+)\]", desc):
+        return None
+    row = params[lvl] if lvl < len(params) else params[-1]
+    if key - 1 < len(row):
+        return row[key - 1]
+    return None
+
+
+SP_PATTERNS = [
+    ("造成的伤害提高", "dmg_pct"),
+    ("攻击力提高", "atk_pct"),
+    ("暴击伤害提高", "crit_dmg"),
+    ("暴击率提高", "crit_rate"),
+    ("速度提高", "speed_pct"),
+    ("防御力提高", "def_pct"),
+]
+
+
+def find_stat_key(desc: str):
+    for phrase, stat in SP_PATTERNS:
+        if phrase in desc:
+            return stat
+    return None
+
+
+def parse_sp(desc: str, kind: str, params: list) -> tuple:
+    """按描述解析战技点：返回 (skill_point, bonus_sp)。"""
+    base = {"basic": 1, "skill": -1, "ult": 0, "talent": 0}[kind]
+    m = re.search(r"消耗#(\d+)\[i\]点战技点", desc)
+    if m:
+        val = resolve_param(desc, params, 5, int(m.group(1)))
+        return -int(val or 0), 0
+    m = re.search(r"恢复#(\d+)\[i\]个战技点", desc)
+    if m:
+        val = resolve_param(desc, params, 5, int(m.group(1)))
+        if kind in ("ult", "talent"):
+            return 0, int(val or 0)
+        return int(val or 0), 0
+    if "不消耗战技点" in desc:
+        return 0, 0
+    return base, 0
+
+
+def parse_buff(desc: str, params: list, kind: str):
+    """从描述解析施放时的 buff（增益）。"""
+    stat = find_stat_key(desc)
+    if stat is None:
+        return None
+    idx = desc.find(SP_PATTERNS[[x[1] for x in SP_PATTERNS].index(stat)][0])
+    m = re.search(r"#(\d+)\[", desc[idx:])
+    if not m:
+        return None
+    key = int(m.group(1))
+    value = resolve_param(desc, params, 5, key)
+    if value is None:
+        return None
+    tm = re.search(r"持续#(\d+)\[i\]回合", desc)
+    turns = int(resolve_param(desc, params, 5, int(tm.group(1))) or 1) if tm else 1
+    target = {"basic": "self", "skill": "ally", "ult": "team", "talent": "self"}[kind]
+    return {
+        "trigger": "on_use",
+        "stat": stat,
+        "value": value,
+        "turns": turns,
+        "target": target,
+        "cap_bonus": 0,
+        "sp_on_basic": 0,
+        "max_stacks": 0,
+    }
+
+
+def parse_advance(desc: str, params: list, kind: str):
+    """返回 (immediate_action, action_advance_pct)。"""
+    imm = "立即行动" in desc and kind == "skill"
+    adv = 0.0
+    m = re.search(r"行动提前#(\d+)\[i\]%", desc)
+    if m:
+        v = resolve_param(desc, params, 5, int(m.group(1))) or 0
+        adv = round(v / 100.0, 4)
+    return imm, adv
+
+
+def parse_team_effects(desc: str, params: list, kind: str):
+    """天赋：在场被动（战技点上限 / 消耗SP触发）。"""
+    if kind != "talent":
+        return []
+    effects = []
+    m = re.search(r"战技点上限额外增加#(\d+)\[i\]点", desc)
+    if m:
+        cap = resolve_param(desc, params, 5, int(m.group(1)))
+        effects.append({
+            "trigger": "on_use", "stat": "atk_pct", "value": 0.0, "turns": 0,
+            "target": "team", "cap_bonus": int(cap or 0),
+            "sp_on_basic": 0, "max_stacks": 0,
+        })
+    if "每消耗1点战技点" in desc:
+        dm = re.search(r"伤害提高#(\d+)\[", desc)
+        sm = re.search(r"最多可叠加#(\d+)\[i\]层", desc)
+        tm = re.search(r"持续#(\d+)\[i\]回合", desc)
+        value = resolve_param(desc, params, 5, int(dm.group(1))) if dm else 0.0
+        stacks = int(resolve_param(desc, params, 5, int(sm.group(1))) or 1) if sm else 1
+        turns = int(resolve_param(desc, params, 5, int(tm.group(1))) or 1) if tm else 1
+        effects.append({
+            "trigger": "on_sp_consume", "stat": "dmg_pct", "value": value,
+            "turns": turns, "target": "team", "cap_bonus": 0,
+            "sp_on_basic": 0, "max_stacks": stacks,
+        })
+    return effects
+
+
+def parse_cone_effects(desc: str, params: list):
+    """光锥效果：战技点上限 / 常驻增益。"""
+    effects = []
+    m = re.search(r"战技点上限提高#(\d+)\[i\]点", desc)
+    if m:
+        cap = resolve_param(desc, params, 0, int(m.group(1)))
+        effects.append({
+            "trigger": "on_use", "stat": "atk_pct", "value": 0.0, "turns": 0,
+            "target": "team", "cap_bonus": int(cap or 0),
+            "sp_on_basic": 0, "max_stacks": 0,
+        })
+    for phrase, stat in SP_PATTERNS:
+        idx = desc.find(phrase)
+        if idx < 0:
+            continue
+        m = re.search(r"#(\d+)\[", desc[idx:])
+        if not m:
+            continue
+        value = resolve_param(desc, params, 0, int(m.group(1)))
+        if value:
+            effects.append({
+                "trigger": "on_use", "stat": stat, "value": value, "turns": 0,
+                "target": "team", "cap_bonus": 0, "sp_on_basic": 0, "max_stacks": 0,
+            })
+    return effects
+
+
 def detect_scaling(desc: str) -> str:
     if "生命" in desc:
         return "hp"
@@ -106,6 +248,7 @@ def detect_scaling(desc: str) -> str:
 def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
     stats = stat_at(promotions[cid]["values"], 80)
     abilities = []
+    team_effects = []
     for sid in c.get("skills", []):
         s = skills.get(sid)
         if not s:
@@ -118,6 +261,8 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         mult = multipliers[0] if multipliers else 0.0
         effect = s.get("effect", "")
         desc = s.get("desc", "")
+        sp, bonus_sp = parse_sp(desc, kind, params)
+        imm, adv = parse_advance(desc, params, kind)
         ability = {
             "name": s.get("name") or kind,
             "kind": kind,
@@ -133,10 +278,25 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             "hit_split": [1.0],
             "energy_gain": {"basic": 20.0, "skill": 30.0, "ult": 5.0, "talent": 0.0}[kind],
             "max_energy": float(c.get("max_sp") or 100),
-            "skill_point": {"basic": 1, "skill": -1, "ult": 0, "talent": 0}[kind],
+            "skill_point": sp,
+            "bonus_sp": bonus_sp,
             "target": TARGET_MAP.get(effect, "single"),
+            "buff": parse_buff(desc, params, kind),
+            "immediate_action": imm,
+            "action_advance_pct": adv,
+            "self_advance_pct": 0.0,
         }
         abilities.append(ability)
+        team_effects.extend(parse_team_effects(desc, params, kind))
+
+    # 去重 team_effects（强化/普通变体会重复天赋）
+    seen = set()
+    dedup = []
+    for e in team_effects:
+        key = (e["trigger"], e["stat"], e["target"], e["cap_bonus"], round(e["value"], 6), e["turns"], e["max_stacks"])
+        if key not in seen:
+            seen.add(key)
+            dedup.append(e)
 
     character = {
         "id": cid,
@@ -148,6 +308,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         "base_def": stats["def"],
         "base_spd": stats["spd"],
         "abilities": abilities,
+        "team_effects": dedup,
     }
     return [character]
 
@@ -156,8 +317,9 @@ def build_light_cone(lcid: str, lc: dict, promotions: dict, ranks: dict) -> dict
     stats = stat_at(promotions[lcid]["values"], 80)
     rank = ranks.get(lcid) or {}
     passive = rank.get("desc", "") if isinstance(rank, dict) else ""
-    if passive and isinstance(rank.get("params"), list) and rank["params"]:
-        passive += " | 叠影1: " + str(rank["params"][0])
+    params = rank.get("params") if isinstance(rank, dict) else None
+    if passive and params:
+        passive += " | 叠影1: " + str(params[0])
     return {
         "id": lcid,
         "name": lc["name"],
@@ -168,6 +330,7 @@ def build_light_cone(lcid: str, lc: dict, promotions: dict, ranks: dict) -> dict
         "base_def": stats["def"],
         "superimposition": 1,
         "passive": passive or None,
+        "effects": parse_cone_effects(passive or "", params or []),
     }
 
 
@@ -181,36 +344,54 @@ def build_relic_set(sid: str, s: dict) -> dict:
     }
 
 
+def inline_table(d: dict) -> str:
+    parts = []
+    for k, v in d.items():
+        if isinstance(v, bool):
+            parts.append(f"{k} = {'true' if v else 'false'}")
+        elif isinstance(v, (int, float)):
+            parts.append(f"{k} = {v}")
+        elif isinstance(v, list):
+            parts.append(f"{k} = [{', '.join(str(x) for x in v)}]")
+        else:
+            parts.append(f"{k} = {toml_str(str(v))}")
+    return "{ " + ", ".join(parts) + " }"
+
+
+def emit_field(lines: list, k: str, v) -> None:
+    if v is None:
+        return
+    if isinstance(v, bool):
+        lines.append(f"{k} = {'true' if v else 'false'}")
+    elif isinstance(v, (int, float)):
+        lines.append(f"{k} = {v}")
+    elif isinstance(v, dict):
+        lines.append(f"{k} = {inline_table(v)}")
+    elif isinstance(v, list):
+        if not v:
+            lines.append(f"{k} = []")
+        elif all(isinstance(x, (int, float)) for x in v):
+            lines.append(f"{k} = [{', '.join(str(x) for x in v)}]")
+        elif all(isinstance(x, dict) for x in v):
+            lines.append(f"{k} = [{', '.join(inline_table(x) for x in v)}]")
+        else:
+            lines.append(f"{k} = [{', '.join(str(x) for x in v)}]")
+    else:
+        lines.append(f"{k} = {toml_str(str(v))}")
+
+
 def emit_toml(obj: dict, path: str) -> None:
     lines = []
-    scalar = []
     for k, v in obj.items():
         if k == "abilities":
             continue
-        if isinstance(v, bool):
-            scalar.append(f"{k} = {'true' if v else 'false'}")
-        elif isinstance(v, (int, float)):
-            scalar.append(f"{k} = {v}")
-        elif v is None:
-            pass
-        elif isinstance(v, list):
-            scalar.append(f"{k} = [{', '.join(str(x) for x in v)}]")
-        else:
-            scalar.append(f"{k} = {toml_str(str(v))}")
-    lines.extend(scalar)
+        emit_field(lines, k, v)
 
     if isinstance(obj.get("abilities"), list):
         for ab in obj["abilities"]:
             lines.append("\n[[abilities]]")
             for k, v in ab.items():
-                if isinstance(v, bool):
-                    lines.append(f"{k} = {'true' if v else 'false'}")
-                elif isinstance(v, (int, float)):
-                    lines.append(f"{k} = {v}")
-                elif isinstance(v, list):
-                    lines.append(f"{k} = [{', '.join(str(x) for x in v)}]")
-                else:
-                    lines.append(f"{k} = {toml_str(str(v))}")
+                emit_field(lines, k, v)
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:

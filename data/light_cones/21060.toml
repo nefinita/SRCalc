@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 210.6
 superimposition = 1
 passive = "使装备者的暴击率提高#1[i]%。装备者造成的终结技和追加攻击伤害提高#2[i]%。 | 叠影1: [0.12, 0.24]"
+effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.12, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

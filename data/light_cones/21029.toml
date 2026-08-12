@@ -7,3 +7,4 @@ base_atk = 280.8
 base_def = 175.5
 superimposition = 1
 passive = "装备者施放普攻或战技后，对随机1个受到攻击的敌方目标造成等同于自身#1[i]%攻击力的附加伤害。 | 叠影1: [0.48]"
+effects = []

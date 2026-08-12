@@ -7,3 +7,4 @@ base_atk = 168.48
 base_def = 140.4
 superimposition = 1
 passive = "装备者首次召唤忆灵时，恢复#1[i]点战技点，并恢复自身#2[i]点能量。 | 叠影1: [1, 12]"
+effects = []

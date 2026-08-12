@@ -7,3 +7,4 @@ base_atk = 308.88
 base_def = 245.7
 superimposition = 1
 passive = "使装备者的暴击伤害提高#1[i]%。当装备者的普攻或战技伤害未造成暴击时，使自身暴击率提高#2[i]%，持续#3[i]回合。该效果每#4[i]回合可以触发1次。 | 叠影1: [0.3, 0.36, 1, 3]"
+effects = [{ trigger = "on_use", stat = "crit_dmg", value = 0.3, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }, { trigger = "on_use", stat = "crit_rate", value = 0.36, turns = 0, target = "team", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

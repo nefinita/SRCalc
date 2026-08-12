@@ -7,3 +7,4 @@ base_atk = 140.4
 base_def = 140.4
 superimposition = 1
 passive = "装备者施放战技和终结技时，治疗量提高#1[i]%。 | 叠影1: [0.12]"
+effects = []
