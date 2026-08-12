@@ -548,3 +548,76 @@ fn engine_stats(
     permanent.add(&sr_core::engine::relic_set_mods(build, &sets));
     sr_core::engine::compute_final_stats(character, cone, build, &permanent)
 }
+
+#[test]
+fn conditional_set_effect_on_ult_expires() {
+    // 密林卧雪 4件：终结技后 暴伤+25%·2回合
+    let set = sr_api::RelicSet {
+        id: "104".into(),
+        name: "密林卧雪".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::OnUlt,
+            stat: BuffStat::CritDmg,
+            value: 0.25,
+            turns: 2,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+    };
+    let a = character("a", "A", 115.0, vec![
+        ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
+        AbilityData {
+            name: "终结技".into(),
+            kind: AbilityKind::Ult,
+            multiplier: 2.0,
+            multipliers: vec![],
+            skill_level: 6,
+            scaling: Scaling::Atk,
+            flat_damage: 0.0,
+            dmg_type: DmgType::Normal,
+            can_crit: true,
+            toughness_reduction: 10.0,
+            hits: 1,
+            hit_split: vec![1.0],
+            energy_gain: 5.0,
+            max_energy: 100.0,
+            skill_point: 0,
+            bonus_sp: 0,
+            target: Target::Single,
+            buff: None,
+            immediate_action: false,
+            action_advance_pct: 0.0,
+            self_advance_pct: 0.0,
+        },
+    ]);
+    let mut build = Build::default();
+    build.level = 80;
+    build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "104".into(), count: 4 }];
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![set],
+        enemies: vec![enemy()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig { start_energy: 100.0, ..Default::default() },
+        steps: vec![ult("a"), basic("a"), basic("a"), basic("a")],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let dmg: Vec<f64> = out.steps.iter().map(|s| s.damage).collect();
+    // 终结技后两下普攻带暴伤+25%，第三下普攻 buff 已过期
+    assert!(dmg[1] > dmg[3], "buff 生效期应更高 d1={:.3} d3={:.3}", dmg[1], dmg[3]);
+    assert!(dmg[2] > dmg[3], "buff 第二回合应更高 d2={:.3} d3={:.3}", dmg[2], dmg[3]);
+    assert!((dmg[1] - dmg[2]).abs() < 1e-6);
+}

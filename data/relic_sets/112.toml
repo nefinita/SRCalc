@@ -2,5 +2,5 @@ id = "112"
 name = "盗匪荒漠的废土客"
 two_piece = "虚数属性伤害提高10%。"
 four_piece = "装备者对陷入负面效果的敌方目标造成伤害时暴击率提高10%，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高20%。"
-two_piece_effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

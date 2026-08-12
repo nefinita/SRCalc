@@ -2,5 +2,5 @@ id = "118"
 name = "机心戏梦的钟表匠"
 two_piece = "击破特攻提高16%。"
 four_piece = "当装备者对我方目标施放终结技时，我方全体击破特攻提高30%，持续2回合，该效果无法叠加。"
-two_piece_effects = [{ trigger = "on_use", stat = "break_effect", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
-four_piece_effects = []
+two_piece_effects = [{ trigger = "battle_start", stat = "break_effect", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = [{ trigger = "on_ult", stat = "break_effect", value = 0.3, turns = 2 }]

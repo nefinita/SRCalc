@@ -1,5 +1,5 @@
 id = "307"
 name = "盗贼公国塔利亚"
 two_piece = "使装备者的击破特攻提高16%。当装备者的速度大于等于145时，击破特攻额外提高20%。"
-two_piece_effects = [{ trigger = "on_use", stat = "break_effect", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "break_effect", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

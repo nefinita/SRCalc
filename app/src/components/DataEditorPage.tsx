@@ -348,6 +348,12 @@ function EffectFields({
         <select value={eff.trigger} onChange={(e) => onChange({ trigger: e.target.value as Effect["trigger"] })}>
           <option value="on_use">施放</option>
           <option value="on_sp_consume">消耗战技点</option>
+          <option value="battle_start">进场常驻</option>
+          <option value="on_ult">终结技后</option>
+          <option value="on_skill">战技后</option>
+          <option value="on_basic">普攻后</option>
+          <option value="on_hit">受击</option>
+          <option value="turn_start">回合开始</option>
         </select>
       </label>
       <label className={styles.field}>

@@ -1,5 +1,5 @@
 id = "316"
 name = "劫火莲灯铸炼宫"
 two_piece = "使装备者的速度提高6%。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高40%，持续1回合。"
-two_piece_effects = [{ trigger = "on_use", stat = "speed_pct", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "speed_pct", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

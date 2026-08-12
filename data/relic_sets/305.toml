@@ -1,5 +1,5 @@
 id = "305"
 name = "星体差分机"
 two_piece = "使装备者的暴击伤害提高16%。当装备者的暴击伤害大于等于120%时，进入战斗后装备者的暴击率提高60%，持续到施放首次攻击后结束。"
-two_piece_effects = [{ trigger = "on_use", stat = "crit_dmg", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "crit_dmg", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

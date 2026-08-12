@@ -379,22 +379,37 @@ def effects_from_props(props: list) -> list:
         if stat is None:
             continue
         effects.append({
-            "trigger": "on_use", "stat": stat, "value": p["value"], "turns": 0,
+            "trigger": "battle_start", "stat": stat, "value": p["value"], "turns": 0,
             "target": "self", "cap_bonus": 0, "sp_on_basic": 0, "max_stacks": 0,
         })
     return effects
 
 
+# 触发式套装被动（结构化策展，避免文本解析脆弱性）
+# 数值取自 desc 字面量；trigger: on_ult/on_skill/on_basic/on_hit/turn_start
+SET_CONDITIONALS = {
+    "104": {"4pc": [{"trigger": "on_ult", "stat": "crit_dmg", "value": 0.25, "turns": 2}]},
+    "109": {"4pc": [{"trigger": "on_skill", "stat": "atk_pct", "value": 0.20, "turns": 1}]},
+    "114": {"4pc": [{"trigger": "on_ult", "stat": "speed_pct", "value": 0.12, "turns": 1}]},
+    "118": {"4pc": [{"trigger": "on_ult", "stat": "break_effect", "value": 0.30, "turns": 2}]},
+}
+
+
 def build_relic_set(sid: str, s: dict) -> dict:
     desc = s.get("desc") or []
     props = s.get("properties") or []
+    curated = SET_CONDITIONALS.get(sid, {})
+    two = effects_from_props(props[0]) if len(props) > 0 else []
+    four = effects_from_props(props[1]) if len(props) > 1 else []
+    two.extend(curated.get("2pc", []))
+    four.extend(curated.get("4pc", []))
     return {
         "id": sid,
         "name": s["name"],
         "two_piece": desc[0] if len(desc) > 0 else None,
         "four_piece": desc[1] if len(desc) > 1 else None,
-        "two_piece_effects": effects_from_props(props[0]) if len(props) > 0 else [],
-        "four_piece_effects": effects_from_props(props[1]) if len(props) > 1 else [],
+        "two_piece_effects": two,
+        "four_piece_effects": four,
     }
 
 

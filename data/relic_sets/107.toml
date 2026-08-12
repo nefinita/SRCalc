@@ -2,5 +2,5 @@ id = "107"
 name = "熔岩锻铸的火匠"
 two_piece = "火属性伤害提高10%。"
 four_piece = "使装备者战技造成的伤害提高12%，并使施放终结技后的下一次攻击造成的火属性伤害提高12%。"
-two_piece_effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

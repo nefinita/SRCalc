@@ -1,5 +1,5 @@
 id = "301"
 name = "太空封印站"
 two_piece = "使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。"
-two_piece_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "atk_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

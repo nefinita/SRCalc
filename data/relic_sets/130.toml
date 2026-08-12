@@ -2,5 +2,5 @@ id = "130"
 name = "应天涉远的卜者"
 two_piece = "速度提高6%。"
 four_piece = "进入战斗前，若装备者的速度大于等于120/160，使装备者的暴击率提高10%/18%。装备者每场战斗首次施放欢愉技时，使我方全体欢愉度提高10%，该效果无法叠加。"
-two_piece_effects = [{ trigger = "on_use", stat = "speed_pct", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "speed_pct", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

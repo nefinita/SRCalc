@@ -1,5 +1,5 @@
 id = "306"
 name = "停转的萨尔索图"
 two_piece = "使装备者的暴击率提高8%。当装备者当前暴击率大于等于50%时，终结技和追加攻击造成的伤害提高15%。"
-two_piece_effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

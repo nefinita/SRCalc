@@ -1,5 +1,5 @@
 id = "309"
 name = "繁星竞技场"
 two_piece = "使装备者的暴击率提高8%。当装备者的当前暴击率大于等于70%时，普攻和战技造成的伤害提高20%。"
-two_piece_effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

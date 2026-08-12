@@ -30,7 +30,15 @@ export type BuffStat =
 
 export type BuffTarget = "self" | "team" | "ally";
 
-export type Trigger = "on_use" | "on_sp_consume";
+export type Trigger =
+  | "on_use"
+  | "on_sp_consume"
+  | "battle_start"
+  | "on_ult"
+  | "on_skill"
+  | "on_basic"
+  | "on_hit"
+  | "turn_start";
 
 export interface Effect {
   trigger: Trigger;

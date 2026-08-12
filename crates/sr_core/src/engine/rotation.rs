@@ -14,8 +14,8 @@ use sr_api::{
 use std::collections::HashMap;
 
 use super::damage::{
-    compute_ability_damage_for, compute_break_damage, compute_final_stats, relic_set_mods,
-    AbilityContext, FinalStats, StatMods,
+    compute_ability_damage_for, compute_break_damage, compute_final_stats, relic_set_conditional,
+    relic_set_permanent, AbilityContext, FinalStats, StatMods,
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -39,6 +39,8 @@ impl Carrier {
 struct ActiveBuff {
     source: String,
     carrier: Carrier,
+    /// 效果归属角色（tick/作用判断）；source 为去重标识
+    owner: String,
     mods: StatMods,
     turns_remaining: u32,
     stacks: u32,
@@ -101,6 +103,7 @@ struct Sim<'a> {
     base_stats: HashMap<&'a str, FinalStats>,
     unit: HashMap<&'a str, UnitState>,
     on_sp_consume: Vec<(&'a str, &'a Effect)>,
+    set_conditionals: HashMap<&'a str, Vec<(Trigger, Effect)>>,
     active_buffs: Vec<ActiveBuff>,
     sp_pool: SpPool,
     enemy_av: f64,
@@ -134,6 +137,7 @@ impl<'a> Sim<'a> {
         let mut base_stats: HashMap<&str, FinalStats> = HashMap::new();
         let mut unit: HashMap<&str, UnitState> = HashMap::new();
         let mut on_sp_consume: Vec<(&str, &Effect)> = Vec::new();
+        let mut set_conditionals: HashMap<&str, Vec<(Trigger, Effect)>> = HashMap::new();
         let mut sp_pool = SpPool {
             current: req.battle.start_sp,
             cap: req.battle.base_sp_cap,
@@ -155,14 +159,20 @@ impl<'a> Sim<'a> {
             }
             for e in &character.team_effects {
                 match e.trigger {
-                    Trigger::OnUse => {
+                    Trigger::OnUse | Trigger::BattleStart => {
                         perm.add(&StatMods::from_effect(e, 1));
                         sp_pool.cap += e.cap_bonus;
                     }
                     Trigger::OnSpConsume => on_sp_consume.push((id, e)),
+                    Trigger::OnUlt | Trigger::OnSkill | Trigger::OnBasic | Trigger::OnHit
+                    | Trigger::TurnStart => {}
                 }
             }
-            perm.add(&relic_set_mods(&m.build, &sets));
+            perm.add(&relic_set_permanent(&m.build, &sets));
+            let conds = relic_set_conditional(&m.build, &sets);
+            if !conds.is_empty() {
+                set_conditionals.insert(id, conds);
+            }
             perm_map.insert(id, perm.clone());
             let stats = compute_final_stats(character, cone, &m.build, &perm);
             let max_energy = character
@@ -188,6 +198,7 @@ impl<'a> Sim<'a> {
             base_stats,
             unit,
             on_sp_consume,
+            set_conditionals,
             active_buffs: Vec::new(),
             sp_pool,
             enemy_av: action_value(req.enemy.spd.max(1.0)),
@@ -205,7 +216,7 @@ impl<'a> Sim<'a> {
         for b in &self.active_buffs {
             let apply = match &b.carrier {
                 Carrier::Team => true,
-                Carrier::Owner => b.source == id,
+                Carrier::Owner => b.owner == id,
                 Carrier::Ally(a) => a == id,
             };
             if apply {
@@ -231,9 +242,14 @@ impl<'a> Sim<'a> {
             self.sp_pool.cap += cap;
             self.sp_pool.clamp();
         }
+        let owner = match &carrier {
+            Carrier::Owner | Carrier::Team => source.to_string(),
+            Carrier::Ally(a) => a.clone(),
+        };
         self.active_buffs.push(ActiveBuff {
             source: source.to_string(),
             carrier,
+            owner,
             mods: StatMods::from_effect(eff, 1),
             turns_remaining: eff.turns,
             stacks: 1,
@@ -253,7 +269,50 @@ impl<'a> Sim<'a> {
             b.mods = StatMods::from_effect(eff, b.stacks);
             b.turns_remaining = eff.turns;
         } else {
-            self.apply_buff(source, eff, None);
+            self.active_buffs.push(ActiveBuff {
+                source: source.to_string(),
+                carrier: Carrier::Team,
+                owner: source.to_string(),
+                mods: StatMods::from_effect(eff, 1),
+                turns_remaining: eff.turns,
+                stacks: 1,
+                sp_on_basic: eff.sp_on_basic,
+                cap_bonus: eff.cap_bonus,
+                max_stacks: eff.max_stacks,
+            });
+        }
+    }
+
+    /// 触发式套装被动：按触发类型应用（刷新或新建），持续 eff.turns 回合
+    fn apply_set_conditional(&mut self, id: &str, trigger: Trigger) {
+        let Some(conds) = self.set_conditionals.get(id) else {
+            return;
+        };
+        let conds = conds.clone();
+        for (t, eff) in conds {
+            if t != trigger {
+                continue;
+            }
+            let marker = format!("set:{id}:{:?}", eff.stat);
+            if let Some(b) = self
+                .active_buffs
+                .iter_mut()
+                .find(|b| b.source == marker)
+            {
+                b.turns_remaining = eff.turns.max(1);
+            } else {
+                self.active_buffs.push(ActiveBuff {
+                    source: marker,
+                    carrier: Carrier::Owner,
+                    owner: id.to_string(),
+                    mods: StatMods::from_effect(&eff, 1),
+                    turns_remaining: eff.turns.max(1),
+                    stacks: 1,
+                    sp_on_basic: eff.sp_on_basic,
+                    cap_bonus: eff.cap_bonus,
+                    max_stacks: eff.max_stacks,
+                });
+            }
         }
     }
 
@@ -261,8 +320,8 @@ impl<'a> Sim<'a> {
         let mut i = 0;
         while i < self.active_buffs.len() {
             let tick = match &self.active_buffs[i].carrier {
-                Carrier::Team => self.active_buffs[i].source == actor,
-                Carrier::Owner => self.active_buffs[i].source == actor,
+                Carrier::Team => self.active_buffs[i].owner == actor,
+                Carrier::Owner => self.active_buffs[i].owner == actor,
                 Carrier::Ally(a) => a == actor,
             };
             if tick && self.active_buffs[i].turns_remaining > 0 {
@@ -344,6 +403,9 @@ impl<'a> Sim<'a> {
         let mut damage = 0.0_f64;
         let mut labels = Vec::new();
 
+        // 回合开始触发式套装被动
+        self.apply_set_conditional(id, Trigger::TurnStart);
+
         if let Some(ability) = &ability {
             if step.action != ActionKind::Wait {
                 let mods = self.mods_for(id);
@@ -417,6 +479,14 @@ impl<'a> Sim<'a> {
             }
         }
 
+        // 套装触发式被动（按动作类型）
+        match step.action {
+            ActionKind::Ult => self.apply_set_conditional(id, Trigger::OnUlt),
+            ActionKind::Skill => self.apply_set_conditional(id, Trigger::OnSkill),
+            ActionKind::Basic => self.apply_set_conditional(id, Trigger::OnBasic),
+            ActionKind::Wait => {}
+        }
+
         self.steps_out.push(RotationStep {
             char_id: step.char_id.clone(),
             char_name,
@@ -480,6 +550,7 @@ impl<'a> Sim<'a> {
                 self.apply_buff(id, eff, step.target.as_deref());
             }
         }
+        self.apply_set_conditional(id, Trigger::OnUlt);
         if let Some(s) = self.unit.get_mut(id) {
             s.energy = 0.0;
         }
@@ -505,6 +576,10 @@ impl<'a> Sim<'a> {
             Some(a) => (a.name.clone(), a.energy_gain_players, a.sp_delta, a.energy_drain),
             None => ("普通攻击".to_string(), 0.0, 0, 0.0),
         };
+        let hit_ids: Vec<&str> = self.base_stats.keys().copied().collect();
+        for id in &hit_ids {
+            self.apply_set_conditional(id, Trigger::OnHit);
+        }
         for (id, base) in &self.base_stats {
             if let Some(s) = self.unit.get_mut(id) {
                 s.energy = (s.energy + gain * (1.0 + base.energy_regen)).min(s.max_energy);

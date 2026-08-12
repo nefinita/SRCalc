@@ -2,5 +2,5 @@ id = "105"
 name = "街头出身的拳王"
 two_piece = "物理属性伤害提高10%。"
 four_piece = "当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高5%，最多叠加5层。"
-two_piece_effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+two_piece_effects = [{ trigger = "battle_start", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
 four_piece_effects = []

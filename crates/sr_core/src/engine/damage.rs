@@ -144,6 +144,55 @@ pub fn relic_set_mods(build: &Build, sets: &[&RelicSet]) -> StatMods {
     m
 }
 
+/// 仅常驻（BattleStart）套装效果 → 排轴永久修正
+pub fn relic_set_permanent(build: &Build, sets: &[&RelicSet]) -> StatMods {
+    let mut m = StatMods::default();
+    for piece in &build.relic_sets {
+        let Some(set) = sets.iter().find(|s| s.id == piece.set_id) else {
+            continue;
+        };
+        if piece.count >= 4 {
+            for e in &set.four_piece_effects {
+                if e.trigger == Trigger::BattleStart {
+                    m.add(&StatMods::from_effect(e, 1));
+                }
+            }
+        }
+        if piece.count >= 2 {
+            for e in &set.two_piece_effects {
+                if e.trigger == Trigger::BattleStart {
+                    m.add(&StatMods::from_effect(e, 1));
+                }
+            }
+        }
+    }
+    m
+}
+
+/// 触发式套装被动（OnUlt/OnSkill/OnBasic/OnHit/TurnStart）→ 排轴触发列表
+pub fn relic_set_conditional(build: &Build, sets: &[&RelicSet]) -> Vec<(Trigger, Effect)> {
+    let mut out = Vec::new();
+    for piece in &build.relic_sets {
+        let Some(set) = sets.iter().find(|s| s.id == piece.set_id) else {
+            continue;
+        };
+        let mut check = |es: &[Effect]| {
+            for e in es {
+                if e.trigger != Trigger::BattleStart {
+                    out.push((e.trigger, e.clone()));
+                }
+            }
+        };
+        if piece.count >= 4 {
+            check(&set.four_piece_effects);
+        }
+        if piece.count >= 2 {
+            check(&set.two_piece_effects);
+        }
+    }
+    out
+}
+
 /// 汇总角色最终面板：基础属性(角色+光锥) × (1+%+permanent%) + 固定值
 pub fn compute_final_stats(
     character: &Character,

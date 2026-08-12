@@ -128,11 +128,23 @@ pub enum BuffTarget {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Trigger {
-    /// 施放技能时应用
+    /// 施放技能时应用（技能 buff）
     #[default]
     OnUse,
     /// 我方消耗战技点时触发/叠层（花火天赋）
     OnSpConsume,
+    /// 进场即生效（套装常驻效果 / 在场被动）
+    BattleStart,
+    /// 施放终结技后触发（套装被动）
+    OnUlt,
+    /// 施放战技后触发
+    OnSkill,
+    /// 施放普攻后触发
+    OnBasic,
+    /// 受击时触发
+    OnHit,
+    /// 回合开始时触发
+    TurnStart,
 }
 
 /// 通用效果：buff / 光锥被动 / 角色在场被动
