@@ -486,6 +486,8 @@ pub struct RotationRequest {
     pub steps: Vec<RotationStepReq>,
     /// 忆灵行动序列（忆灵回合按序消耗；空 = 默认第 0 个忆灵技能）
     pub memosprite_steps: Vec<MemospriteStepReq>,
+    /// >0 时生成自然全普攻轴至该 AV（不读 steps；steps 供用户修改后重跑）
+    pub natural_until_av: f64,
     pub cycles: u32,
 }
 
@@ -512,6 +514,8 @@ pub struct RotationResult {
     pub steps: Vec<RotationStep>,
     pub total_damage: f64,
     pub total_av: f64,
+    /// 自然模式生成的玩家行动序列（供前端展示/修改）
+    pub generated_steps: Vec<RotationStepReq>,
 }
 
 // ---------- 配装优化 ----------

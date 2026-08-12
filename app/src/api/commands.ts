@@ -588,6 +588,7 @@ function mockRotation(args?: Record<string, unknown>): RotationResultDTO {
     steps,
     total_damage: steps.reduce((a, s) => a + s.damage, 0),
     total_av: steps[steps.length - 1]?.av ?? 0,
+    generated_steps: (req?.steps ?? []).map((s) => ({ char_id: s.char_id, action: s.action, target: null })),
   };
 }
 

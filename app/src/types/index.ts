@@ -263,6 +263,7 @@ export interface RotationRequest {
   battle: BattleConfig;
   steps: RotationStepReq[];
   memosprite_steps: MemospriteStepReq[];
+  natural_until_av: number;
   cycles: number;
 }
 
@@ -270,6 +271,7 @@ export interface RotationResultDTO {
   steps: RotationStepDTO[];
   total_damage: number;
   total_av: number;
+  generated_steps: RotationStepReq[];
 }
 
 export interface OptimizeRequest {

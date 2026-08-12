@@ -134,6 +134,7 @@ struct Sim<'a> {
     total_av: f64,
     total_damage: f64,
     steps_out: Vec<RotationStep>,
+    generated_steps: Vec<RotationStepReq>,
 }
 
 impl<'a> Sim<'a> {
@@ -271,6 +272,7 @@ impl<'a> Sim<'a> {
             total_av: 0.0,
             total_damage: 0.0,
             steps_out: Vec::new(),
+            generated_steps: Vec::new(),
         })
     }
 
@@ -554,7 +556,13 @@ impl<'a> Sim<'a> {
                 }
             }
 
-            // 战技点：按技能消耗/恢复
+            // 战技点：非法检查（消耗但不足）
+            if ability.skill_point < 0 && self.sp_pool.current < -ability.skill_point {
+                return Err(format!(
+                    "{} 战技点不足（需 {} 点，当前 {}）",
+                    char_name, -ability.skill_point, self.sp_pool.current
+                ));
+            }
             self.sp_pool.add(ability.skill_point);
             if ability.skill_point < 0 {
                 self.sp_consumed_turn += -ability.skill_point;
@@ -941,6 +949,73 @@ impl<'a> Sim<'a> {
             buffs: Vec::new(),
         });
     }
+    /// 自然模式单步：推进到最早事件（玩家/敌方/忆灵），玩家默认普攻
+    fn natural_step(&mut self) -> Result<bool, String> {
+        let mut min_av = self.enemy_av;
+        let mut kind = 0usize;
+        let mut target: Option<String> = None;
+        for (id, u) in &self.unit {
+            if u.av < min_av {
+                min_av = u.av;
+                kind = 2;
+                target = Some((*id).to_string());
+            }
+        }
+        for (mid, m) in &self.memos {
+            if m.av < min_av {
+                min_av = m.av;
+                kind = 1;
+                target = Some(mid.clone());
+            }
+        }
+        self.total_av += min_av;
+        for u in self.unit.values_mut() {
+            u.av = (u.av - min_av).max(0.0);
+        }
+        for m in self.memos.values_mut() {
+            m.av = (m.av - min_av).max(0.0);
+        }
+        self.enemy_av = (self.enemy_av - min_av).max(0.0);
+        match kind {
+            0 => {
+                self.resolve_enemy();
+                self.enemy_av = action_value(self.req.enemy.spd.max(1.0));
+            }
+            1 => {
+                let mid = target.expect("memo");
+                let (owner, next_action) = {
+                    let m = self.memos.get_mut(&mid).expect("memo");
+                    (m.owner.clone(), m.queue.pop_front())
+                };
+                let (idx, tgt) = next_action.unwrap_or((0, None));
+                let alive = self.resolve_memo(&owner, &mid, idx, tgt.as_deref());
+                if alive
+                    && let Some(m) = self.memos.get_mut(&mid)
+                {
+                    m.av = action_value(m.spd.max(1.0));
+                }
+            }
+            2 => {
+                let id = target.expect("player");
+                let step = RotationStepReq {
+                    char_id: id.clone(),
+                    action: ActionKind::Basic,
+                    target: None,
+                };
+                self.resolve_action(&step)?;
+                self.generated_steps.push(step);
+                let spd = self.spd_for(&id);
+                if let Some(s) = self.unit.get_mut(id.as_str()) {
+                    s.av = action_value(spd);
+                }
+                self.tick_buffs(&id);
+            }
+            _ => {}
+        }
+        Ok(true)
+    }
+
+
 }
 
 pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
@@ -948,6 +1023,19 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
     let mut cycle = 0;
     let mut pending_ults: Vec<RotationStepReq> = Vec::new();
     let mut remaining: Vec<RotationStepReq> = req.steps.clone();
+
+    // 自然全普攻轴：按 AV 动态生成（不读脚本）
+    if req.natural_until_av > 0.0 {
+        while sim.total_av < req.natural_until_av && sim.generated_steps.len() < 60 {
+            sim.natural_step()?;
+        }
+        return Ok(RotationResult {
+            steps: sim.steps_out,
+            total_damage: sim.total_damage,
+            total_av: sim.total_av,
+            generated_steps: sim.generated_steps,
+        });
+    }
 
     while !remaining.is_empty() {
         let step = remaining.remove(0);
@@ -1053,5 +1141,6 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
         steps: sim.steps_out,
         total_damage: sim.total_damage,
         total_av: sim.total_av,
+        generated_steps: sim.generated_steps,
     })
 }

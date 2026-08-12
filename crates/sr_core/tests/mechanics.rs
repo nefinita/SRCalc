@@ -129,6 +129,7 @@ fn rotate(
         battle,
         steps,
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation")
@@ -305,6 +306,7 @@ fn enemy_actions_energy_sp_drain() {
         battle: BattleConfig::default(),
         steps,
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -459,6 +461,7 @@ fn weakness_break_system() {
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
         steps: vec![basic("a"); 4],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -494,6 +497,7 @@ fn non_weakness_no_break() {
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
         steps: vec![basic("a"); 4],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -671,6 +675,7 @@ fn conditional_set_effect_on_ult_expires() {
         battle: BattleConfig { start_energy: 100.0, ..Default::default() },
         memosprite_steps: vec![],
         steps: vec![ult("a"), basic("a"), basic("a"), basic("a")],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -722,6 +727,7 @@ fn on_hit_set_stacks_crit_rate() {
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
         steps: vec![basic("a"); 6],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -809,6 +815,7 @@ fn ally_target_set_buff_applies_and_expires() {
         battle: BattleConfig::default(),
         steps,
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -892,7 +899,8 @@ fn sp_consume_threshold_set() {
             battle: BattleConfig { start_sp: 5, ..Default::default() },
             memosprite_steps: vec![],
         steps: vec![skill("a"), basic("a")],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         out.steps[1].damage
@@ -948,7 +956,8 @@ fn on_attack_break_buff() {
             battle: BattleConfig::default(),
             memosprite_steps: vec![],
         steps: vec![basic("a"), basic("a")],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         out.steps[1].damage
@@ -1032,7 +1041,8 @@ fn ult_dmg_type_stat() {
             battle: BattleConfig { start_energy: 100.0, ..Default::default() },
             memosprite_steps: vec![],
         steps: vec![ult("a"), basic("a")],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         (out.steps[0].damage, out.steps[1].damage)
@@ -1084,6 +1094,7 @@ fn enemy_kill_detection_and_on_kill() {
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
         steps: vec![basic("a"); 4],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -1166,7 +1177,8 @@ fn on_apply_debuff_set() {
             battle: BattleConfig::default(),
             memosprite_steps: vec![],
         steps: vec![skill("a"), basic("a")],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         out.steps[1].damage
@@ -1248,7 +1260,8 @@ fn on_heal_set() {
             battle: BattleConfig::default(),
             memosprite_steps: vec![],
         steps: vec![skill("a"), basic("a")],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         out.steps[1].damage
@@ -1337,7 +1350,8 @@ fn captain_charge_ult_buff() {
             battle: BattleConfig { start_energy: 100.0, ..Default::default() },
             steps,
             memosprite_steps: vec![],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         out.steps[out.steps.len() - 1].damage
@@ -1453,7 +1467,8 @@ fn death_water_amplify_on_debuff() {
             battle: BattleConfig::default(),
             steps,
             memosprite_steps: vec![],
-            cycles: 1,
+        natural_until_av: 0.0,
+        cycles: 1,
         })
         .expect("rotation");
         out.steps[out.steps.len() - 1].damage
@@ -1508,6 +1523,7 @@ fn memosprite_attack_crit_buff() {
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
         steps: vec![basic("a"); 8],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -1609,6 +1625,7 @@ fn forced_memosprite_skill_overrides_queue() {
             ability_index: 0,
             target: None,
         }],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -1670,6 +1687,7 @@ fn memosprite_repeat_multicast() {
         battle: BattleConfig::default(),
         steps: vec![basic("a"); 4],
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -1766,6 +1784,7 @@ fn netherwing_hp_cost_and_explosion() {
         battle: BattleConfig::default(),
         steps: vec![basic("a"), basic("a")],
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -1865,6 +1884,7 @@ fn memosprite_summoned_by_skill() {
         battle: BattleConfig::default(),
         steps: vec![basic("a"), skill("a"), basic("a"), basic("a")],
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
@@ -1932,9 +1952,80 @@ fn summon_at_battle_start_lingyuan() {
         battle: BattleConfig::default(),
         steps: vec![basic("a")],
         memosprite_steps: vec![],
+        natural_until_av: 0.0,
         cycles: 1,
     })
     .expect("rotation");
     // 第一个步骤就是忆灵行动（开战已召唤）
     assert!(out.steps[0].buffs.contains(&"忆灵攻击".to_string()), "开战召唤应首步行动");
+}
+
+#[test]
+fn natural_rotation_generation() {
+    // 全普攻自然轴：按 AV 动态生成，不读脚本
+    let a = character("a", "A", 100.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let b = character("b", "B", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    let cfg = ConfigData {
+        characters: vec![a, b],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![enemy()], // spd 1，几乎不行动
+    };
+    let team = Team {
+        members: vec![
+            TeamMember { char_id: "a".into(), build: build.clone() },
+            TeamMember { char_id: "b".into(), build },
+        ],
+    };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team,
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![],
+        memosprite_steps: vec![],
+        natural_until_av: 400.0,
+        cycles: 1,
+    })
+    .expect("rotation");
+    // 生成了玩家行动序列（全普攻）
+    assert!(!out.generated_steps.is_empty(), "应生成自然轴");
+    assert!(out.generated_steps.iter().all(|s| s.action == ActionKind::Basic));
+    // 行动值单调不减
+    let player_avs: Vec<f64> = out.steps.iter().filter(|s| !s.is_enemy).map(|s| s.av).collect();
+    for w in player_avs.windows(2) {
+        assert!(w[1] >= w[0]);
+    }
+    assert!(out.total_av >= 400.0);
+}
+
+#[test]
+fn sp_illegal_skill() {
+    // 战技点不足非法检查
+    let a = character("a", "A", 100.0, vec![ability("战技", AbilityKind::Skill, 2.0, -1, 30.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![],
+        enemies: vec![enemy()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let res = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig { start_sp: 0, ..Default::default() },
+        steps: vec![skill("a")],
+        memosprite_steps: vec![],
+        natural_until_av: 0.0,
+        cycles: 1,
+    });
+    assert!(res.is_err(), "战技点不足应报错");
+    assert!(res.unwrap_err().contains("战技点不足"));
 }

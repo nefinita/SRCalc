@@ -73,6 +73,7 @@ fn rotation_pipeline() {
                 target: None,
             },
         ],
+        natural_until_av: 0.0,
         cycles: 1,
     };
     let out = sr_core::host::rotation::calculate_rotation(req).expect("rotation");
