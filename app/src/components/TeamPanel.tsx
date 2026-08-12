@@ -47,7 +47,11 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
   function setRelicCount(index: number, relicIndex: number, count: number) {
     const relic_sets = [...team.members[index].build.relic_sets];
     if (relic_sets[relicIndex]) relic_sets[relicIndex].count = count;
-    patchBuild(index, { relic_sets });
+    if (relicIndex === 0 && count === 4) {
+      // 整套：清空散件2
+      relic_sets[1] = { set_id: "", count: 0 };
+    }
+    patchBuild(index, { relic_sets: relic_sets.filter((r) => r.set_id) });
   }
 
   function addMember() {
@@ -224,19 +228,41 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
                 ))}
               </div>
 
-              <div className={styles.subTitle}>遗器套装（2件/4件 · 饰品2件）</div>
+              <div className={styles.subTitle}>遗器套装（整套4件 / 2+2散件 · 饰品2件）</div>
               <div className={styles.row}>
-                {[
-                  { label: "遗器套装1", idx: 0 },
-                  { label: "遗器套装2", idx: 1 },
-                  { label: "饰品套装", idx: 2, fixed: true },
-                ].map(({ label, idx, fixed }) => (
-                  <div key={idx} className={styles.relicGroup}>
+                {/* 遗器套装1（含件数；4件=整套） */}
+                <div className={styles.relicGroup}>
+                  <label className={styles.field}>
+                    <span>遗器套装1</span>
+                    <select
+                      value={m.build.relic_sets[0]?.set_id ?? ""}
+                      onChange={(e) => setRelic(i, 0, e.target.value)}
+                    >
+                      <option value="">无</option>
+                      {config?.relic_sets.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {r.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <select
+                    className={styles.relicCount}
+                    value={m.build.relic_sets[0]?.count ?? 2}
+                    onChange={(e) => setRelicCount(i, 0, Number(e.target.value))}
+                  >
+                    <option value={2}>2件</option>
+                    <option value={4}>4件(整套)</option>
+                  </select>
+                </div>
+                {/* 遗器套装2：仅当套装1为 2 件（2+2 散件） */}
+                {m.build.relic_sets[0]?.count !== 4 && (
+                  <div className={styles.relicGroup}>
                     <label className={styles.field}>
-                      <span>{label}</span>
+                      <span>遗器套装2</span>
                       <select
-                        value={m.build.relic_sets[idx]?.set_id ?? ""}
-                        onChange={(e) => setRelic(i, idx, e.target.value)}
+                        value={m.build.relic_sets[1]?.set_id ?? ""}
+                        onChange={(e) => setRelic(i, 1, e.target.value)}
                       >
                         <option value="">无</option>
                         {config?.relic_sets.map((r) => (
@@ -246,18 +272,27 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
                         ))}
                       </select>
                     </label>
-                    {!fixed && (
-                      <select
-                        className={styles.relicCount}
-                        value={m.build.relic_sets[idx]?.count ?? 2}
-                        onChange={(e) => setRelicCount(i, idx, Number(e.target.value))}
-                      >
-                        <option value={2}>2件</option>
-                        <option value={4}>4件</option>
-                      </select>
-                    )}
+                    <span className={styles.relicCount}>2件</span>
                   </div>
-                ))}
+                )}
+                {/* 饰品套装（固定 2 件） */}
+                <div className={styles.relicGroup}>
+                  <label className={styles.field}>
+                    <span>饰品套装</span>
+                    <select
+                      value={m.build.relic_sets[2]?.set_id ?? ""}
+                      onChange={(e) => setRelic(i, 2, e.target.value)}
+                    >
+                      <option value="">无</option>
+                      {config?.relic_sets.map((r) => (
+                        <option key={r.id} value={r.id}>
+                          {r.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <span className={styles.relicCount}>2件</span>
+                </div>
               </div>
             </div>
           );
