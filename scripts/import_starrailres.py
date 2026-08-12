@@ -390,8 +390,15 @@ def effects_from_props(props: list) -> list:
 SET_CONDITIONALS = {
     "104": {"4pc": [{"trigger": "on_ult", "stat": "crit_dmg", "value": 0.25, "turns": 2}]},
     "109": {"4pc": [{"trigger": "on_skill", "stat": "atk_pct", "value": 0.20, "turns": 1}]},
+    "113": {"4pc": [{"trigger": "on_hit", "stat": "crit_rate", "value": 0.08, "turns": 2, "target": "self", "max_stacks": 2}]},
     "114": {"4pc": [{"trigger": "on_ult", "stat": "speed_pct", "value": 0.12, "turns": 1}]},
+    "115": {"4pc": [{"trigger": "on_follow_up", "stat": "atk_pct", "value": 0.06, "turns": 3, "target": "self", "max_stacks": 8}]},
     "118": {"4pc": [{"trigger": "on_ult", "stat": "break_effect", "value": 0.30, "turns": 2}]},
+    "121": {"4pc": [
+        {"trigger": "on_skill", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
+        {"trigger": "on_ult", "stat": "crit_dmg", "value": 0.18, "turns": 2, "target": "ally", "max_stacks": 2},
+    ]},
+    "326": {"2pc": [{"trigger": "on_follow_up", "stat": "atk_pct", "value": 0.24, "turns": 2, "target": "self", "max_stacks": 0}]},
 }
 
 

@@ -621,3 +621,131 @@ fn conditional_set_effect_on_ult_expires() {
     assert!(dmg[2] > dmg[3], "buff 第二回合应更高 d2={:.3} d3={:.3}", dmg[2], dmg[3]);
     assert!((dmg[1] - dmg[2]).abs() < 1e-6);
 }
+
+#[test]
+fn on_hit_set_stacks_crit_rate() {
+    // 莳者 4件：受击 → 暴率+8%·2回合，叠2层
+    let set = sr_api::RelicSet {
+        id: "113".into(),
+        name: "莳者".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::OnHit,
+            stat: BuffStat::CritRate,
+            value: 0.08,
+            turns: 2,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 2,
+        }],
+    };
+    let a = character("a", "A", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "113".into(), count: 4 }];
+    let mut e = enemy();
+    e.spd = 100.0; // 与角色交错
+    let cfg = ConfigData {
+        characters: vec![a],
+        light_cones: vec![],
+        relic_sets: vec![set],
+        enemies: vec![e.clone()],
+    };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: e,
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 6],
+        cycles: 1,
+    })
+    .expect("rotation");
+    let dmg: Vec<f64> = out.steps.iter().filter(|s| !s.is_enemy).map(|s| s.damage).collect();
+    assert!(dmg[dmg.len() - 1] > dmg[0], "受击叠层后暴率应提升 last={:.2} first={:.2}", dmg[dmg.len()-1], dmg[0]);
+}
+
+#[test]
+fn ally_target_set_buff_applies_and_expires() {
+    // 司铎 4件：对目标施放战技/终结技 → 目标暴伤+18%·2回合·叠2
+    let set = sr_api::RelicSet {
+        id: "121".into(),
+        name: "司铎".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![Effect {
+            trigger: Trigger::OnSkill,
+            stat: BuffStat::CritDmg,
+            value: 0.18,
+            turns: 2,
+            target: BuffTarget::Ally,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 2,
+        }],
+    };
+    let a = character("a", "A", 200.0, vec![AbilityData {
+        name: "战技".into(),
+        kind: AbilityKind::Skill,
+        multiplier: 0.0,
+        multipliers: vec![],
+        skill_level: 6,
+        scaling: Scaling::Atk,
+        flat_damage: 0.0,
+        dmg_type: DmgType::Normal,
+        can_crit: false,
+        toughness_reduction: 0.0,
+        hits: 1,
+        hit_split: vec![1.0],
+        energy_gain: 30.0,
+        max_energy: 100.0,
+        skill_point: -1,
+        bonus_sp: 0,
+        target: Target::Single,
+        buff: None,
+        immediate_action: false,
+        action_advance_pct: 0.0,
+        self_advance_pct: 0.0,
+    }]);
+    let b = character("b", "B", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "121".into(), count: 4 }];
+    let cfg = ConfigData {
+        characters: vec![a, b],
+        light_cones: vec![],
+        relic_sets: vec![set],
+        enemies: vec![enemy()],
+    };
+    let steps = vec![
+        RotationStepReq { char_id: "a".into(), action: ActionKind::Skill, target: Some("b".into()) },
+        basic("b"),
+        basic("b"),
+        basic("b"),
+    ];
+    let team = Team {
+        members: vec![
+            TeamMember { char_id: "a".into(), build },
+            TeamMember { char_id: "b".into(), build: Build { level: 80, ..Default::default() } },
+        ],
+    };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team,
+        enemy: enemy(),
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps,
+        cycles: 1,
+    })
+    .expect("rotation");
+    let dmg: Vec<f64> = out.steps.iter().filter(|s| !s.is_enemy && s.char_id == "b").map(|s| s.damage).collect();
+    // B 两下普攻带暴伤+18%，第三下过期
+    assert!(dmg[0] > dmg[2], "buff 期应更高 b0={:.3} b2={:.3}", dmg[0], dmg[2]);
+    assert!((dmg[0] - dmg[1]).abs() < 1e-6);
+}

@@ -165,7 +165,7 @@ impl<'a> Sim<'a> {
                     }
                     Trigger::OnSpConsume => on_sp_consume.push((id, e)),
                     Trigger::OnUlt | Trigger::OnSkill | Trigger::OnBasic | Trigger::OnHit
-                    | Trigger::TurnStart => {}
+                    | Trigger::TurnStart | Trigger::OnFollowUp => {}
                 }
             }
             perm.add(&relic_set_permanent(&m.build, &sets));
@@ -283,8 +283,9 @@ impl<'a> Sim<'a> {
         }
     }
 
-    /// 触发式套装被动：按触发类型应用（刷新或新建），持续 eff.turns 回合
-    fn apply_set_conditional(&mut self, id: &str, trigger: Trigger) {
+    /// 触发式套装被动：按触发类型应用（刷新或叠层），持续 eff.turns 回合；
+    /// target=ally 时挂到技能目标（如司铎4件）
+    fn apply_set_conditional(&mut self, id: &str, trigger: Trigger, target: Option<&str>) {
         let Some(conds) = self.set_conditionals.get(id) else {
             return;
         };
@@ -293,18 +294,36 @@ impl<'a> Sim<'a> {
             if t != trigger {
                 continue;
             }
-            let marker = format!("set:{id}:{:?}", eff.stat);
+            let is_ally = eff.target == BuffTarget::Ally;
+            let owner = if is_ally {
+                target.unwrap_or(id).to_string()
+            } else {
+                id.to_string()
+            };
+            let marker = if is_ally {
+                format!("set:{id}:{:?}:{owner}", eff.stat)
+            } else {
+                format!("set:{id}:{:?}", eff.stat)
+            };
             if let Some(b) = self
                 .active_buffs
                 .iter_mut()
                 .find(|b| b.source == marker)
             {
+                if eff.max_stacks > 0 {
+                    b.stacks = (b.stacks + 1).min(eff.max_stacks);
+                    b.mods = StatMods::from_effect(&eff, b.stacks);
+                }
                 b.turns_remaining = eff.turns.max(1);
             } else {
                 self.active_buffs.push(ActiveBuff {
                     source: marker,
-                    carrier: Carrier::Owner,
-                    owner: id.to_string(),
+                    carrier: if is_ally {
+                        Carrier::Ally(owner.clone())
+                    } else {
+                        Carrier::Owner
+                    },
+                    owner,
                     mods: StatMods::from_effect(&eff, 1),
                     turns_remaining: eff.turns.max(1),
                     stacks: 1,
@@ -404,7 +423,7 @@ impl<'a> Sim<'a> {
         let mut labels = Vec::new();
 
         // 回合开始触发式套装被动
-        self.apply_set_conditional(id, Trigger::TurnStart);
+        self.apply_set_conditional(id, Trigger::TurnStart, None);
 
         if let Some(ability) = &ability {
             if step.action != ActionKind::Wait {
@@ -479,11 +498,11 @@ impl<'a> Sim<'a> {
             }
         }
 
-        // 套装触发式被动（按动作类型）
+        // 套装触发式被动（按动作类型；定向型传目标）
         match step.action {
-            ActionKind::Ult => self.apply_set_conditional(id, Trigger::OnUlt),
-            ActionKind::Skill => self.apply_set_conditional(id, Trigger::OnSkill),
-            ActionKind::Basic => self.apply_set_conditional(id, Trigger::OnBasic),
+            ActionKind::Ult => self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref()),
+            ActionKind::Skill => self.apply_set_conditional(id, Trigger::OnSkill, step.target.as_deref()),
+            ActionKind::Basic => self.apply_set_conditional(id, Trigger::OnBasic, None),
             ActionKind::Wait => {}
         }
 
@@ -550,7 +569,7 @@ impl<'a> Sim<'a> {
                 self.apply_buff(id, eff, step.target.as_deref());
             }
         }
-        self.apply_set_conditional(id, Trigger::OnUlt);
+        self.apply_set_conditional(id, Trigger::OnUlt, step.target.as_deref());
         if let Some(s) = self.unit.get_mut(id) {
             s.energy = 0.0;
         }
@@ -578,7 +597,7 @@ impl<'a> Sim<'a> {
         };
         let hit_ids: Vec<&str> = self.base_stats.keys().copied().collect();
         for id in &hit_ids {
-            self.apply_set_conditional(id, Trigger::OnHit);
+            self.apply_set_conditional(id, Trigger::OnHit, None);
         }
         for (id, base) in &self.base_stats {
             if let Some(s) = self.unit.get_mut(id) {

@@ -38,7 +38,8 @@ export type Trigger =
   | "on_skill"
   | "on_basic"
   | "on_hit"
-  | "turn_start";
+  | "turn_start"
+  | "on_follow_up";
 
 export interface Effect {
   trigger: Trigger;

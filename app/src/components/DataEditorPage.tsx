@@ -354,6 +354,7 @@ function EffectFields({
           <option value="on_basic">普攻后</option>
           <option value="on_hit">受击</option>
           <option value="turn_start">回合开始</option>
+          <option value="on_follow_up">追加攻击后</option>
         </select>
       </label>
       <label className={styles.field}>

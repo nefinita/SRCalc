@@ -145,6 +145,8 @@ pub enum Trigger {
     OnHit,
     /// 回合开始时触发
     TurnStart,
+    /// 施放追加攻击时触发
+    OnFollowUp,
 }
 
 /// 通用效果：buff / 光锥被动 / 角色在场被动
