@@ -11,6 +11,7 @@ has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "三途枯榷"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "八雷飞渡"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "残梦尽染，一刀缭断"
@@ -95,6 +98,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "红叶时雨，万倾一空"
@@ -123,6 +127,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -151,6 +156,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -179,6 +185,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "啼泽雨斩"
@@ -207,6 +214,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "黄泉返渡"
@@ -235,3 +243,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

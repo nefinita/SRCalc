@@ -99,6 +99,7 @@ export function mockConfig(): ConfigDataDTO {
         memosprite_spd: 0,
         memosprite_multiplier: 0,
         memosprite_explode_pct: 0,
+        summon_at_battle_start: false,
         abilities: [
           {
             name: "强袭",
@@ -128,6 +129,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
           {
             name: "归刃",
@@ -157,6 +159,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
           {
             name: "乱蝶",
@@ -186,6 +189,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
         ],
       },
@@ -214,6 +218,7 @@ export function mockConfig(): ConfigDataDTO {
         memosprite_spd: 0,
         memosprite_multiplier: 0,
         memosprite_explode_pct: 0,
+        summon_at_battle_start: false,
         abilities: [
           {
             name: "独角戏",
@@ -243,6 +248,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
           {
             name: "梦游鱼",
@@ -281,6 +287,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
           {
             name: "一人千役",
@@ -310,6 +317,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
         ],
       },
@@ -327,6 +335,7 @@ export function mockConfig(): ConfigDataDTO {
         memosprite_spd: 0,
         memosprite_multiplier: 0,
         memosprite_explode_pct: 0,
+        summon_at_battle_start: false,
         abilities: [
           {
             name: "普攻",
@@ -356,6 +365,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
           {
             name: "战技·归途",
@@ -394,6 +404,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
         ],
       },
@@ -411,6 +422,7 @@ export function mockConfig(): ConfigDataDTO {
         memosprite_spd: 0,
         memosprite_multiplier: 0,
         memosprite_explode_pct: 0,
+        summon_at_battle_start: false,
         abilities: [
           {
             name: "普攻",
@@ -440,6 +452,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
           {
             name: "战技·罚恶",
@@ -478,6 +491,7 @@ export function mockConfig(): ConfigDataDTO {
             repeat: 1,
             hp_cost_pct: 0,
             on_deplete: false,
+            summons_memo: false,
           },
         ],
       },

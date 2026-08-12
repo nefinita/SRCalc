@@ -86,6 +86,7 @@ export interface AbilityData {
   repeat: number;
   hp_cost_pct: number;
   on_deplete: boolean;
+  summons_memo: boolean;
 }
 
 export interface CharacterDTO {
@@ -103,6 +104,7 @@ export interface CharacterDTO {
   memosprite_spd: number;
   memosprite_multiplier: number;
   memosprite_explode_pct: number;
+  summon_at_battle_start: boolean;
 }
 
 export interface LightConeDTO {

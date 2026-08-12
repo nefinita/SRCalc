@@ -11,6 +11,7 @@ has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "呀，漏网之鱼"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "嘿，空手套白银"
@@ -68,6 +70,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "猫咪怪盗，敬上！"
@@ -96,6 +99,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "热情好客的多洛斯人"
@@ -124,3 +128,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

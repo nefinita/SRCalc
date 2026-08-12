@@ -534,12 +534,14 @@ mod tests {
                 repeat: 1,
                 hp_cost_pct: 0.0,
                 on_deplete: false,
+                summons_memo: false,
             }],
             team_effects: vec![],
             has_memosprite: false,
         memosprite_spd: 0.0,
         memosprite_multiplier: 0.0,
             memosprite_explode_pct: 0.0,
+            summon_at_battle_start: false,
             
         }
     }

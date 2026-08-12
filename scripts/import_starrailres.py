@@ -305,6 +305,16 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         imm, adv = parse_advance(desc, params, kind)
         debuff_words = ["灼烧", "触电", "冻结", "裂伤", "风化", "缠绕", "禁锢", "减速", "易伤",
                         "防御力降低", "攻击力降低", "速度降低", "抗性降低", "禁疗"]
+        summons_memo = "召唤忆灵" in desc
+        if "战斗开始时召唤" in desc:
+            c["_summon_at_start"] = True
+            c["_has_memosprite"] = True
+            spd = resolve_param(desc, params, 5, 1)
+            mult = resolve_param(desc, params, 5, 2)
+            if spd:
+                c["_memo_spd"] = spd
+            if mult:
+                c["_memo_mult"] = mult
         repeat = 1
         rm = re.search(r"最多获得(\d+)次强化", desc)
         if rm:
@@ -346,6 +356,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
             "repeat": repeat,
             "hp_cost_pct": MEMOSPRITE_HP_COST.get(sid, 0.0),
             "on_deplete": sid in MEMOSPRITE_DEPLETE,
+            "summons_memo": summons_memo,
         }
         abilities.append(ability)
         team_effects.extend(parse_team_effects(desc, params, kind))
@@ -371,9 +382,10 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         "abilities": abilities,
         "team_effects": dedup,
         "has_memosprite": bool(c.get("_has_memosprite", False)),
-        "memosprite_spd": MEMOSPRITE_SPD.get(cid, 100.0) if c.get("_has_memosprite") else 0.0,
+        "memosprite_spd": c.get("_memo_spd") or MEMOSPRITE_SPD.get(cid, 100.0) if c.get("_has_memosprite") else 0.0,
         "memosprite_multiplier": c.get("_memo_mult", 0.0) or 0.0,
         "memosprite_explode_pct": MEMOSPRITE_EXPLODE_PCT.get(cid, 0.0),
+        "summon_at_battle_start": bool(c.get("_summon_at_start", False)),
     }
     return [character]
 

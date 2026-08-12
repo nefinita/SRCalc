@@ -234,6 +234,8 @@ pub struct AbilityData {
     pub hp_cost_pct: f64,
     /// 忆灵生命耗尽时触发（爆炸技能，如死龙灼掠幽墟的晦翼）
     pub on_deplete: bool,
+    /// 施放该技能召唤忆灵/召唤物（不在场则召唤，在场则恢复生命）
+    pub summons_memo: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -258,6 +260,8 @@ pub struct Character {
     pub memosprite_multiplier: f64,
     /// 忆灵生命≤此比例时施放技能触发爆炸（死龙 5%）
     pub memosprite_explode_pct: f64,
+    /// 开战即召唤（神君类普通召唤物）；false=由 summons_memo 技能召唤
+    pub summon_at_battle_start: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

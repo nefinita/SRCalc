@@ -11,6 +11,7 @@ has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "肃香"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "识烟飞彩"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "幔亭缭霞"
@@ -95,6 +98,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "烟斜雾横，氛氲化生"
@@ -123,3 +127,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

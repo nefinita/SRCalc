@@ -11,6 +11,7 @@ has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "门前清"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "海底捞月"
@@ -68,6 +70,7 @@ forced = false
 repeat = 3
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "四幺暗刻？和！"
@@ -96,6 +99,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "帝垣琼玉"
@@ -125,6 +129,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "杠上开花！"
@@ -153,3 +158,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

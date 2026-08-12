@@ -11,6 +11,7 @@ has_memosprite = false
 memosprite_spd = 0.0
 memosprite_multiplier = 0.0
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "逐火救世，行则将至"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "黎明创世，地辟天开"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "永劫燔世，其将背负"
@@ -95,6 +98,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "此身为炬"
@@ -124,6 +128,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "命运•此躯即神"
@@ -153,6 +158,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "创生•血棘渡亡"
@@ -181,6 +187,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "灾厄•弑魂焚诏"
@@ -209,6 +216,7 @@ forced = false
 repeat = 4
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "支柱•死星天裁"
@@ -237,3 +245,4 @@ forced = false
 repeat = 4
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

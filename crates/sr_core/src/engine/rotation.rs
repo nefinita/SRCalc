@@ -122,6 +122,7 @@ struct Sim<'a> {
     set_conditionals: HashMap<&'a str, Vec<(Trigger, Effect)>>,
     active_buffs: Vec<ActiveBuff>,
     memos: HashMap<String, MemoState>,
+    memo_queues: HashMap<String, VecDeque<(u32, Option<String>)>>,
     sp_pool: SpPool,
     enemy_av: f64,
     enemy_idx: usize,
@@ -221,24 +222,30 @@ impl<'a> Sim<'a> {
                 .push_back((ms.ability_index, ms.target.clone()));
         }
         let mut memos: HashMap<String, MemoState> = HashMap::new();
+        let mut make_memo = |mid: &str, c: &Character| {
+            if !c.has_memosprite || c.memosprite_spd <= 0.0 {
+                return;
+            }
+
+            let max_hp = base_stats.get(mid).map(|s| s.hp).unwrap_or(1.0);
+            memos.insert(
+                mid.to_string(),
+                MemoState {
+                    owner: mid.to_string(),
+                    av: action_value(c.memosprite_spd),
+                    spd: c.memosprite_spd,
+                    queue: memo_queues.remove(mid).unwrap_or_default(),
+                    hp: max_hp,
+                    max_hp,
+                },
+            );
+        };
         for m in &req.team.members {
             let mid = m.char_id.as_str();
             if let Some(c) = by_id.get(mid)
-                && c.has_memosprite
-                && c.memosprite_spd > 0.0
+                && c.summon_at_battle_start
             {
-                let max_hp = base_stats.get(mid).map(|s| s.hp).unwrap_or(1.0);
-                memos.insert(
-                    mid.to_string(),
-                    MemoState {
-                        owner: mid.to_string(),
-                        av: action_value(c.memosprite_spd),
-                        spd: c.memosprite_spd,
-                        queue: memo_queues.remove(mid).unwrap_or_default(),
-                        hp: max_hp,
-                        max_hp,
-                    },
-                );
+                make_memo(mid, c);
             }
         }
         Ok(Sim {
@@ -252,6 +259,7 @@ impl<'a> Sim<'a> {
             set_conditionals,
             active_buffs: Vec::new(),
             memos,
+            memo_queues,
             sp_pool,
             enemy_av: action_value(req.enemy.spd.max(1.0)),
             enemy_idx: 0,
@@ -597,6 +605,10 @@ impl<'a> Sim<'a> {
                 let err = self.base_stats[id].energy_regen;
                 s.energy = (s.energy + ability.energy_gain * (1.0 + err)).min(s.max_energy);
             }
+            // 召唤忆灵/召唤物
+            if ability.summons_memo {
+                self.summon_memo(id);
+            }
             // 施加负面 / 治疗 → 触发套装被动
             if ability.applies_debuff {
                 self.apply_set_conditional(id, Trigger::OnApplyDebuff, None, true);
@@ -695,6 +707,9 @@ impl<'a> Sim<'a> {
             }
             self.sp_pool.add(ability.skill_point);
             self.sp_pool.add_recover(ability.bonus_sp);
+            if ability.summons_memo {
+                self.summon_memo(id);
+            }
             if let Some(eff) = &ability.buff {
                 self.apply_buff(id, eff, step.target.as_deref(), true);
             }
@@ -739,6 +754,30 @@ impl<'a> Sim<'a> {
         });
         self.total_damage += damage;
         Ok(())
+    }
+
+    /// 召唤忆灵/召唤物：不在场则创建（满血），在场则恢复生命
+    fn summon_memo(&mut self, owner: &str) {
+        let Some(c) = self.by_id.get(owner) else { return };
+        if !c.has_memosprite || c.memosprite_spd <= 0.0 {
+            return;
+        }
+        if let Some(m) = self.memos.get_mut(owner) {
+            m.hp = m.max_hp;
+        } else {
+            let max_hp = self.base_stats.get(owner).map(|s| s.hp).unwrap_or(1.0);
+            self.memos.insert(
+                owner.to_string(),
+                MemoState {
+                    owner: owner.to_string(),
+                    av: action_value(c.memosprite_spd),
+                    spd: c.memosprite_spd,
+                    queue: self.memo_queues.remove(owner).unwrap_or_default(),
+                    hp: max_hp,
+                    max_hp,
+                },
+            );
+        }
     }
 
     /// 忆灵行动：触发 OnMemospriteAttack + 使用选中的忆灵技能攻击（继承忆主面板）；
@@ -942,6 +981,9 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
             sim.total_av += min_av;
             for u in sim.unit.values_mut() {
                 u.av = (u.av - min_av).max(0.0);
+            }
+            for m in sim.memos.values_mut() {
+                m.av = (m.av - min_av).max(0.0);
             }
             if kind == 0 {
                 sim.resolve_enemy();

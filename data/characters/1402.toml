@@ -11,6 +11,7 @@ has_memosprite = true
 memosprite_spd = 90.0
 memosprite_multiplier = 0.25
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "刺纹之蜜"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "高举吧，升华的名讳"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = true
 
 [[abilities]]
 name = "共舞吧，命定的衣匠"
@@ -96,6 +99,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = true
 
 [[abilities]]
 name = "金玫之指"
@@ -124,6 +128,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "孤锋千吻"
@@ -152,6 +157,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "高举吧，升华的名讳"
@@ -180,6 +186,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = true
 
 [[abilities]]
 name = "刺纹之陷"
@@ -208,3 +215,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

@@ -11,6 +11,7 @@ has_memosprite = true
 memosprite_spd = 100.0
 memosprite_multiplier = 0.18
 memosprite_explode_pct = 0.0
+summon_at_battle_start = false
 
 [[abilities]]
 name = "包在我身上！"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "就决定是你了！"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = true
 
 [[abilities]]
 name = "一起上吧，迷迷！"
@@ -95,6 +98,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = true
 
 [[abilities]]
 name = "无所不能的伙伴"
@@ -123,6 +127,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "明天，一同写下！"
@@ -151,6 +156,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "就决定是你了！"
@@ -179,6 +185,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = true
 
 [[abilities]]
 name = "坏人！麻烦！"
@@ -207,6 +214,7 @@ forced = false
 repeat = 4
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "我会！帮你！"
@@ -235,3 +243,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

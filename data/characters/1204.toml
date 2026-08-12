@@ -7,10 +7,11 @@ base_atk = 370.656
 base_def = 257.4
 base_spd = 99
 team_effects = []
-has_memosprite = false
-memosprite_spd = 0.0
-memosprite_multiplier = 0.0
+has_memosprite = true
+memosprite_spd = 60
+memosprite_multiplier = 0.495
 memosprite_explode_pct = 0.0
+summon_at_battle_start = true
 
 [[abilities]]
 name = "石火流光"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "紫霄震曜"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "吾身光明"
@@ -95,11 +98,12 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "斩勘神形"
 kind = "talent"
-multiplier = 60
+multiplier = 0.495
 multipliers = [60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60]
 skill_level = 6
 scaling = "atk"
@@ -124,3 +128,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false

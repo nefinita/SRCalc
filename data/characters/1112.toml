@@ -7,10 +7,11 @@ base_atk = 329.472
 base_def = 218.79
 base_spd = 110
 team_effects = []
-has_memosprite = false
-memosprite_spd = 0.0
-memosprite_multiplier = 0.0
+has_memosprite = true
+memosprite_spd = 80
+memosprite_multiplier = 1.125
 memosprite_explode_pct = 0.0
+summon_at_battle_start = true
 
 [[abilities]]
 name = "赤字…"
@@ -39,6 +40,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "支付困难？"
@@ -67,6 +69,7 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "扭亏为盈！"
@@ -96,11 +99,12 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
 
 [[abilities]]
 name = "猪市？！"
 kind = "talent"
-multiplier = 80
+multiplier = 1.125
 multipliers = [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80]
 skill_level = 6
 scaling = "atk"
@@ -124,3 +128,4 @@ forced = false
 repeat = 1
 hp_cost_pct = 0.0
 on_deplete = false
+summons_memo = false
