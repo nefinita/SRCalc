@@ -236,6 +236,8 @@ pub struct AbilityData {
     pub on_deplete: bool,
     /// 施放该技能召唤忆灵/召唤物（不在场则召唤，在场则恢复生命）
     pub summons_memo: bool,
+    /// 叠加上限（>0 时达到上限无法再施放；如景元神君段数上限）
+    pub stack_max: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -320,6 +322,29 @@ pub struct Build {
     pub traces: HashMap<String, bool>,
 }
 
+/// 敌方攻击目标选择
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EnemyTarget {
+    #[default]
+    Random,
+    Front,
+    All,
+    LowestHp,
+    HighestHp,
+}
+
+/// 控制状态（被控制无法行动）
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CcType {
+    #[default]
+    Freeze,
+    Entangle,
+    Imprison,
+    Dominate,
+}
+
 /// 敌方行动（特殊机制）
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(default)]
@@ -331,6 +356,14 @@ pub struct EnemyAbility {
     pub sp_delta: i32,
     /// 扣除我方能量
     pub energy_drain: f64,
+    /// 对目标造成的伤害（动态血量）
+    pub damage: f64,
+    /// 目标选择
+    pub target: EnemyTarget,
+    /// 附带控制（被控制无法行动）
+    pub cc: Option<CcType>,
+    /// 控制持续回合
+    pub cc_turns: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -481,6 +514,8 @@ pub struct RotationRequest {
     pub config: ConfigData,
     pub team: Team,
     pub enemy: Enemy,
+    /// 多敌方（部分死亡机制）；为空时用 enemy
+    pub enemies: Vec<Enemy>,
     pub coefficient: CoefficientConfig,
     pub battle: BattleConfig,
     pub steps: Vec<RotationStepReq>,

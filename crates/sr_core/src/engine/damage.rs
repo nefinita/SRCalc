@@ -535,6 +535,7 @@ mod tests {
                 hp_cost_pct: 0.0,
                 on_deplete: false,
                 summons_memo: false,
+                stack_max: 0,
             }],
             team_effects: vec![],
             has_memosprite: false,

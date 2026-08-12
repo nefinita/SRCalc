@@ -57,6 +57,7 @@ fn default_seele() -> Character {
                 hp_cost_pct: 0.0,
                 on_deplete: false,
                 summons_memo: false,
+                stack_max: 0,
             },
             AbilityData {
                 name: "归刃".into(),
@@ -87,6 +88,7 @@ fn default_seele() -> Character {
                 hp_cost_pct: 0.0,
                 on_deplete: false,
                 summons_memo: false,
+                stack_max: 0,
             },
             AbilityData {
                 name: "乱蝶".into(),
@@ -117,6 +119,7 @@ fn default_seele() -> Character {
                 hp_cost_pct: 0.0,
                 on_deplete: false,
                 summons_memo: false,
+                stack_max: 0,
             },
         ],
         team_effects: vec![],

@@ -56,6 +56,33 @@ struct UnitState {
     av: f64,
     energy: f64,
     max_energy: f64,
+    /// 动态血量（被击/倒地）
+    hp: f64,
+    /// 控制（Freeze/Entangle/Imprison/Dominate + 剩余回合）
+    cc: Option<(sr_api::CcType, u32)>,
+    /// 强制技能（Boss 机制：必须施放）
+    forced: Option<sr_api::AbilityKind>,
+    /// 当回合使用次数（叠加上限检查）
+    use_stacks: std::collections::HashMap<sr_api::AbilityKind, u32>,
+}
+
+/// 单个敌方状态（多敌方 + 部分死亡）
+#[derive(Debug, Clone)]
+struct EnemyState {
+    name: String,
+    level: u32,
+    def: f64,
+    max_toughness: f64,
+    hp: f64,
+    toughness: f64,
+    broken: bool,
+    killed: bool,
+    av: f64,
+    idx: usize,
+    weaknesses: Vec<Element>,
+    actions: Vec<sr_api::EnemyAbility>,
+    spd: f64,
+    res: HashMap<Element, f64>,
 }
 
 /// 忆灵：独立行动单位（自有速度/AV，回合到自动攻击）
@@ -124,12 +151,7 @@ struct Sim<'a> {
     memos: HashMap<String, MemoState>,
     memo_queues: HashMap<String, VecDeque<(u32, Option<String>)>>,
     sp_pool: SpPool,
-    enemy_av: f64,
-    enemy_idx: usize,
-    enemy_toughness: f64,
-    enemy_broken: bool,
-    enemy_hp: f64,
-    enemy_killed: bool,
+    enemies: Vec<EnemyState>,
     sp_consumed_turn: i32,
     total_av: f64,
     total_damage: f64,
@@ -204,12 +226,17 @@ impl<'a> Sim<'a> {
                 .iter()
                 .map(|a| a.max_energy)
                 .fold(0.0_f64, f64::max);
+            let max_hp = stats.hp;
             unit.insert(
                 id,
                 UnitState {
                     av: action_value(stats.spd),
                     energy: req.battle.start_energy,
                     max_energy,
+                    hp: max_hp,
+                    cc: None,
+                    forced: None,
+                    use_stacks: std::collections::HashMap::new(),
                 },
             );
             base_stats.insert(id, stats);
@@ -249,6 +276,30 @@ impl<'a> Sim<'a> {
                 make_memo(mid, c);
             }
         }
+        let enemy_src: Vec<&sr_api::Enemy> = if req.enemies.is_empty() {
+            vec![&req.enemy]
+        } else {
+            req.enemies.iter().collect()
+        };
+        let enemies: Vec<EnemyState> = enemy_src
+            .iter()
+            .map(|e| EnemyState {
+                name: e.name.clone(),
+                level: e.level,
+                def: e.def,
+                max_toughness: e.max_toughness,
+                hp: if e.hp > 0.0 { e.hp } else { f64::MAX },
+                toughness: if e.broken { 0.0 } else { e.max_toughness },
+                broken: e.broken,
+                killed: false,
+                av: action_value(e.spd.max(1.0)),
+                idx: 0,
+                weaknesses: e.weaknesses.clone(),
+                actions: e.actions.clone(),
+                spd: e.spd,
+                res: e.res.clone(),
+            })
+            .collect();
         Ok(Sim {
             req,
             by_id,
@@ -262,12 +313,7 @@ impl<'a> Sim<'a> {
             memos,
             memo_queues,
             sp_pool,
-            enemy_av: action_value(req.enemy.spd.max(1.0)),
-            enemy_idx: 0,
-            enemy_toughness: if req.enemy.broken { 0.0 } else { req.enemy.max_toughness },
-            enemy_broken: req.enemy.broken,
-            enemy_hp: req.enemy.hp,
-            enemy_killed: false,
+            enemies,
             sp_consumed_turn: 0,
             total_av: 0.0,
             total_damage: 0.0,
@@ -460,19 +506,86 @@ impl<'a> Sim<'a> {
         char.abilities.iter().find(|a| a.kind == kind)
     }
 
-    /// 敌方受击：扣血并检测击杀（启用 hp>0 时）
-    fn apply_enemy_damage(&mut self, amount: f64) {
-        if self.req.enemy.hp <= 0.0 || self.enemy_killed {
-            return;
+    /// 存活敌方下标（首个）
+    fn active_enemy_index(&self) -> Option<usize> {
+        self.enemies.iter().position(|e| !e.killed)
+    }
+
+    /// 首个存活敌方 → 转为 Enemy（供伤害结算）
+    fn active_enemy(&self) -> sr_api::Enemy {
+        let idx = self.active_enemy_index().unwrap_or(0);
+        let e = &self.enemies[idx];
+        sr_api::Enemy {
+            id: String::new(),
+            name: e.name.clone(),
+            level: e.level,
+            def: e.def,
+            max_toughness: e.max_toughness,
+            broken: e.broken,
+            res: e.res.clone(),
+            spd: e.spd,
+            actions: e.actions.clone(),
+            weaknesses: e.weaknesses.clone(),
+            hp: if e.hp >= f64::MAX { 0.0 } else { e.hp },
         }
-        self.enemy_hp -= amount;
-        if self.enemy_hp <= 0.0 {
-            self.enemy_killed = true;
+    }
+
+    /// 敌方目标选择
+    fn pick_targets(&self, target: sr_api::EnemyTarget) -> Vec<String> {
+        let alive: Vec<&str> = self
+            .unit
+            .iter()
+            .filter(|(_, u)| u.hp > 0.0)
+            .map(|(id, _)| *id)
+            .collect();
+        if alive.is_empty() {
+            return Vec::new();
+        }
+        match target {
+            sr_api::EnemyTarget::All => alive.iter().map(|s| s.to_string()).collect(),
+            sr_api::EnemyTarget::Front => vec![alive[0].to_string()],
+            sr_api::EnemyTarget::LowestHp => {
+                let id = self
+                    .unit
+                    .iter()
+                    .filter(|(_, u)| u.hp > 0.0)
+                    .min_by(|a, b| a.1.hp.total_cmp(&b.1.hp))
+                    .map(|(id, _)| (*id).to_string());
+                vec![id.unwrap_or_else(|| alive[0].to_string())]
+            }
+            sr_api::EnemyTarget::HighestHp => {
+                let id = self
+                    .unit
+                    .iter()
+                    .filter(|(_, u)| u.hp > 0.0)
+                    .max_by(|a, b| a.1.hp.total_cmp(&b.1.hp))
+                    .map(|(id, _)| (*id).to_string());
+                vec![id.unwrap_or_else(|| alive[0].to_string())]
+            }
+            sr_api::EnemyTarget::Random => {
+                // 伪随机：取首存活
+                vec![alive[0].to_string()]
+            }
+        }
+    }
+
+    /// 敌方受击：扣血并检测击杀（启用 hp>0 时）；返回是否击杀该敌方
+    fn apply_enemy_damage(&mut self, amount: f64) -> bool {
+        let Some(idx) = self.active_enemy_index() else { return false };
+        let e = &mut self.enemies[idx];
+        if e.hp >= f64::MAX || e.killed {
+            return false;
+        }
+        e.hp -= amount;
+        if e.hp <= 0.0 {
+            e.killed = true;
             let ids: Vec<&str> = self.base_stats.keys().copied().collect();
             for id in &ids {
                 self.apply_set_conditional(id, Trigger::OnKill, None, true);
             }
+            return true;
         }
+        false
     }
 
     /// 削韧：仅弱点属性；破韧时返回破韧伤害并延迟敌方行动 25%
@@ -486,23 +599,25 @@ impl<'a> Sim<'a> {
         if amount <= 0.0 {
             return None;
         }
-        let weak = self.req.enemy.weaknesses.is_empty()
-            || self.req.enemy.weaknesses.contains(&element);
+        let idx = self.active_enemy_index()?;
+        let weak = self.enemies[idx].weaknesses.is_empty()
+            || self.enemies[idx].weaknesses.contains(&element);
         if !weak {
             return None;
         }
-        self.enemy_toughness -= amount;
-        if self.enemy_toughness <= 0.0 && !self.enemy_broken {
-            self.enemy_broken = true;
+        self.enemies[idx].toughness -= amount;
+        if self.enemies[idx].toughness <= 0.0 && !self.enemies[idx].broken {
+            self.enemies[idx].broken = true;
+            let enemy = self.active_enemy();
             let bd = compute_break_damage(
                 element,
                 attacker_level,
-                &self.req.enemy,
+                &enemy,
                 mods,
                 &self.req.coefficient,
                 false, // 破韧一击按未破韧 ×0.9
             );
-            self.enemy_av += action_value(self.req.enemy.spd.max(1.0)) * 0.25;
+            self.enemies[idx].av += action_value(self.enemies[idx].spd.max(1.0)) * 0.25;
             Some(bd)
         } else {
             None
@@ -517,6 +632,27 @@ impl<'a> Sim<'a> {
             .map(|c| c.name.clone())
             .ok_or_else(|| format!("未找到角色: {}", step.char_id))?;
         let element = self.by_id.get(id).map(|c| c.element).unwrap_or_default();
+
+        // 非法检查：倒地 / 被控制
+        if let Some(u) = self.unit.get(id) {
+            if u.hp <= 0.0 {
+                return Err(format!("{char_name} 已被击倒，无法行动"));
+            }
+            if let Some((cct, _)) = u.cc {
+                return Err(format!("{char_name} 被控制（{:?}），无法行动", cct));
+            }
+            if let Some(forced) = u.forced {
+                let kind = match step.action {
+                    ActionKind::Basic => AbilityKind::Basic,
+                    ActionKind::Skill => AbilityKind::Skill,
+                    ActionKind::Ult => AbilityKind::Ult,
+                    ActionKind::Wait => AbilityKind::Talent,
+                };
+                if kind != forced {
+                    return Err(format!("{char_name} 处于强制状态，必须施展该技能"));
+                }
+            }
+        }
         let default_build = Build::default();
         let build = self.builds.get(id).copied().unwrap_or(&default_build);
         let ability = self
@@ -528,22 +664,36 @@ impl<'a> Sim<'a> {
         let mut damage = 0.0_f64;
         let mut labels = Vec::new();
 
-        // 回合开始触发式套装被动；重置本回合消耗战技点计数
+        // 回合开始：控制递减 / 触发式套装被动（叠加上限累计不重置）
+        if let Some(u) = self.unit.get_mut(id)
+            && let Some((cct, turns)) = u.cc
+        {
+            if turns <= 1 {
+                u.cc = None;
+            } else {
+                u.cc = Some((cct, turns - 1));
+            }
+        }
         self.sp_consumed_turn = 0;
         self.apply_set_conditional(id, Trigger::TurnStart, None, true);
 
         if let Some(ability) = &ability {
             if step.action != ActionKind::Wait {
                 let mods = self.mods_for(id);
+                let enemy = self.active_enemy();
+                let broken = self
+                    .active_enemy_index()
+                    .map(|i| self.enemies[i].broken)
+                    .unwrap_or(false);
                 let ctx = AbilityContext {
                     stats: &self.base_stats[id],
                     ability,
                     element,
                     attacker_level: build.level.max(1),
-                    enemy: &self.req.enemy,
+                    enemy: &enemy,
                     mods: &mods,
                     coeff: &self.req.coefficient,
-                    broken: self.enemy_broken,
+                    broken,
                 };
                 damage = compute_ability_damage_for(ctx).expected;
                 if mods.atk_pct > 0.0 || mods.dmg_pct > 0.0 || mods.crit_rate > 0.0 {
@@ -556,12 +706,31 @@ impl<'a> Sim<'a> {
                 }
             }
 
+            // 非法检查：叠加上限（该回合施放次数）
+            if ability.stack_max > 0 {
+                let stacks = self
+                    .unit
+                    .get(id)
+                    .map(|u| u.use_stacks.get(&ability.kind).copied().unwrap_or(0))
+                    .unwrap_or(0);
+                if stacks >= ability.stack_max {
+                    return Err(format!(
+                        "{char_name} 已达叠加上限（{stacks}/{}），无法再施放 {}",
+                        ability.stack_max, ability.name
+                    ));
+                }
+            }
             // 战技点：非法检查（消耗但不足）
             if ability.skill_point < 0 && self.sp_pool.current < -ability.skill_point {
                 return Err(format!(
                     "{} 战技点不足（需 {} 点，当前 {}）",
                     char_name, -ability.skill_point, self.sp_pool.current
                 ));
+            }
+            if ability.stack_max > 0
+                && let Some(u) = self.unit.get_mut(id)
+            {
+                *u.use_stacks.entry(ability.kind).or_insert(0) += 1;
             }
             self.sp_pool.add(ability.skill_point);
             if ability.skill_point < 0 {
@@ -650,11 +819,8 @@ impl<'a> Sim<'a> {
         }
 
 
-        if damage > 0.0 {
-            self.apply_enemy_damage(damage);
-            if self.enemy_killed {
-                labels.push("击杀".to_string());
-            }
+        if damage > 0.0 && self.apply_enemy_damage(damage) {
+            labels.push("击杀".to_string());
         }
         self.steps_out.push(RotationStep {
             char_id: step.char_id.clone(),
@@ -680,6 +846,27 @@ impl<'a> Sim<'a> {
             .map(|c| c.name.clone())
             .ok_or_else(|| format!("未找到角色: {}", step.char_id))?;
         let element = self.by_id.get(id).map(|c| c.element).unwrap_or_default();
+
+        // 非法检查：倒地 / 被控制
+        if let Some(u) = self.unit.get(id) {
+            if u.hp <= 0.0 {
+                return Err(format!("{char_name} 已被击倒，无法行动"));
+            }
+            if let Some((cct, _)) = u.cc {
+                return Err(format!("{char_name} 被控制（{:?}），无法行动", cct));
+            }
+            if let Some(forced) = u.forced {
+                let kind = match step.action {
+                    ActionKind::Basic => AbilityKind::Basic,
+                    ActionKind::Skill => AbilityKind::Skill,
+                    ActionKind::Ult => AbilityKind::Ult,
+                    ActionKind::Wait => AbilityKind::Talent,
+                };
+                if kind != forced {
+                    return Err(format!("{char_name} 处于强制状态，必须施展该技能"));
+                }
+            }
+        }
         let energy = self.unit.get(id).map(|s| s.energy).unwrap_or(0.0);
         let max_energy = self.unit.get(id).map(|s| s.max_energy).unwrap_or(0.0);
         if energy + 1e-6 < max_energy {
@@ -699,15 +886,20 @@ impl<'a> Sim<'a> {
         let mut damage = 0.0_f64;
         if let Some(ability) = &ability {
             let mods = self.mods_for(id);
+            let enemy = self.active_enemy();
+            let broken = self
+                .active_enemy_index()
+                .map(|i| self.enemies[i].broken)
+                .unwrap_or(false);
             let ctx = AbilityContext {
                 stats: &self.base_stats[id],
                 ability,
                 element,
                 attacker_level: build.level.max(1),
-                enemy: &self.req.enemy,
+                enemy: &enemy,
                 mods: &mods,
                 coeff: &self.req.coefficient,
-                broken: self.enemy_broken,
+                broken,
             };
             damage = compute_ability_damage_for(ctx).expected;
             if let Some(bd) = self.apply_toughness(element, ability.toughness_reduction, &mods, build.level.max(1)) {
@@ -833,15 +1025,20 @@ impl<'a> Sim<'a> {
             self.apply_buff(owner, eff, target, false);
         }
         let mut dmg = {
+            let enemy = self.active_enemy();
+            let broken = self
+                .active_enemy_index()
+                .map(|i| self.enemies[i].broken)
+                .unwrap_or(false);
             let ctx = AbilityContext {
                 stats: &stats,
                 ability: &ability,
                 element,
                 attacker_level,
-                enemy: &self.req.enemy,
+                enemy: &enemy,
                 mods: &mods,
                 coeff: &self.req.coefficient,
-                broken: self.enemy_broken,
+                broken,
             };
             compute_ability_damage_for(ctx).expected * ability.repeat.max(1) as f64
         };
@@ -872,15 +1069,20 @@ impl<'a> Sim<'a> {
                         });
                     if let Some(b) = boom {
                         let bmods = self.mods_for(owner);
+                        let benemy = self.active_enemy();
+                        let bbroken = self
+                            .active_enemy_index()
+                            .map(|i| self.enemies[i].broken)
+                            .unwrap_or(false);
                         let bctx = AbilityContext {
                             stats: &stats,
                             ability: &b,
                             element,
                             attacker_level,
-                            enemy: &self.req.enemy,
+                            enemy: &benemy,
                             mods: &bmods,
                             coeff: &self.req.coefficient,
-                            broken: self.enemy_broken,
+                            broken: bbroken,
                         };
                         dmg += compute_ability_damage_for(bctx).expected * b.repeat.max(1) as f64;
                     }
@@ -909,37 +1111,70 @@ impl<'a> Sim<'a> {
         alive
     }
 
-    fn resolve_enemy(&mut self) {
-        let act = self.req.enemy.actions.get(self.enemy_idx);
-        let (name, gain, sp_delta, drain) = match act {
-            Some(a) => (a.name.clone(), a.energy_gain_players, a.sp_delta, a.energy_drain),
-            None => ("普通攻击".to_string(), 0.0, 0, 0.0),
-        };
-        let hit_ids: Vec<&str> = self.base_stats.keys().copied().collect();
-        for id in &hit_ids {
-            self.apply_set_conditional(id, Trigger::OnHit, None, true);
+    fn resolve_enemy(&mut self, eidx: usize) {
+        if eidx >= self.enemies.len() || self.enemies[eidx].killed {
+            return;
         }
-        for (id, base) in &self.base_stats {
-            if let Some(s) = self.unit.get_mut(id) {
-                s.energy = (s.energy + gain * (1.0 + base.energy_regen)).min(s.max_energy);
+        let act = self.enemies[eidx].actions.get(self.enemies[eidx].idx).cloned();
+        let (name, gain, sp_delta, drain, damage, target, cc, cc_turns) = match act {
+            Some(a) => (
+                a.name,
+                a.energy_gain_players,
+                a.sp_delta,
+                a.energy_drain,
+                a.damage,
+                a.target,
+                a.cc,
+                a.cc_turns,
+            ),
+            None => (
+                "普通攻击".to_string(),
+                0.0,
+                0,
+                0.0,
+                0.0,
+                sr_api::EnemyTarget::Front,
+                None,
+                0,
+            ),
+        };
+        // 目标选择 + 伤害 + 控制 + 回能
+        let targets = self.pick_targets(target);
+        let hit_ids: Vec<&str> = self.base_stats.keys().copied().collect();
+        for t in &targets {
+            if let Some(u) = self.unit.get_mut(t.as_str()) {
+                if damage > 0.0 {
+                    u.hp = (u.hp - damage).max(0.0);
+                }
+                if let Some(cct) = cc {
+                    u.cc = Some((cct, cc_turns.max(1)));
+                }
+                let err = self.base_stats[t.as_str()].energy_regen;
+                u.energy = (u.energy + gain * (1.0 + err)).min(u.max_energy);
+            }
+        }
+        // 所有存活角色受击触发 OnHit
+        for id in &hit_ids {
+            if self.unit.get(*id).is_some_and(|u| u.hp > 0.0) {
+                self.apply_set_conditional(id, Trigger::OnHit, None, true);
             }
         }
         self.sp_pool.add_recover(sp_delta);
-        // 敌方回合：破韧恢复（韧性回满、解除击破）
-        if self.enemy_broken {
-            self.enemy_broken = false;
-            self.enemy_toughness = self.req.enemy.max_toughness;
+        for u in self.unit.values_mut() {
+            u.energy = (u.energy - drain).max(0.0);
         }
-        for s in self.unit.values_mut() {
-            s.energy = (s.energy - drain).max(0.0);
+        // 敌方回合：破韧恢复
+        if self.enemies[eidx].broken {
+            self.enemies[eidx].broken = false;
+            self.enemies[eidx].toughness = self.enemies[eidx].max_toughness;
         }
-        if !self.req.enemy.actions.is_empty() {
-            self.enemy_idx = (self.enemy_idx + 1) % self.req.enemy.actions.len();
+        if !self.enemies[eidx].actions.is_empty() {
+            self.enemies[eidx].idx = (self.enemies[eidx].idx + 1) % self.enemies[eidx].actions.len();
         }
         self.steps_out.push(RotationStep {
             char_id: String::new(),
-            char_name: self.req.enemy.name.clone(),
-            action: ActionKind::Wait,
+            char_name: self.enemies[eidx].name.clone(),
+            action: sr_api::ActionKind::Wait,
             is_enemy: true,
             enemy_ability: Some(name),
             av: self.total_av,
@@ -949,24 +1184,36 @@ impl<'a> Sim<'a> {
             buffs: Vec::new(),
         });
     }
-    /// 自然模式单步：推进到最早事件（玩家/敌方/忆灵），玩家默认普攻
+
     fn natural_step(&mut self) -> Result<bool, String> {
-        let mut min_av = self.enemy_av;
+        let mut min_av = f64::MAX;
         let mut kind = 0usize;
+        let mut enemy_i: Option<usize> = None;
         let mut target: Option<String> = None;
-        for (id, u) in &self.unit {
-            if u.av < min_av {
-                min_av = u.av;
-                kind = 2;
-                target = Some((*id).to_string());
+        let mut memo_id: Option<String> = None;
+        for (i, e) in self.enemies.iter().enumerate() {
+            if !e.killed && e.av < min_av {
+                min_av = e.av;
+                kind = 0;
+                enemy_i = Some(i);
             }
         }
         for (mid, m) in &self.memos {
             if m.av < min_av {
                 min_av = m.av;
                 kind = 1;
-                target = Some(mid.clone());
+                memo_id = Some(mid.clone());
             }
+        }
+        for (id, u) in &self.unit {
+            if u.hp > 0.0 && u.av < min_av {
+                min_av = u.av;
+                kind = 2;
+                target = Some((*id).to_string());
+            }
+        }
+        if min_av >= f64::MAX {
+            return Ok(false);
         }
         self.total_av += min_av;
         for u in self.unit.values_mut() {
@@ -975,14 +1222,19 @@ impl<'a> Sim<'a> {
         for m in self.memos.values_mut() {
             m.av = (m.av - min_av).max(0.0);
         }
-        self.enemy_av = (self.enemy_av - min_av).max(0.0);
+        for e in self.enemies.iter_mut() {
+            e.av = (e.av - min_av).max(0.0);
+        }
         match kind {
             0 => {
-                self.resolve_enemy();
-                self.enemy_av = action_value(self.req.enemy.spd.max(1.0));
+                let i = enemy_i.expect("enemy");
+                self.resolve_enemy(i);
+                if let Some(e) = self.enemies.get_mut(i) {
+                    e.av = action_value(e.spd.max(1.0));
+                }
             }
             1 => {
-                let mid = target.expect("memo");
+                let mid = memo_id.expect("memo");
                 let (owner, next_action) = {
                     let m = self.memos.get_mut(&mid).expect("memo");
                     (m.owner.clone(), m.queue.pop_front())
@@ -997,6 +1249,9 @@ impl<'a> Sim<'a> {
             }
             2 => {
                 let id = target.expect("player");
+                if self.unit.get(id.as_str()).is_some_and(|u| u.hp <= 0.0) {
+                    return Ok(false);
+                }
                 let step = RotationStepReq {
                     char_id: id.clone(),
                     action: ActionKind::Basic,
@@ -1014,8 +1269,6 @@ impl<'a> Sim<'a> {
         }
         Ok(true)
     }
-
-
 }
 
 pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
@@ -1050,12 +1303,20 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
             return Err(format!("角色 {} 不在队伍中", step.char_id));
         }
 
-        // 敌方/忆灵在施放者行动前交错插入（取最早事件）
+        // 敌方/忆灵在施放者行动前交错插入（取最早事件；多敌方）
         loop {
             let actor_av = sim.unit.get(id).map(|s| s.av).unwrap_or_default();
-            let mut min_av = sim.enemy_av;
+            let mut min_av = f64::MAX;
             let mut kind = 0usize;
+            let mut enemy_i: Option<usize> = None;
             let mut memo_id: Option<String> = None;
+            for (i, e) in sim.enemies.iter().enumerate() {
+                if !e.killed && e.av < min_av {
+                    min_av = e.av;
+                    kind = 0;
+                    enemy_i = Some(i);
+                }
+            }
             for (mid, memo) in &sim.memos {
                 if memo.av < min_av {
                     min_av = memo.av;
@@ -1063,7 +1324,7 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
                     memo_id = Some(mid.clone());
                 }
             }
-            if min_av >= actor_av {
+            if min_av >= actor_av || min_av >= f64::MAX {
                 break;
             }
             sim.total_av += min_av;
@@ -1073,9 +1334,15 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
             for m in sim.memos.values_mut() {
                 m.av = (m.av - min_av).max(0.0);
             }
+            for e in sim.enemies.iter_mut() {
+                e.av = (e.av - min_av).max(0.0);
+            }
             if kind == 0 {
-                sim.resolve_enemy();
-                sim.enemy_av = action_value(sim.req.enemy.spd.max(1.0));
+                let i = enemy_i.expect("enemy");
+                sim.resolve_enemy(i);
+                if let Some(e) = sim.enemies.get_mut(i) {
+                    e.av = action_value(e.spd.max(1.0));
+                }
             } else if let Some(mid) = memo_id {
                 let (owner, next_action) = {
                     let m = sim.memos.get_mut(&mid).expect("memo");
@@ -1097,7 +1364,9 @@ pub fn simulate(req: &RotationRequest) -> Result<RotationResult, String> {
         for u in sim.unit.values_mut() {
             u.av = (u.av - dt).max(0.0);
         }
-        sim.enemy_av = (sim.enemy_av - dt).max(0.0);
+        for e in sim.enemies.iter_mut() {
+            e.av = (e.av - dt).max(0.0);
+        }
         for m in sim.memos.values_mut() {
             m.av = (m.av - dt).max(0.0);
         }

@@ -56,6 +56,7 @@ fn ability(name: &str, kind: AbilityKind, mult: f64, sp: i32, energy: f64) -> Ab
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     }
 }
 
@@ -125,6 +126,7 @@ fn rotate(
         config: cfg,
         team: team(ids),
         enemy: e,
+        enemies: vec![],
         coefficient: Default::default(),
         battle,
         steps,
@@ -217,6 +219,7 @@ fn ult_bonus_sp_and_insertion_av() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -267,6 +270,7 @@ fn ally_buff_targets_and_immediate_action() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     }]);
     let a = character("a", "A", 115.0, vec![
         ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0),
@@ -285,9 +289,9 @@ fn enemy_actions_energy_sp_drain() {
     let mut e = enemy();
     e.spd = 200.0; // av 50
     e.actions = vec![
-        EnemyAbility { name: "攻击".into(), energy_gain_players: 10.0, sp_delta: 0, energy_drain: 0.0 },
-        EnemyAbility { name: "回能回SP".into(), energy_gain_players: 5.0, sp_delta: 2, energy_drain: 0.0 },
-        EnemyAbility { name: "扣能".into(), energy_gain_players: 0.0, sp_delta: 0, energy_drain: 30.0 },
+        EnemyAbility { name: "攻击".into(), energy_gain_players: 10.0, sp_delta: 0, energy_drain: 0.0, damage: 0.0, target: sr_api::EnemyTarget::Front, cc: None, cc_turns: 0 },
+        EnemyAbility { name: "回能回SP".into(), energy_gain_players: 5.0, sp_delta: 2, energy_drain: 0.0, damage: 0.0, target: sr_api::EnemyTarget::Front, cc: None, cc_turns: 0 },
+        EnemyAbility { name: "扣能".into(), energy_gain_players: 0.0, sp_delta: 0, energy_drain: 30.0, damage: 0.0, target: sr_api::EnemyTarget::Front, cc: None, cc_turns: 0 },
     ];
     let a = character("a", "A", 50.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     let cfg = ConfigData {
@@ -302,6 +306,7 @@ fn enemy_actions_energy_sp_drain() {
         config: cfg,
         team: team(&["a"]),
         enemy: e,
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps,
@@ -363,6 +368,7 @@ fn sp_on_basic_brand() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     }]);
     let a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     // 寒鸦战技(-1)→3-1=2；A 普攻 +1(普攻)+1(罚恶)=4
@@ -404,6 +410,7 @@ fn per_skill_sp_cost() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     }]);
     let out = rotate(vec![a], &["a"], vec![basic("a")], BattleConfig::default());
     assert_eq!(out.steps[0].skill_point, 1); // 3 - 2
@@ -457,6 +464,7 @@ fn weakness_break_system() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: e,
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
@@ -493,6 +501,7 @@ fn non_weakness_no_break() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: e,
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
@@ -540,6 +549,7 @@ fn sp_overflow_recording() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     s.team_effects = vec![eff(BuffStat::AtkPct, 0.0, 0, BuffTarget::Team, 2, 0)];
@@ -655,6 +665,7 @@ fn conditional_set_effect_on_ult_expires() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     let mut build = Build::default();
@@ -671,6 +682,7 @@ fn conditional_set_effect_on_ult_expires() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig { start_energy: 100.0, ..Default::default() },
         memosprite_steps: vec![],
@@ -723,6 +735,7 @@ fn on_hit_set_stacks_crit_rate() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: e,
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
@@ -784,6 +797,7 @@ fn ally_target_set_buff_applies_and_expires() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     }]);
     let b = character("b", "B", 200.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
     let mut build = Build::default();
@@ -811,6 +825,7 @@ fn ally_target_set_buff_applies_and_expires() {
         config: cfg,
         team,
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps,
@@ -876,6 +891,7 @@ fn sp_consume_threshold_set() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     let run = |with_set: bool| {
@@ -895,6 +911,7 @@ fn sp_consume_threshold_set() {
             config: cfg,
             team: Team { members: vec![tm] },
             enemy: enemy(),
+        enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig { start_sp: 5, ..Default::default() },
             memosprite_steps: vec![],
@@ -952,6 +969,7 @@ fn on_attack_break_buff() {
             config: cfg,
             team: Team { members: vec![tm] },
             enemy: e.clone(),
+            enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig::default(),
             memosprite_steps: vec![],
@@ -1018,6 +1036,7 @@ fn ult_dmg_type_stat() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     let run = |with_set: bool| {
@@ -1037,6 +1056,7 @@ fn ult_dmg_type_stat() {
             config: cfg,
             team: Team { members: vec![tm] },
             enemy: enemy(),
+        enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig { start_energy: 100.0, ..Default::default() },
             memosprite_steps: vec![],
@@ -1090,6 +1110,7 @@ fn enemy_kill_detection_and_on_kill() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: e,
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
@@ -1154,6 +1175,7 @@ fn on_apply_debuff_set() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     let run = |with_set: bool| {
@@ -1173,6 +1195,7 @@ fn on_apply_debuff_set() {
             config: cfg,
             team: Team { members: vec![tm] },
             enemy: enemy(),
+        enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig::default(),
             memosprite_steps: vec![],
@@ -1237,6 +1260,7 @@ fn on_heal_set() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     let run = |with_set: bool| {
@@ -1256,6 +1280,7 @@ fn on_heal_set() {
             config: cfg,
             team: Team { members: vec![tm] },
             enemy: enemy(),
+        enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig::default(),
             memosprite_steps: vec![],
@@ -1333,6 +1358,7 @@ fn captain_charge_ult_buff() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     },
     ]);
     let b = character("b", "B", 200.0, vec![ability("战技", AbilityKind::Skill, 0.0, -1, 30.0)]);
@@ -1346,6 +1372,7 @@ fn captain_charge_ult_buff() {
             },
             team,
             enemy: enemy(),
+        enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig { start_energy: 100.0, ..Default::default() },
             steps,
@@ -1446,6 +1473,7 @@ fn death_water_amplify_on_debuff() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     let run = |steps: Vec<RotationStepReq>| {
@@ -1463,6 +1491,7 @@ fn death_water_amplify_on_debuff() {
             config: cfg,
             team: Team { members: vec![tm] },
             enemy: enemy(),
+        enemies: vec![],
             coefficient: Default::default(),
             battle: BattleConfig::default(),
             steps,
@@ -1519,6 +1548,7 @@ fn memosprite_attack_crit_buff() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         memosprite_steps: vec![],
@@ -1568,6 +1598,7 @@ fn forced_memosprite_skill_overrides_queue() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
         sr_api::AbilityData {
             name: "忆灵·强制".into(),
@@ -1598,6 +1629,7 @@ fn forced_memosprite_skill_overrides_queue() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     a.has_memosprite = true;
@@ -1617,6 +1649,7 @@ fn forced_memosprite_skill_overrides_queue() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps: vec![basic("a"); 4],
@@ -1666,6 +1699,7 @@ fn memosprite_repeat_multicast() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
     }]);
     a.has_memosprite = true;
     a.summon_at_battle_start = true;
@@ -1683,6 +1717,7 @@ fn memosprite_repeat_multicast() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps: vec![basic("a"); 4],
@@ -1730,6 +1765,7 @@ fn netherwing_hp_cost_and_explosion() {
             hp_cost_pct: 0.25,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
         sr_api::AbilityData {
             name: "灼掠幽墟的晦翼".into(),
@@ -1760,6 +1796,7 @@ fn netherwing_hp_cost_and_explosion() {
             hp_cost_pct: 0.0,
             on_deplete: true,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     a.base_hp = 1000.0;
@@ -1780,6 +1817,7 @@ fn netherwing_hp_cost_and_explosion() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps: vec![basic("a"), basic("a")],
@@ -1832,6 +1870,7 @@ fn memosprite_summoned_by_skill() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: true,
+                stack_max: 0,
         },
         sr_api::AbilityData {
             name: "忆灵攻击".into(),
@@ -1862,6 +1901,7 @@ fn memosprite_summoned_by_skill() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     a.has_memosprite = true;
@@ -1880,6 +1920,7 @@ fn memosprite_summoned_by_skill() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps: vec![basic("a"), skill("a"), basic("a"), basic("a")],
@@ -1930,6 +1971,7 @@ fn summon_at_battle_start_lingyuan() {
             hp_cost_pct: 0.0,
             on_deplete: false,
             summons_memo: false,
+                stack_max: 0,
         },
     ]);
     a.has_memosprite = true;
@@ -1948,6 +1990,7 @@ fn summon_at_battle_start_lingyuan() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps: vec![basic("a")],
@@ -1983,6 +2026,7 @@ fn natural_rotation_generation() {
         config: cfg,
         team,
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig::default(),
         steps: vec![],
@@ -2019,6 +2063,7 @@ fn sp_illegal_skill() {
         config: cfg,
         team: Team { members: vec![tm] },
         enemy: enemy(),
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig { start_sp: 0, ..Default::default() },
         steps: vec![skill("a")],
@@ -2028,4 +2073,156 @@ fn sp_illegal_skill() {
     });
     assert!(res.is_err(), "战技点不足应报错");
     assert!(res.unwrap_err().contains("战技点不足"));
+}
+
+#[test]
+fn enemy_damage_downs_player() {
+    // 敌方攻击扣玩家血 → 倒地 → 脚本行动非法
+    let a = character("a", "A", 100.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    let mut e = enemy();
+    e.spd = 66.7; // av ~150 → 每个玩家回合一次攻击
+    e.actions = vec![sr_api::EnemyAbility {
+        name: "重击".into(), energy_gain_players: 10.0, sp_delta: 0, energy_drain: 0.0,
+        damage: 1500.0, target: sr_api::EnemyTarget::Front, cc: None, cc_turns: 0,
+    }];
+    // 角色 hp 2000：第一次被击剩 500，第二次归零倒地
+    let mut c = a;
+    c.base_hp = 2000.0;
+    let cfg = ConfigData { characters: vec![c.clone()], light_cones: vec![], relic_sets: vec![], enemies: vec![e.clone()] };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let run = |n: usize| {
+        sr_core::host::rotation::calculate_rotation(RotationRequest {
+            config: cfg.clone(),
+            team: Team { members: vec![tm.clone()] },
+            enemy: e.clone(),
+            enemies: vec![],
+            coefficient: Default::default(),
+            battle: BattleConfig::default(),
+            steps: vec![basic("a"); n],
+            memosprite_steps: vec![],
+            natural_until_av: 0.0,
+            cycles: 1,
+        })
+    };
+    // 第一次被击剩血，仍可行动
+    assert!(run(1).is_ok());
+    // 第三次（第二次被击后倒地）→ 非法
+    let err = run(3).unwrap_err();
+    assert!(err.contains("击倒"), "err: {err}");
+}
+
+#[test]
+fn multiple_enemies_partial_death() {
+    // 多敌方：击杀第一个后伤害转向第二个
+    let a = character("a", "A", 100.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    let mut e1 = enemy();
+    e1.name = "小怪A".into();
+    e1.hp = 300.0; // 2 下普攻击杀
+    let mut e2 = enemy();
+    e2.name = "小怪B".into();
+    e2.hp = 5000.0;
+    let cfg = ConfigData { characters: vec![a], light_cones: vec![], relic_sets: vec![], enemies: vec![e1.clone(), e2.clone()] };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let out = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: e1.clone(),
+        enemies: vec![e1, e2],
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a"); 4],
+        memosprite_steps: vec![],
+        natural_until_av: 0.0,
+        cycles: 1,
+    })
+    .expect("rotation");
+    // 第 2 次普攻击杀小怪A → 标注击杀；后续正常（转向小怪B）
+    assert!(out.steps.iter().any(|s| s.buffs.contains(&"击杀".to_string())));
+    assert!(out.total_damage > 0.0);
+}
+
+#[test]
+fn cc_blocks_action() {
+    // 敌方冰冻 → 被控角色行动非法
+    let a = character("a", "A", 100.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    let mut build = Build::default();
+    build.level = 80;
+    let mut e = enemy();
+    e.spd = 300.0;
+    e.actions = vec![sr_api::EnemyAbility {
+        name: "冰封".into(), energy_gain_players: 0.0, sp_delta: 0, energy_drain: 0.0,
+        damage: 0.0, target: sr_api::EnemyTarget::Front, cc: Some(sr_api::CcType::Freeze), cc_turns: 3,
+    }];
+    let cfg = ConfigData { characters: vec![a], light_cones: vec![], relic_sets: vec![], enemies: vec![e.clone()] };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let res = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: e,
+        enemies: vec![],
+        coefficient: Default::default(),
+        battle: BattleConfig::default(),
+        steps: vec![basic("a")],
+        memosprite_steps: vec![],
+        natural_until_av: 0.0,
+        cycles: 1,
+    });
+    assert!(res.is_err() && res.unwrap_err().contains("控制"), "被控应非法");
+}
+
+#[test]
+fn stack_limit_check() {
+    // 叠加上限：达到 stack_max 后无法再施放
+    let a = character("a", "A", 100.0, vec![AbilityData {
+        name: "叠层技".into(),
+        kind: AbilityKind::Skill,
+        multiplier: 2.0,
+        multipliers: vec![],
+        skill_level: 6,
+        scaling: Scaling::Atk,
+        flat_damage: 0.0,
+        dmg_type: DmgType::Normal,
+        can_crit: true,
+        toughness_reduction: 10.0,
+        hits: 1,
+        hit_split: vec![1.0],
+        energy_gain: 30.0,
+        max_energy: 100.0,
+        skill_point: -1,
+        bonus_sp: 0,
+        target: Target::Single,
+        buff: None,
+        immediate_action: false,
+        action_advance_pct: 0.0,
+        self_advance_pct: 0.0,
+        applies_debuff: false,
+        heals: false,
+        forced: false,
+        repeat: 1,
+        hp_cost_pct: 0.0,
+        on_deplete: false,
+        summons_memo: false,
+        stack_max: 2,
+    }]);
+    let mut build = Build::default();
+    build.level = 80;
+    let cfg = ConfigData { characters: vec![a], light_cones: vec![], relic_sets: vec![], enemies: vec![enemy()] };
+    let tm = TeamMember { char_id: "a".into(), build };
+    let res = sr_core::host::rotation::calculate_rotation(RotationRequest {
+        config: cfg,
+        team: Team { members: vec![tm] },
+        enemy: enemy(),
+        enemies: vec![],
+        coefficient: Default::default(),
+        battle: BattleConfig { start_sp: 5, ..Default::default() },
+        steps: vec![skill("a"), skill("a"), skill("a")],
+        memosprite_steps: vec![],
+        natural_until_av: 0.0,
+        cycles: 1,
+    });
+    assert!(res.is_err() && res.unwrap_err().contains("叠加上限"), "应报叠加上限");
 }

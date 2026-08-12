@@ -50,6 +50,7 @@ fn rotation_pipeline() {
         config: cfg,
         team: seele_team(),
         enemy,
+        enemies: vec![],
         coefficient: Default::default(),
         battle: BattleConfig {
             start_energy: 120.0,
