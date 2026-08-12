@@ -1,3 +1,5 @@
 id = "317"
 name = "沉陆海域露莎卡"
 two_piece = "使装备者的能量恢复效率提高5%，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高12%。"
+two_piece_effects = [{ trigger = "on_use", stat = "energy_regen", value = 0.05, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

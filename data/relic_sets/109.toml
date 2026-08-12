@@ -2,3 +2,5 @@ id = "109"
 name = "激奏雷电的乐队"
 two_piece = "雷属性伤害提高10%。"
 four_piece = "当装备者施放战技时，使装备者的攻击力提高20%，持续1回合。"
+two_piece_effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

@@ -1,3 +1,5 @@
 id = "312"
 name = "梦想之地匹诺康尼"
 two_piece = "使装备者的能量恢复效率提高5%。使队伍中与装备者属性相同的我方其他角色造成的伤害提高10%。"
+two_piece_effects = [{ trigger = "on_use", stat = "energy_regen", value = 0.05, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

@@ -419,7 +419,10 @@ export function mockConfig(): ConfigDataDTO {
         effects: [],
       },
     ],
-    relic_sets: [{ id: "101", name: "云无留迹的过客", two_piece: "治疗量+10%", four_piece: "" }],
+    relic_sets: [
+      { id: "101", name: "云无留迹的过客", two_piece: "治疗量+10%", two_piece_effects: [], four_piece_effects: [] },
+      { id: "301", name: "太空封印站", two_piece: "攻击力+12%", two_piece_effects: [{ trigger: "on_use", stat: "atk_pct", value: 0.12, turns: 0, target: "self", cap_bonus: 0, sp_on_basic: 0, max_stacks: 0 }], four_piece_effects: [] },
+    ],
     enemies: [
       {
         id: "9000",

@@ -2,3 +2,5 @@ id = "101"
 name = "云无留迹的过客"
 two_piece = "治疗量提高10%。"
 four_piece = "在战斗开始时，立即为我方恢复1个战技点。"
+two_piece_effects = []
+four_piece_effects = []

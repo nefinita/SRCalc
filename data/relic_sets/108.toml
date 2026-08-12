@@ -2,3 +2,5 @@ id = "108"
 name = "繁星璀璨的天才"
 two_piece = "量子属性伤害提高10%。"
 four_piece = "当装备者对敌方目标造成伤害时，无视其10%的防御力。若目标拥有量子属性弱点，额外无视其10%的防御力。"
+two_piece_effects = [{ trigger = "on_use", stat = "dmg_pct", value = 0.1, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

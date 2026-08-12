@@ -2,3 +2,5 @@ id = "111"
 name = "流星追迹的怪盗"
 two_piece = "击破特攻提高16%。"
 four_piece = "使装备者的击破特攻提高16%。当装备者击破敌方目标弱点后，恢复3点能量。"
+two_piece_effects = [{ trigger = "on_use", stat = "break_effect", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = [{ trigger = "on_use", stat = "break_effect", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

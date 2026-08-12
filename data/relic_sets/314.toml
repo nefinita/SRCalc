@@ -1,3 +1,5 @@
 id = "314"
 name = "出云显世与高天神国"
 two_piece = "使装备者的攻击力提高12%。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高12%。"
+two_piece_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

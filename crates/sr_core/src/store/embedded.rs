@@ -123,6 +123,8 @@ fn default_set() -> RelicSet {
         name: "快枪手（演示）".into(),
         two_piece: Some("攻击力+12%".into()),
         four_piece: None,
+        two_piece_effects: vec![],
+        four_piece_effects: vec![],
     }
 }
 

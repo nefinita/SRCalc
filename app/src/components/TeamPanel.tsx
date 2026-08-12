@@ -37,10 +37,17 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
     patchBuild(index, { main_stats });
   }
 
-  function setRelic(index: number, relicIndex: 0 | 1, setId: string) {
+  function setRelic(index: number, relicIndex: number, setId: string) {
     const relic_sets = [...team.members[index].build.relic_sets];
-    relic_sets[relicIndex] = setId;
-    patchBuild(index, { relic_sets: relic_sets.filter(Boolean) });
+    const count = relic_sets[relicIndex]?.count ?? (relicIndex === 2 ? 2 : 2);
+    relic_sets[relicIndex] = { set_id: setId, count: relicIndex === 2 ? 2 : count };
+    patchBuild(index, { relic_sets: relic_sets.filter((r) => r.set_id) });
+  }
+
+  function setRelicCount(index: number, relicIndex: number, count: number) {
+    const relic_sets = [...team.members[index].build.relic_sets];
+    if (relic_sets[relicIndex]) relic_sets[relicIndex].count = count;
+    patchBuild(index, { relic_sets });
   }
 
   function addMember() {
@@ -217,23 +224,39 @@ export default function TeamPanel({ team, setTeam, addToast }: Props) {
                 ))}
               </div>
 
-              <div className={styles.subTitle}>遗器套装</div>
+              <div className={styles.subTitle}>遗器套装（2件/4件 · 饰品2件）</div>
               <div className={styles.row}>
-                {[0, 1].map((idx) => (
-                  <label key={idx} className={styles.field}>
-                    <span>套装 {idx + 1}</span>
-                    <select
-                      value={m.build.relic_sets[idx] ?? ""}
-                      onChange={(e) => setRelic(i, idx as 0 | 1, e.target.value)}
-                    >
-                      <option value="">无</option>
-                      {config?.relic_sets.map((r) => (
-                        <option key={r.id} value={r.id}>
-                          {r.name}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
+                {[
+                  { label: "遗器套装1", idx: 0 },
+                  { label: "遗器套装2", idx: 1 },
+                  { label: "饰品套装", idx: 2, fixed: true },
+                ].map(({ label, idx, fixed }) => (
+                  <div key={idx} className={styles.relicGroup}>
+                    <label className={styles.field}>
+                      <span>{label}</span>
+                      <select
+                        value={m.build.relic_sets[idx]?.set_id ?? ""}
+                        onChange={(e) => setRelic(i, idx, e.target.value)}
+                      >
+                        <option value="">无</option>
+                        {config?.relic_sets.map((r) => (
+                          <option key={r.id} value={r.id}>
+                            {r.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    {!fixed && (
+                      <select
+                        className={styles.relicCount}
+                        value={m.build.relic_sets[idx]?.count ?? 2}
+                        onChange={(e) => setRelicCount(i, idx, Number(e.target.value))}
+                      >
+                        <option value={2}>2件</option>
+                        <option value={4}>4件</option>
+                      </select>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

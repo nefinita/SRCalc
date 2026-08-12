@@ -2,3 +2,5 @@ id = "116"
 name = "幽锁深牢的系囚"
 two_piece = "攻击力提高12%。"
 four_piece = "敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其6%的防御力，最多计入3个持续伤害效果。"
+two_piece_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

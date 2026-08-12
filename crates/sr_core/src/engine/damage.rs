@@ -8,7 +8,7 @@
 
 use sr_api::{
     AbilityData, BuffStat, BuffTarget, Build, Character, CoefficientConfig, DmgType, Effect,
-    Element, Enemy, LightCone, RelicSlot, Scaling, Trigger,
+    Element, Enemy, LightCone, RelicSet, RelicSlot, Scaling, Trigger,
 };
 use std::collections::HashMap;
 
@@ -26,6 +26,7 @@ pub struct StatMods {
     pub res_pen: f64,
     pub vuln_pct: f64,
     pub break_effect: f64,
+    pub energy_regen: f64,
 }
 
 impl StatMods {
@@ -58,6 +59,7 @@ impl StatMods {
             BuffStat::ResPen => m.res_pen = v,
             BuffStat::VulnPct => m.vuln_pct = v,
             BuffStat::BreakEffect => m.break_effect = v,
+            BuffStat::EnergyRegen => m.energy_regen = v,
         }
         m
     }
@@ -74,6 +76,7 @@ impl StatMods {
         self.res_pen += o.res_pen;
         self.vuln_pct += o.vuln_pct;
         self.break_effect += o.break_effect;
+        self.energy_regen += o.energy_regen;
     }
 }
 
@@ -113,6 +116,27 @@ pub fn presence_mods(
         }
         for e in &ally.team_effects {
             if e.trigger == Trigger::OnUse && e.target == BuffTarget::Team {
+                m.add(&StatMods::from_effect(e, 1));
+            }
+        }
+    }
+    m
+}
+
+/// 遗器套装数值效果 → 永久修正（2件/4件；饰品位固定 2 件）
+pub fn relic_set_mods(build: &Build, sets: &[&RelicSet]) -> StatMods {
+    let mut m = StatMods::default();
+    for piece in &build.relic_sets {
+        let Some(set) = sets.iter().find(|s| s.id == piece.set_id) else {
+            continue;
+        };
+        if piece.count >= 4 {
+            for e in &set.four_piece_effects {
+                m.add(&StatMods::from_effect(e, 1));
+            }
+        }
+        if piece.count >= 2 {
+            for e in &set.two_piece_effects {
                 m.add(&StatMods::from_effect(e, 1));
             }
         }
@@ -183,7 +207,8 @@ pub fn compute_final_stats(
         dmg_pct += v;
     }
 
-    let energy_regen = pct.get("energy_regen").copied().unwrap_or(0.0);
+    let energy_regen =
+        pct.get("energy_regen").copied().unwrap_or(0.0) + permanent.energy_regen;
 
     FinalStats {
         hp,

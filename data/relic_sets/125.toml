@@ -2,3 +2,5 @@ id = "125"
 name = "烈阳惊雷的女武神"
 two_piece = "速度提高6%。"
 four_piece = "当装备者及其忆灵为装备者及其忆灵以外的我方目标提供治疗后，使装备者获得【甘霖】，每回合最多触发1次，持续2回合。装备者持有【甘霖】时，速度提高6%，我方全体暴击伤害提高15%，该效果无法叠加。"
+two_piece_effects = [{ trigger = "on_use", stat = "speed_pct", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

@@ -2,3 +2,5 @@ id = "102"
 name = "野穗伴行的快枪手"
 two_piece = "攻击力提高12%。"
 four_piece = "使装备者的速度提高6%，普攻造成的伤害提高10%。"
+two_piece_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = [{ trigger = "on_use", stat = "speed_pct", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

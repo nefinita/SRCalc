@@ -1,6 +1,7 @@
 //! 机制集成测试：共享战技点 / 动态上限 / 定向buff / 触发 / 大招插入 / 敌方机制
 
 use sr_api::*;
+use sr_core::engine::StatMods;
 
 fn enemy() -> Enemy {
     let mut res = std::collections::HashMap::new();
@@ -497,4 +498,53 @@ fn sp_overflow_recording() {
     assert_eq!(out.steps[0].skill_point, 7);
     // 战技：-1 → 6 → 从溢出补回 1 → 7
     assert_eq!(out.steps[1].skill_point, 7);
+}
+
+#[test]
+fn relic_set_effects_apply() {
+    // 太空封印站 2件：攻击+12%
+    let set = sr_api::RelicSet {
+        id: "301".into(),
+        name: "太空封印站".into(),
+        two_piece: None,
+        four_piece: None,
+        two_piece_effects: vec![Effect {
+            trigger: Trigger::OnUse,
+            stat: BuffStat::AtkPct,
+            value: 0.12,
+            turns: 0,
+            target: BuffTarget::Self_,
+            cap_bonus: 0,
+            sp_on_basic: 0,
+            max_stacks: 0,
+        }],
+        four_piece_effects: vec![],
+    };
+    let mut a = character("a", "A", 115.0, vec![ability("普攻", AbilityKind::Basic, 1.0, 1, 20.0)]);
+    a.base_atk = 500.0;
+    let mut build = Build::default();
+    build.level = 80;
+    build.relic_sets = vec![sr_api::RelicSetPiece { set_id: "301".into(), count: 2 }];
+    let cfg = ConfigData {
+        characters: vec![a.clone()],
+        light_cones: vec![],
+        relic_sets: vec![set],
+        enemies: vec![enemy()],
+    };
+    // 有套装：攻击 500→560
+    let stats = engine_stats(&cfg, &a, &build);
+    assert!((stats.atk - 560.0).abs() < 1e-6, "atk={}", stats.atk);
+}
+
+fn engine_stats(
+    cfg: &ConfigData,
+    character: &Character,
+    build: &Build,
+) -> sr_core::engine::FinalStats {
+    let cone = None;
+    let allies: Vec<&Character> = vec![];
+    let sets: Vec<&sr_api::RelicSet> = cfg.relic_sets.iter().collect();
+    let mut permanent = sr_core::engine::presence_mods(character, cone, &allies);
+    permanent.add(&sr_core::engine::relic_set_mods(build, &sets));
+    sr_core::engine::compute_final_stats(character, cone, build, &permanent)
 }

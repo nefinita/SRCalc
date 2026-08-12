@@ -4,6 +4,6 @@ pub mod rotation;
 
 pub use damage::{
     ability_multiplier, broken_multiplier, compute_ability_damage_for, compute_break_damage,
-    compute_final_stats, def_multiplier, res_multiplier, AbilityContext, DamageBreakdown,
-    FinalStats, StatMods,
+    compute_final_stats, def_multiplier, presence_mods, relic_set_mods, res_multiplier,
+    AbilityContext, DamageBreakdown, FinalStats, StatMods,
 };

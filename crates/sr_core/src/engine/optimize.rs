@@ -9,7 +9,7 @@ use sr_api::{
 
 use super::damage::{
     compute_ability_damage_for, compute_final_stats, main_stat_options, presence_mods,
-    AbilityContext, StatMods,
+    relic_set_mods, AbilityContext, StatMods,
 };
 
 pub fn run(req: &OptimizeRequest) -> Result<OptimizeResult, String> {
@@ -31,7 +31,9 @@ pub fn run(req: &OptimizeRequest) -> Result<OptimizeResult, String> {
         .light_cones
         .iter()
         .find(|c| Some(c.id.as_str()) == member.build.light_cone.as_deref());
-    let permanent = presence_mods(character, cone, &allies);
+    let sets: Vec<&sr_api::RelicSet> = req.config.relic_sets.iter().collect();
+    let mut permanent = presence_mods(character, cone, &allies);
+    permanent.add(&relic_set_mods(&member.build, &sets));
 
     // 目标技能：优先战技 → 终结技 → 普攻
     let ability = character

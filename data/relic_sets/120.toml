@@ -2,3 +2,5 @@ id = "120"
 name = "风举云飞的勇烈"
 two_piece = "攻击力提高12%。"
 four_piece = "使装备者的暴击率提高6%，装备者施放追加攻击时，使终结技造成的伤害提高36%，持续1回合。"
+two_piece_effects = [{ trigger = "on_use", stat = "atk_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.06, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]

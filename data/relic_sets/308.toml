@@ -1,3 +1,5 @@
 id = "308"
 name = "生命的翁瓦克"
 two_piece = "使装备者的能量恢复效率提高5%。当装备者的速度大于等于120时，进入战斗时立刻使行动提前40%。"
+two_piece_effects = [{ trigger = "on_use", stat = "energy_regen", value = 0.05, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

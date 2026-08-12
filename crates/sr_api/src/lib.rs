@@ -110,6 +110,7 @@ pub enum BuffStat {
     ResPen,
     VulnPct,
     BreakEffect,
+    EnergyRegen,
 }
 
 /// 增益作用目标
@@ -226,6 +227,18 @@ pub struct RelicSet {
     pub name: String,
     pub two_piece: Option<String>,
     pub four_piece: Option<String>,
+    /// 二件套数值效果（遗器二件套 / 饰品二件套）
+    pub two_piece_effects: Vec<Effect>,
+    /// 四件套数值效果
+    pub four_piece_effects: Vec<Effect>,
+}
+
+/// 装备的遗器套装：set_id + 件数（2 或 4；饰品位固定 2）
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(default)]
+pub struct RelicSetPiece {
+    pub set_id: String,
+    pub count: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -241,7 +254,7 @@ pub struct MainStat {
 pub struct Build {
     pub level: u32,
     pub light_cone: Option<String>,
-    pub relic_sets: Vec<String>,
+    pub relic_sets: Vec<RelicSetPiece>,
     pub main_stats: Vec<MainStat>,
     pub substats: HashMap<String, f64>,
     pub traces: HashMap<String, bool>,

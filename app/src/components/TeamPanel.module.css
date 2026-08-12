@@ -94,6 +94,27 @@
   gap: var(--space-xs);
 }
 
+.relicGroup {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: end;
+}
+
+.relicGroup .field {
+  flex: 1;
+}
+
+.relicCount {
+  width: 52px;
+  padding: 3px 5px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  outline: none;
+  font-size: 12px;
+}
+
 .subTitle {
   font-size: 11px;
   color: var(--text-tertiary);

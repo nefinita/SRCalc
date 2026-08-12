@@ -1,3 +1,5 @@
 id = "310"
 name = "折断的龙骨"
 two_piece = "使装备者的效果抵抗提高10%。当装备者的效果抵抗大于等于30%时，我方全体暴击伤害提高10%。"
+two_piece_effects = []
+four_piece_effects = []

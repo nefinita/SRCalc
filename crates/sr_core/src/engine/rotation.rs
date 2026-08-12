@@ -14,8 +14,8 @@ use sr_api::{
 use std::collections::HashMap;
 
 use super::damage::{
-    compute_ability_damage_for, compute_break_damage, compute_final_stats, AbilityContext,
-    FinalStats, StatMods,
+    compute_ability_damage_for, compute_break_damage, compute_final_stats, relic_set_mods,
+    AbilityContext, FinalStats, StatMods,
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -124,6 +124,7 @@ impl<'a> Sim<'a> {
             .iter()
             .map(|c| (c.id.as_str(), c))
             .collect();
+        let sets: Vec<&sr_api::RelicSet> = req.config.relic_sets.iter().collect();
         let mut builds: HashMap<&str, &Build> = HashMap::new();
         for m in &req.team.members {
             builds.insert(m.char_id.as_str(), &m.build);
@@ -161,6 +162,7 @@ impl<'a> Sim<'a> {
                     Trigger::OnSpConsume => on_sp_consume.push((id, e)),
                 }
             }
+            perm.add(&relic_set_mods(&m.build, &sets));
             perm_map.insert(id, perm.clone());
             let stats = compute_final_stats(character, cone, &m.build, &perm);
             let max_energy = character

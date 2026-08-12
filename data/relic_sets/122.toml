@@ -2,3 +2,5 @@ id = "122"
 name = "识海迷坠的学者"
 two_piece = "暴击率提高8%。"
 four_piece = "战技和终结技造成的伤害提高20%，施放终结技后，下一次施放战技时造成的伤害额外提高25%。"
+two_piece_effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

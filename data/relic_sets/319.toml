@@ -1,3 +1,5 @@
 id = "319"
 name = "谧宁拾骨地"
 two_piece = "使装备者的生命上限提高12%。当装备者的生命上限大于等于5000点时，使装备者及其忆灵的暴击伤害提高28%。"
+two_piece_effects = [{ trigger = "on_use", stat = "hp_pct", value = 0.12, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

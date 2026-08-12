@@ -4,7 +4,7 @@ use sr_api::{ConfigData, DamageRequest, LightCone, SkillResult};
 
 use crate::engine::damage::{
     compute_ability_damage_for, compute_break_damage, compute_final_stats, presence_mods,
-    AbilityContext, StatMods,
+    relic_set_mods, AbilityContext, StatMods,
 };
 
 pub fn find_cone<'a>(config: &'a ConfigData, id: Option<&str>) -> Option<&'a LightCone> {
@@ -28,7 +28,9 @@ pub fn calculate_damage(req: DamageRequest) -> Result<Vec<SkillResult>, String> 
 
     let allies = allies(&req.config, &req.team);
     let cone = find_cone(&req.config, member.build.light_cone.as_deref());
-    let permanent = presence_mods(character, cone, &allies);
+    let sets: Vec<&sr_api::RelicSet> = req.config.relic_sets.iter().collect();
+    let mut permanent = presence_mods(character, cone, &allies);
+    permanent.add(&relic_set_mods(&member.build, &sets));
     let stats = compute_final_stats(character, cone, &member.build, &permanent);
     let mods = StatMods::from_buff(&req.buff);
     let attacker_level = member.build.level.max(1);

@@ -98,6 +98,13 @@ export interface RelicSetDTO {
   name: string;
   two_piece?: string;
   four_piece?: string;
+  two_piece_effects: Effect[];
+  four_piece_effects: Effect[];
+}
+
+export interface RelicSetPiece {
+  set_id: string;
+  count: number;
 }
 
 export interface MainStat {
@@ -109,7 +116,7 @@ export interface MainStat {
 export interface BuildConfig {
   level: number;
   light_cone: string | null;
-  relic_sets: string[];
+  relic_sets: RelicSetPiece[];
   main_stats: MainStat[];
   substats: Record<string, number>;
   traces: Record<string, boolean>;

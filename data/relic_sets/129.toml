@@ -2,3 +2,5 @@ id = "129"
 name = "闪耀功勋的魔法少女"
 two_piece = "暴击伤害提高16%。"
 four_piece = "装备者及其忆灵造成的欢愉伤害无视目标10%的防御力，我方每累计获得5点笑点，造成的欢愉伤害额外无视目标1%的防御力，最多叠加10层。"
+two_piece_effects = [{ trigger = "on_use", stat = "crit_dmg", value = 0.16, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

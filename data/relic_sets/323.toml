@@ -1,3 +1,5 @@
 id = "323"
 name = "永恒之地翁法罗斯"
 two_piece = "使装备者的暴击率提高8%。装备者的忆灵在场时，我方全体速度提高8%，该效果无法叠加。"
+two_piece_effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

@@ -1,3 +1,5 @@
 id = "327"
 name = "坠星启航地"
 two_piece = "使装备者的暴击率提高8%。进入战斗时，若装备者与另一名队友均为开拓同行角色，使装备者的暴击伤害提高32%。"
+two_piece_effects = [{ trigger = "on_use", stat = "crit_rate", value = 0.08, turns = 0, target = "self", cap_bonus = 0, sp_on_basic = 0, max_stacks = 0 }]
+four_piece_effects = []

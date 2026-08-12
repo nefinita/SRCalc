@@ -237,6 +237,24 @@ def parse_cone_effects(desc: str, params: list):
     return effects
 
 
+PATH_CN = {
+    "destruction": "毁灭", "the_hunt": "巡猎", "erudition": "智识", "harmony": "同谐",
+    "nihility": "虚无", "preservation": "存护", "abundance": "丰饶",
+    "remembrance": "记忆", "elation": "欢愉",
+}
+ELEMENT_CN = {
+    "physical": "物理", "fire": "火", "ice": "冰", "lightning": "雷",
+    "wind": "风", "quantum": "量子", "imaginary": "虚数",
+}
+
+
+def clean_name(name: str, path: str = "", element: str = "") -> str:
+    """主角名字为 {NICKNAME} 占位符 → 按 命途·属性 区分。"""
+    if "{NICKNAME}" in name:
+        return f"开拓者·{PATH_CN.get(path, path)}·{ELEMENT_CN.get(element, element)}"
+    return name
+
+
 def detect_scaling(desc: str) -> str:
     if "生命" in desc:
         return "hp"
@@ -264,7 +282,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
         sp, bonus_sp = parse_sp(desc, kind, params)
         imm, adv = parse_advance(desc, params, kind)
         ability = {
-            "name": s.get("name") or kind,
+            "name": clean_name(s.get("name") or kind),
             "kind": kind,
             "multiplier": mult,
             "multipliers": multipliers,
@@ -300,7 +318,7 @@ def build_character(cid: str, c: dict, skills: dict, promotions: dict) -> list:
 
     character = {
         "id": cid,
-        "name": c["name"],
+        "name": clean_name(c["name"], PATH_MAP[c["path"]], ELEMENT_MAP[c["element"]]),
         "path": PATH_MAP[c["path"]],
         "element": ELEMENT_MAP[c["element"]],
         "base_hp": stats["hp"],
@@ -334,13 +352,49 @@ def build_light_cone(lcid: str, lc: dict, promotions: dict, ranks: dict) -> dict
     }
 
 
+PROP_STAT = {
+    "AttackAddedRatio": "atk_pct",
+    "HPAddedRatio": "hp_pct",
+    "DefenceAddedRatio": "def_pct",
+    "SpeedAddedRatio": "speed_pct",
+    "CriticalChanceBase": "crit_rate",
+    "CriticalDamageBase": "crit_dmg",
+    "BreakDamageAddedRatioBase": "break_effect",
+    "SPRatioBase": "energy_regen",
+    # 元素伤害近似为通用增伤（配装通常匹配本角色元素）
+    "FireAddedRatio": "dmg_pct",
+    "IceAddedRatio": "dmg_pct",
+    "ImaginaryAddedRatio": "dmg_pct",
+    "PhysicalAddedRatio": "dmg_pct",
+    "QuantumAddedRatio": "dmg_pct",
+    "ThunderAddedRatio": "dmg_pct",
+    "WindAddedRatio": "dmg_pct",
+}
+
+
+def effects_from_props(props: list) -> list:
+    effects = []
+    for p in props:
+        stat = PROP_STAT.get(p.get("type", ""))
+        if stat is None:
+            continue
+        effects.append({
+            "trigger": "on_use", "stat": stat, "value": p["value"], "turns": 0,
+            "target": "self", "cap_bonus": 0, "sp_on_basic": 0, "max_stacks": 0,
+        })
+    return effects
+
+
 def build_relic_set(sid: str, s: dict) -> dict:
     desc = s.get("desc") or []
+    props = s.get("properties") or []
     return {
         "id": sid,
         "name": s["name"],
         "two_piece": desc[0] if len(desc) > 0 else None,
         "four_piece": desc[1] if len(desc) > 1 else None,
+        "two_piece_effects": effects_from_props(props[0]) if len(props) > 0 else [],
+        "four_piece_effects": effects_from_props(props[1]) if len(props) > 1 else [],
     }
 
 
@@ -411,8 +465,17 @@ def main() -> int:
     lcs, lcp, lcr = data["light_cones"], data["light_cone_promotions"], data["light_cone_ranks"]
     sets = data["relic_sets"]
 
+    import shutil
+    for kind in ("characters", "light_cones", "relic_sets"):
+        shutil.rmtree(os.path.join(args.out, kind), ignore_errors=True)
     n_char = n_lc = n_set = 0
+    seen_tb = set()  # 主角成对重复（同命途同属性只留一个）
     for cid, c in chars.items():
+        if "{NICKNAME}" in c["name"]:
+            key = (c["path"], c["element"])
+            if key in seen_tb:
+                continue
+            seen_tb.add(key)
         for character in build_character(cid, c, skills, proms):
             emit_toml(character, os.path.join(args.out, "characters", f"{cid}.toml"))
             n_char += 1
